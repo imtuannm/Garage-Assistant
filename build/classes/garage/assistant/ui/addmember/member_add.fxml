@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="rootPanez" prefHeight="56.0" prefWidth="60.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.ui.addmember.MemberAddController">
+    <stylesheets>
+        <URL value="@member_add.css" />
+    </stylesheets>
+   <children>
+      <VBox prefHeight="230.0" prefWidth="394.0" stylesheets="@../addmotorbike/addmotorbike.css">
+         <children>
+            <JFXTextField fx:id="txtId" labelFloat="true" promptText="Member ID">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
+               </VBox.margin>
+            </JFXTextField>
+            <JFXTextField fx:id="txtName" labelFloat="true" layoutX="20.0" layoutY="30.0" promptText="Full Name">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </JFXTextField>
+            <JFXTextField fx:id="txtMobile" labelFloat="true" layoutX="20.0" layoutY="75.0" promptText="Mobile">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </JFXTextField>
+            <JFXTextField fx:id="txtEmail" labelFloat="true" layoutX="20.0" layoutY="30.0" promptText="Email">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </JFXTextField>
+            <HBox prefHeight="45.0" prefWidth="400.0">
+               <children>
+                  <JFXButton fx:id="btnSave" onAction="#actSave" prefHeight="45.0" prefWidth="200.0" stylesheets="@../addmotorbike/addmotorbike.css" text="Save" />
+                  <JFXButton fx:id="btnCancel" layoutX="10.0" layoutY="10.0" onAction="#actCancel" prefHeight="45.0" prefWidth="200.0" stylesheets="@../addmotorbike/addmotorbike.css" text="Cancel" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

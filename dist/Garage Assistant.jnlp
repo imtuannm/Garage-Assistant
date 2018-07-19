@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="Garage Assistant.jnlp">
+  <information>
+    <title>Garage Assistant</title>
+    <vendor>Nguyen Minh Tuan</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="lib\derby.jar" size="3230946" download="eager" />
+    <jar href="lib\derbyclient.jar" size="587986" download="eager" />
+    <jar href="lib\jdbc.jar" size="2739670" download="eager" />
+    <jar href="lib\jfoenix-8.0.5.jar" size="2657082" download="eager" />
+    <jar href="lib\mysql-connector-java-5.1.23-bin.jar" size="834126" download="eager" />
+    <jar href="lib\ojdbc6.jar" size="2739670" download="eager" />
+  </resources>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="Garage Assistant" >
+    <param name="requiredFXVersion" value="8.0+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="garage.assistant.ui.addmotorbike.GarageAssistant"  name="Garage Assistant" />
+  <update check="always"/>
+</jnlp>
