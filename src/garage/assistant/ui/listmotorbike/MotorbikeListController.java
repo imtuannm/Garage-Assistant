@@ -54,7 +54,7 @@ public class MotorbikeListController implements Initializable {
     }
 
     private void loadData() {
-        DatabaseHandler handler = new DatabaseHandler();
+        DatabaseHandler handler = DatabaseHandler.getInstance();
         
         String qu = "SELECT * FROM MOTORBIKE";
         ResultSet rs = handler.excQuery(qu);

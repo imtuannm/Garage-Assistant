@@ -50,7 +50,7 @@ public class MemberListController implements Initializable {
     }
     
     private void loadData() {
-        DatabaseHandler handler = new DatabaseHandler();
+        DatabaseHandler handler = DatabaseHandler.getInstance();
         
         String qu = "SELECT * FROM MEMBER";
         ResultSet rs = handler.excQuery(qu);

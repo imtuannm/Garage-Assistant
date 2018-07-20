@@ -18,6 +18,6 @@
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="Garage Assistant" >
     <param name="requiredFXVersion" value="8.0+"/>
   </applet-desc>
-  <jfx:javafx-desc  width="800" height="600" main-class="garage.assistant.ui.addmotorbike.GarageAssistant"  name="Garage Assistant" />
+  <jfx:javafx-desc  width="800" height="600" main-class="garage.assistant.ui.main.Main"  name="Garage Assistant" />
   <update check="always"/>
 </jnlp>

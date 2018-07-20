@@ -17,12 +17,26 @@ public final class DatabaseHandler {
     private static Connection conn = null;
     private static Statement stmt = null;
     
-    //constructor
-    public DatabaseHandler() {
+    /*
+        PRIVATE constructor
+        prevent crashes when invoked by many class
+        no classes can create direct object of this database handler
+        so as not to conflict database handler
+    */
+    private DatabaseHandler() {
         createConnection();
         
         setupMotorbikeTable();
         setupMemberTable();
+    }
+    
+    //single object is shared across all the classes
+    //call DatabaseHandler.getInstance() give objects dbHandler object
+    public static DatabaseHandler getInstance() {
+        if (handler == null) {
+            handler = new DatabaseHandler();
+        }
+        return handler; //reuse if already exist
     }
     
     void createConnection() {
