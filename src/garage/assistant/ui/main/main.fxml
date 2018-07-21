@@ -52,7 +52,7 @@
                      <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../libs/viewable/member.png" />
+                              <Image url="@../../viewable/member.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -61,7 +61,7 @@
                      <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../libs/viewable/mobtorbike.png" />
+                              <Image url="@../../viewable/mobtorbike.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -70,7 +70,7 @@
                      <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../libs/viewable/member_list.png" />
+                              <Image url="@../../viewable/member_list.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -79,7 +79,7 @@
                      <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" onDragDetected="#loadMotorbikesTable" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../libs/viewable/motorbile_list.png" />
+                              <Image url="@../../viewable/motorbile_list.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -88,7 +88,7 @@
                      <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../libs/viewable/setting.png" />
+                              <Image url="@../../viewable/setting.png" />
                            </image>
                         </ImageView>
                      </graphic>

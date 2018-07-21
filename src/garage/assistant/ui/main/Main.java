@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
 
 public class Main extends Application {
     
@@ -16,7 +17,10 @@ public class Main extends Application {
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
+        Image image = new Image("/garage/assistant/viewable/garage.png");
+        stage.getIcons().add(image);
         stage.setTitle("Garage Assistant");
+        
         stage.show();
     }
 

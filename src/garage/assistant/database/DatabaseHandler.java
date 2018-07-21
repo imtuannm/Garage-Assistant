@@ -38,6 +38,7 @@ public final class DatabaseHandler {
         }
         return handler; //reuse if already exist
     }
+    //share a single db object across classes
     
     void createConnection() {
         try {

@@ -11,7 +11,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -47,9 +46,9 @@ public class MainController implements Initializable {
         loadWindow("/garage/assistant/ui/listmotorbike/motorbike_list.fxml", "All Motorbike");
     }
     
-    void loadWindow(String lct, String title) {
+    void loadWindow(String dirLct, String title) {
         try {
-            Parent parent  = FXMLLoader.load(getClass().getResource(lct));
+            Parent parent  = FXMLLoader.load(getClass().getResource(dirLct));
             Stage stage = new Stage(StageStyle.DECORATED);
             stage.setTitle(title);
             stage.setScene(new Scene(parent)); //create a scene from the parent
