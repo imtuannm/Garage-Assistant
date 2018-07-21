@@ -1,5 +1,6 @@
 package garage.assistant.ui.main;
 
+import garage.assistant.database.DatabaseHandler;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
@@ -20,8 +21,10 @@ public class Main extends Application {
         Image image = new Image("/garage/assistant/viewable/garage.png");
         stage.getIcons().add(image);
         stage.setTitle("Garage Assistant");
-        
         stage.show();
+        
+        //for better performance
+        DatabaseHandler.getInstance();
     }
 
     public static void main(String[] args) {
