@@ -17,7 +17,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -115,15 +114,19 @@ public class MainController implements Initializable {
                 motorbikeID.setText(mbID);
                 motorbikeName.setText(mbName);
                 
-                String stt = (mbStatus)?"Available" : "NOT Available";
+                String stt = (mbStatus) ? "Available" : "NOT Available";
                 motorbikeStatus.setText(stt);
                 flag = true;
             }
             if( !flag ) {
-                motorbikeName.setText("Can find the Motorbike");
+                motorbikeProducer.setText(". . .");
+                motorbikeID.setText(". . .");
+                motorbikeName.setText("Can't find the Motorbike");
+                motorbikeStatus.setText(". . .");
             }
         } catch (SQLException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
 }

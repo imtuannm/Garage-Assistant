@@ -77,8 +77,7 @@
                   </Button>
                   <Button contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadMotorbikeTable" prefHeight="150.0" prefWidth="150.0" text="All Motorbikes">
                      <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0"
-									pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../viewable/motorbile_list.png" />
                            </image>
@@ -108,7 +107,7 @@
                                  <children>
                                     <HBox fx:id="motorbike_info" alignment="CENTER" prefHeight="200.0" prefWidth="600.0" spacing="10.0" style="-fx-background-color: #f1f2f6;" stylesheets="@main.css">
                                        <children>
-                                          <TextField fx:id="motorbikeIdInput" alignment="TOP_LEFT" onAction="#loadMotorbikeInfo" prefHeight="25.0" prefWidth="220.0" promptText="Enter Motorbike's ID" />
+                                          <JFXTextField fx:id="motorbikeIdInput" labelFloat="true" onAction="#loadMotorbikeInfo" promptText="Motorbike's ID" />
                                           <VBox alignment="CENTER" prefHeight="212.0" prefWidth="396.0" spacing="10.0">
                                              <children>
                                                 <Text fx:id="motorbikeProducer" strokeType="OUTSIDE" strokeWidth="0.0" text="Producer" textAlignment="CENTER" wrappingWidth="376.13671875" />
@@ -130,7 +129,7 @@
                                     </HBox>
                                     <HBox fx:id="member_info" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="600.0" spacing="10.0" style="-fx-background-color: #f1f2f6;">
                                        <children>
-                                          <TextField alignment="TOP_LEFT" prefHeight="25.0" prefWidth="220.0" promptText="Enter Member's ID" />
+                                          <JFXTextField labelFloat="true" promptText="Member's ID" />
                                           <VBox alignment="CENTER" prefHeight="212.0" prefWidth="396.0" spacing="10.0">
                                              <children>
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Member name" textAlignment="CENTER" wrappingWidth="376.13671875" />
