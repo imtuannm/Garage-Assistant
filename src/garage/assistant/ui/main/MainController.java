@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +17,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
@@ -54,7 +57,7 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        //[UI] set depth
+        //UI - set depth
         JFXDepthManager.setDepth(motorbike_info, 1); //0 - 5
         JFXDepthManager.setDepth(member_info, 1);
         
@@ -174,9 +177,31 @@ public class MainController implements Initializable {
         motorbikeStatus.setText("-");
     }
     
+    
+    //also clear old text
     void clrMemberCache() {
         memberID.setText("-");
         memberMobile.setText("-");
+    }
+
+    @FXML
+    private void loadIssueOperation(ActionEvent event) {
+        String memID = memberIdInput.getText();
+        String mtbID = motorbikeIdInput.getText();
+        
+        //confirm
+        Alert alt = new Alert(Alert.AlertType.CONFIRMATION);
+        alt.setTitle("Confirm");
+        alt.setHeaderText(null);
+        alt.setContentText("Are you sure issuing " + motorbikeName.getText() + " to "
+                            + memberName.getText() + "?");
+        
+        Optional<ButtonType> response = alt.showAndWait();
+        
+        if( response.get() == ButtonType.OK ) {
+            
+        }
+        
     }
     
 }

@@ -150,7 +150,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <JFXButton prefHeight="40.0" prefWidth="90.0" styleClass="setup-button" stylesheets="@main.css" text="Issue!" />
+                                          <JFXButton onAction="#loadIssueOperation" prefHeight="40.0" prefWidth="90.0" styleClass="setup-button" stylesheets="@main.css" text="Issue!" />
                                        </children>
                                     </HBox>
                                  </children>
