@@ -1,5 +1,6 @@
 package garage.assistant.ui.main;
 
+import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.effects.JFXDepthManager;
 import garage.assistant.database.DatabaseHandler;
 import java.io.IOException;
@@ -38,6 +39,15 @@ public class MainController implements Initializable {
     private Text motorbikeName;
     @FXML
     private Text motorbikeStatus;
+    
+    @FXML
+    private JFXTextField memberIdInput;
+    @FXML
+    private Text memberName;
+    @FXML
+    private Text memberID;
+    @FXML
+    private Text memberMobile;
     
     DatabaseHandler dbHandler;
 
@@ -104,7 +114,7 @@ public class MainController implements Initializable {
         Boolean flag = false;
         
         try {
-            while(rs.next()) {
+            while(rs.next()) { //set info to textfield
                 String mbProducer = rs.getString("producer");
                 String mbID = rs.getString("idMotorbike");
                 String mbName = rs.getString("name");
@@ -118,15 +128,55 @@ public class MainController implements Initializable {
                 motorbikeStatus.setText(stt);
                 flag = true;
             }
-            if( !flag ) {
-                motorbikeProducer.setText(". . .");
-                motorbikeID.setText(". . .");
-                motorbikeName.setText("Can't find the Motorbike");
-                motorbikeStatus.setText(". . .");
+            if( !flag ) { //doesnt exist
+                motorbikeName.setText("No such Motorbike found!");
+                clrMotorbikeCache();
             }
         } catch (SQLException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @FXML
+    private void loadMemberInfo(ActionEvent event) {
+        String id = memberIdInput.getText();
+        String qr = "SELECT * FROM MEMBER WHERE idMember = '" + id + "'";
+        
+        ResultSet rs = dbHandler.excQuery(qr);
+        
+        Boolean flag = false;
+        
+        try {
+            while(rs.next()) { //set info to textfield
+                String mID = rs.getString("idMember");
+                String mName = rs.getString("name");
+                String mMobile = rs.getString("mobile");
+                
+                memberName.setText(mName);
+                memberID.setText(mID);
+                memberMobile.setText(mMobile);
+                
+                flag = true;
+            }
+            if( !flag ) { //doesnt exist
+                memberName.setText("No such Member found!");
+                clrMemberCache();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }    
+    }
+    
+    //clear old text while can not find infomations
+    void clrMotorbikeCache() {
+        motorbikeProducer.setText("-");
+        motorbikeID.setText("-");
+        motorbikeStatus.setText("-");
+    }
+    
+    void clrMemberCache() {
+        memberID.setText("-");
+        memberMobile.setText("-");
     }
     
 }

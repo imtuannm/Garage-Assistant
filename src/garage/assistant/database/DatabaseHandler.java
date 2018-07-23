@@ -99,6 +99,7 @@ public final class DatabaseHandler {
         }    
     }
     
+    //shorting out the execute query segment
     public ResultSet excQuery(String query) {
         ResultSet result;
         try {

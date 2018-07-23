@@ -24,7 +24,17 @@ public class Main extends Application {
         stage.show();
         
         //for better performance
-        DatabaseHandler.getInstance();
+        //create a runnable() thread so as not to affect the UI
+        new Thread(() -> { //lambda expression
+            DatabaseHandler.getInstance(); // <- delay while opening the app
+        }).start();
+        
+//        new Thread(new Runnable() {
+//            @Override
+//                public void run() {
+//                    DatabaseHandler.getInstance();
+//            }
+//        }).start();
     }
 
     public static void main(String[] args) {

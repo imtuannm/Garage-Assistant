@@ -129,12 +129,12 @@
                                     </HBox>
                                     <HBox fx:id="member_info" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="600.0" spacing="10.0" style="-fx-background-color: #f1f2f6;">
                                        <children>
-                                          <JFXTextField labelFloat="true" promptText="Member's ID" />
+                                          <JFXTextField fx:id="memberIdInput" labelFloat="true" onAction="#loadMemberInfo" promptText="Member's ID" />
                                           <VBox alignment="CENTER" prefHeight="212.0" prefWidth="396.0" spacing="10.0">
                                              <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Member name" textAlignment="CENTER" wrappingWidth="376.13671875" />
-                                                <Text layoutX="10.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID Member" textAlignment="CENTER" wrappingWidth="376.13671875" />
-                                                <Text layoutX="10.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mobile" textAlignment="CENTER" wrappingWidth="376.13671875" />
+                                                <Text fx:id="memberName" strokeType="OUTSIDE" strokeWidth="0.0" text="Member name" textAlignment="CENTER" wrappingWidth="376.13671875" />
+                                                <Text fx:id="memberID" layoutX="10.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID Member" textAlignment="CENTER" wrappingWidth="376.13671875" />
+                                                <Text fx:id="memberMobile" layoutX="10.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mobile" textAlignment="CENTER" wrappingWidth="376.13671875" />
                                              </children>
                                              <padding>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
