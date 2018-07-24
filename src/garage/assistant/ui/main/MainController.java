@@ -121,12 +121,22 @@ public class MainController implements Initializable {
                 String mbProducer = rs.getString("producer");
                 String mbID = rs.getString("idMotorbike");
                 String mbName = rs.getString("name");
+                int mbType = rs.getInt("type");
                 Boolean mbStatus = rs.getBoolean("isAvail");
                 
                 motorbikeProducer.setText(mbProducer);
-                motorbikeID.setText(mbID);
-                motorbikeName.setText(mbName);
                 
+                motorbikeID.setText(mbID);
+                
+                
+//              switch (mbType) {
+//                  case 1:
+//                      motorbikeID.setText(mbID.substring(0, 4) + "-" + mbID.substring(4, 8));
+//                      break;
+//                  default:
+//                }
+                
+                motorbikeName.setText(mbName);
                 String stt = (mbStatus) ? "Available" : "NOT Available";
                 motorbikeStatus.setText(stt);
                 flag = true;
@@ -193,8 +203,8 @@ public class MainController implements Initializable {
         Alert alt = new Alert(Alert.AlertType.CONFIRMATION);
         alt.setTitle("Confirm");
         alt.setHeaderText(null);
-        alt.setContentText("Are you sure issuing " + motorbikeName.getText() + " to "
-                            + memberName.getText() + "?");
+        alt.setContentText("Are you sure issuing [" + motorbikeName.getText() + "] to ["
+                            + memberName.getText() + "]?");
         
         Optional<ButtonType> response = alt.showAndWait();
         

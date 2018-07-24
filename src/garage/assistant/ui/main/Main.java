@@ -24,7 +24,7 @@ public class Main extends Application {
         stage.show();
         
         //for better performance
-        //create a runnable() thread so as not to affect the UI
+        //create a multi-threaded so as not to affect the UI
         new Thread(() -> { //lambda expression
             DatabaseHandler.getInstance(); // <- delay while opening the app
         }).start();

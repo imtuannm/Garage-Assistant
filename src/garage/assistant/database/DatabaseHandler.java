@@ -30,7 +30,7 @@ public final class DatabaseHandler {
         setupMemberTable();
     }
     
-    //single object is shared across all the classes
+    //single db object is shared across all the classes
     //call DatabaseHandler.getInstance() give objects dbHandler object
     public static DatabaseHandler getInstance() {
         if (handler == null) {
@@ -38,7 +38,6 @@ public final class DatabaseHandler {
         }
         return handler; //reuse if already exist
     }
-    //share a single db object across classes
     
     void createConnection() {
         try {
@@ -65,6 +64,7 @@ public final class DatabaseHandler {
                         + "idMotorbike VARCHAR(9)primary key,\n"
                         + "producer VARCHAR (45),\n"
                         + "name VARCHAR (45),\n"
+                        + "type INT (1),\n"
                         + "color VARCHAR (45),\n"
                         + "isAvail BOOLEAN deault true"
                         + "}" );
@@ -77,6 +77,32 @@ public final class DatabaseHandler {
     
     private void setupMemberTable() {
         String TABLE_NAME = "MEMBER";
+        try {
+            stmt = conn.createStatement();
+            
+            DatabaseMetaData dbm = conn.getMetaData(); //access metadata of the table
+            ResultSet tables = dbm.getTables(null, null, TABLE_NAME.toUpperCase(), null);
+            
+            if ( tables.next() ) {
+                System.out.println("The table " + TABLE_NAME + " already exists.");
+            } else {
+                stmt.execute("CREATE TABLE " + TABLE_NAME + "{"
+                        + "idMember VARCHAR(45)primary key,\n"
+                        + "name VARCHAR (100),\n"
+                        + "mobile VARCHAR (13),\n"
+                        + "email VARCHAR (45)"
+                        + "}" );
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage() + "\nSetup Database");
+        } finally {
+        }    
+    }
+    
+    
+    //to do
+    void setupIssueTable() {
+        String TABLE_NAME = "ISSUE";
         try {
             stmt = conn.createStatement();
             

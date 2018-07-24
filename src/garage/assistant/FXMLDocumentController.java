@@ -25,6 +25,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private JFXTextField txtName;
     @FXML
+    private JFXTextField txtType;
+    @FXML
     private JFXTextField txtColor;
     @FXML
     private JFXButton btnSave;
@@ -46,12 +48,14 @@ public class FXMLDocumentController implements Initializable {
     //push the data to the db
     @FXML
     private void actSave(ActionEvent event) {
+        int type = Integer.parseInt(txtType.getText());
         String id = txtId.getText();
         String producer = txtProducer.getText();
         String name = txtName.getText();
         String color = txtColor.getText();
         
-        if (id.isEmpty() || producer.isEmpty() || name.isEmpty() || color.isEmpty()) {
+        if (id.isEmpty() || producer.isEmpty() || name.isEmpty()
+                || color.isEmpty() || txtType.getText().length() <= 0 ) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setHeaderText(null);
             alert.setContentText("Please fill in all fields!");
@@ -60,6 +64,7 @@ public class FXMLDocumentController implements Initializable {
         }
         
         String qu = "INSERT INTO MOTORBIKE VALUES ("
+                + "'" + type + "',"
                 + "'" + id + "',"
                 + "'" + producer + "',"
                 + "'" + name + "',"

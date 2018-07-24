@@ -25,6 +25,8 @@ public class MotorbikeAddController implements Initializable {
     @FXML
     private JFXTextField txtName;
     @FXML
+    private JFXTextField txtType;
+    @FXML
     private JFXTextField txtColor;
     @FXML
     private JFXButton btnSave;
@@ -49,9 +51,12 @@ public class MotorbikeAddController implements Initializable {
         String id = txtId.getText();
         String producer = txtProducer.getText();
         String name = txtName.getText();
+        int type = Integer.parseInt(txtType.getText());
         String color = txtColor.getText();
         
-        if (id.isEmpty() || producer.isEmpty() || name.isEmpty() || color.isEmpty()) {
+        if (id.isEmpty() || producer.isEmpty() || name.isEmpty()
+                || color.isEmpty() || (txtType.getText().length() == 0) ) {
+            
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setHeaderText(null);
             alert.setContentText("Please fill in all fields!");
@@ -60,9 +65,10 @@ public class MotorbikeAddController implements Initializable {
         }
         
         String qu = "INSERT INTO MOTORBIKE VALUES ("
-                + "'" + id + "',"
+                + "'" + id + "', "
                 + "'" + producer + "',"
                 + "'" + name + "',"
+                + "'" + type + "' ,"
                 + "'" + color + "',"
                 + "" + "true" + "" //available whenever added
                 + ")";
@@ -95,8 +101,8 @@ public class MotorbikeAddController implements Initializable {
         ResultSet rs = dbHandler.excQuery(qu);
         try {
             while( rs.next() ) {
-                String namez = rs.getString("name");
-                System.out.println(namez);
+                String mbName = rs.getString("name");
+                System.out.println(mbName);
             }
         } catch (SQLException ex) {
             Logger.getLogger(MotorbikeAddController.class.getName()).log(Level.SEVERE, null, ex);

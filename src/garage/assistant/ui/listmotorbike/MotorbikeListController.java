@@ -34,6 +34,8 @@ public class MotorbikeListController implements Initializable {
     @FXML
     private TableColumn<Motorbike, String> nameCol;
     @FXML
+    private TableColumn<Motorbike, String> typeCol;
+    @FXML
     private TableColumn<Motorbike, String> colorCol;
     @FXML
     private TableColumn<Motorbike, Boolean> availabilityCol;
@@ -49,6 +51,7 @@ public class MotorbikeListController implements Initializable {
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         producerCol.setCellValueFactory(new PropertyValueFactory<>("producer"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
         colorCol.setCellValueFactory(new PropertyValueFactory<>("color"));
         availabilityCol.setCellValueFactory(new PropertyValueFactory<>("availability"));
     }
@@ -61,13 +64,30 @@ public class MotorbikeListController implements Initializable {
         
         try {
             while(rs.next()) {
-                String idx = rs.getString("idMotorbike");
-                String producerx = rs.getString("producer");
-                String namex = rs.getString("name");
-                String colorx = rs.getString("color");
-                Boolean avail = rs.getBoolean("isAvail");
+                String mbId = rs.getString("idMotorbike");
+                String mbProducer = rs.getString("producer");
+                String mbNname = rs.getString("name");
+                String mbColor = rs.getString("color");
+                String mbType = rs.getString("type");
                 
-                list.add(new Motorbike(idx, producerx, namex, colorx, avail));
+                switch(Integer.parseInt(mbType)) {
+                    case 1:
+                        mbType = "Motorbike";
+                        break;
+                    case 2:
+                        mbType = "Car";
+                        break;
+                    case 3:
+                        mbType = "Self-driving Car";
+                        break;
+                    default:
+                        mbType = "Not exist in db yet";
+                        break;
+                }
+                
+                Boolean mbAvail = rs.getBoolean("isAvail");
+                
+                list.add(new Motorbike(mbId, mbProducer, mbNname, mbType, mbColor, mbAvail));
             }
         } catch (SQLException ex) {
             Logger.getLogger(MotorbikeListController.class.getName()).log(Level.SEVERE, null, ex);
@@ -80,14 +100,16 @@ public class MotorbikeListController implements Initializable {
         private final SimpleStringProperty id;
         private final SimpleStringProperty producer;
         private final SimpleStringProperty name;
+        private final SimpleStringProperty type;
         private final SimpleStringProperty color;
         private final SimpleBooleanProperty availability;
         
         //constructor
-        Motorbike(String id, String producer, String name, String color, boolean availability) {
+        Motorbike(String id, String producer, String name, String type, String color, boolean availability) {
             this.id = new SimpleStringProperty(id);
             this.producer = new SimpleStringProperty(producer);
             this.name = new SimpleStringProperty(name);
+            this.type = new SimpleStringProperty(type);
             this.color = new SimpleStringProperty(color);
             this.availability = new SimpleBooleanProperty(availability);
         }
@@ -106,6 +128,10 @@ public class MotorbikeListController implements Initializable {
 
         public String getColor() {
             return color.get();
+        }
+        
+        public String getType() {
+            return type.get();
         }
 
         public Boolean getAvailability() {
