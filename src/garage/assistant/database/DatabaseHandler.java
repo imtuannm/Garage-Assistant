@@ -10,28 +10,27 @@ import java.sql.Statement;
 
 public final class DatabaseHandler {
     private static DatabaseHandler handler = null;
-    
     private static final String DB_URL = "jdbc:mysql://localhost:3306/garagemanagement?useUnicode=true&characterEncoding=UTF-8";
     private static final String USR = "root";
     private static final String PWD = "toor";
     private static Connection conn = null;
     private static Statement stmt = null;
     
-    /*
-        PRIVATE constructor
-        prevent crashes when invoked by many class
-        no classes can create direct object of this database handler
-        so as not to conflict database handler
-    */
+//  PRIVATE constructor
+//  prevent crashes when invoked by many class
+//  no classes can create direct object of this database handler
+//  so as not to conflict database handler
     private DatabaseHandler() {
-        createConnection();
+        crtConnection();
         
         setupMotorbikeTable();
         setupMemberTable();
+        setupIssueTable();
+        System.out.println("Successfull load all tables"); //print debug
     }
     
-    //single db object is shared across all the classes
-    //call DatabaseHandler.getInstance() give objects dbHandler object
+//  single db object is shared across all the classes
+//  call DatabaseHandler.getInstance() give objects dbHandler object
     public static DatabaseHandler getInstance() {
         if (handler == null) {
             handler = new DatabaseHandler();
@@ -39,7 +38,7 @@ public final class DatabaseHandler {
         return handler; //reuse if already exist
     }
     
-    void createConnection() {
+    void crtConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();//install driver
             conn = DriverManager.getConnection(DB_URL, USR, PWD);
@@ -100,7 +99,7 @@ public final class DatabaseHandler {
     }
     
     
-    //to do
+    //todo
     void setupIssueTable() {
         String TABLE_NAME = "ISSUE";
         try {
@@ -113,10 +112,12 @@ public final class DatabaseHandler {
                 System.out.println("The table " + TABLE_NAME + " already exists.");
             } else {
                 stmt.execute("CREATE TABLE " + TABLE_NAME + "{"
-                        + "idMember VARCHAR(45)primary key,\n"
-                        + "name VARCHAR (100),\n"
-                        + "mobile VARCHAR (13),\n"
-                        + "email VARCHAR (45)"
+                        + "id_motorbike VARCHAR(9) primary key,\n"
+                        + "id_member VARCHAR (9) primary key,\n"
+                        + "issueTime timestamp default CURRENT_TIMESTAMP primary key,\n"
+                        + "deposit DOUBLE,\n"
+                        + "FOREIGN KEY (id_Motorbike) REFERENCES MOTORBIKE (idMotorbike),\n"
+                        + "FOREIGN KEY (id_Member) REFERENCES MEMBER (idMember)"
                         + "}" );
             }
         } catch (SQLException e) {

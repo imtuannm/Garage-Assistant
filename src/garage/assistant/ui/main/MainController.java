@@ -126,15 +126,20 @@ public class MainController implements Initializable {
                 
                 motorbikeProducer.setText(mbProducer);
                 
-                motorbikeID.setText(mbID);
-                
-                
-//              switch (mbType) {
-//                  case 1:
-//                      motorbikeID.setText(mbID.substring(0, 4) + "-" + mbID.substring(4, 8));
-//                      break;
-//                  default:
-//                }
+                switch (mbType) {
+                case 1:
+                    motorbikeID.setText(mbID + " [Motor]");
+                    break;
+                case 2:
+                    motorbikeID.setText(mbID + " [Car]");
+                    break;
+                case 3:
+                    motorbikeID.setText(mbID + " [S-D Car]");
+                    break;
+                default:
+                    motorbikeID.setText("null");
+                    break;
+                }
                 
                 motorbikeName.setText(mbName);
                 String stt = (mbStatus) ? "Available" : "NOT Available";
@@ -143,7 +148,7 @@ public class MainController implements Initializable {
             }
             if( !flag ) { //doesnt exist
                 motorbikeName.setText("No such Motorbike found!");
-                clrMotorbikeCache();
+                clrMotorbikeCached();
             }
         } catch (SQLException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
@@ -173,7 +178,7 @@ public class MainController implements Initializable {
             }
             if( !flag ) { //doesnt exist
                 memberName.setText("No such Member found!");
-                clrMemberCache();
+                clrMemberCached();
             }
         } catch (SQLException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
@@ -181,7 +186,7 @@ public class MainController implements Initializable {
     }
     
     //clear old text while can not find infomations
-    void clrMotorbikeCache() {
+    void clrMotorbikeCached() {
         motorbikeProducer.setText("-");
         motorbikeID.setText("-");
         motorbikeStatus.setText("-");
@@ -189,17 +194,18 @@ public class MainController implements Initializable {
     
     
     //also clear old text
-    void clrMemberCache() {
+    void clrMemberCached() {
         memberID.setText("-");
         memberMobile.setText("-");
     }
 
+    //todo
     @FXML
     private void loadIssueOperation(ActionEvent event) {
         String memID = memberIdInput.getText();
         String mtbID = motorbikeIdInput.getText();
         
-        //confirm
+        //make an alert box to confirm
         Alert alt = new Alert(Alert.AlertType.CONFIRMATION);
         alt.setTitle("Confirm");
         alt.setHeaderText(null);
@@ -209,7 +215,7 @@ public class MainController implements Initializable {
         Optional<ButtonType> response = alt.showAndWait();
         
         if( response.get() == ButtonType.OK ) {
-            
+ 
         }
         
     }
