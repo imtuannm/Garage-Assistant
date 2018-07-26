@@ -38,7 +38,6 @@ public class MemberListController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initCol();
-        
         loadData();
     }
     
@@ -49,26 +48,26 @@ public class MemberListController implements Initializable {
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
     }
     
-    private void loadData() {
+    private void loadData() { //load data from database
         DatabaseHandler handler = DatabaseHandler.getInstance();
         
         String qu = "SELECT * FROM MEMBER";
         ResultSet rs = handler.excQuery(qu);
         
         try {
-            while(rs.next()) {
-                String idx = rs.getString("idMember");
-                String namex = rs.getString("name");
-                String mobilex = rs.getString("mobile");
-                String emailx = rs.getString("email");
+            while(rs.next()) { //retrieve data
+                String mId = rs.getString("idMember");
+                String mName = rs.getString("name");
+                String mMobile = rs.getString("mobile");
+                String mEmail = rs.getString("email");
                 
-                list.add(new Member(idx, namex, mobilex, emailx));
+                list.add(new Member(mId, mName, mMobile, mEmail)); //push to list
             }
         } catch (SQLException ex) {
             Logger.getLogger(MotorbikeListController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        tblView.getItems().setAll(list); 
+        tblView.getItems().setAll(list); //push data from list to table View
     }
 
     public static class Member {

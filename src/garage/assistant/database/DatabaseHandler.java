@@ -26,19 +26,20 @@ public final class DatabaseHandler {
         setupMotorbikeTable();
         setupMemberTable();
         setupIssueTable();
+        
         System.out.println("Successfull load all tables"); //print debug
     }
     
-//  single db object is shared across all the classes
+//  share a single db object across all the classes
 //  call DatabaseHandler.getInstance() give objects dbHandler object
     public static DatabaseHandler getInstance() {
         if (handler == null) {
             handler = new DatabaseHandler();
         }
-        return handler; //reuse if already exist
+        return handler; //reuse if already existed
     }
     
-    void crtConnection() {
+    void crtConnection() { //create the connection between app & database using JDBC
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();//install driver
             conn = DriverManager.getConnection(DB_URL, USR, PWD);

@@ -192,7 +192,6 @@ public class MainController implements Initializable {
         motorbikeStatus.setText("-");
     }
     
-    
     //also clear old text
     void clrMemberCached() {
         memberID.setText("-");
