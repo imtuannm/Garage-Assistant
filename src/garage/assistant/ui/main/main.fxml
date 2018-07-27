@@ -165,14 +165,14 @@
                            <children>
                               <BorderPane layoutX="95.0" layoutY="70.0" prefHeight="446.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <top>
-                                    <JFXTextField labelFloat="true" prefHeight="25.0" prefWidth="265.0" promptText="Enter Motorbike's ID" BorderPane.alignment="CENTER">
+                                    <JFXTextField fx:id="motorID" labelFloat="true" onAction="#loadBookInfo2" prefHeight="25.0" prefWidth="265.0" promptText="Motorbike's ID" BorderPane.alignment="CENTER">
                                        <BorderPane.margin>
                                           <Insets bottom="20.0" left="170.0" right="170.0" top="15.0" />
                                        </BorderPane.margin>
                                     </JFXTextField>
                                  </top>
                                  <center>
-                                    <ListView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                    <ListView fx:id="lsvIssueData" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                        <padding>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </padding>
