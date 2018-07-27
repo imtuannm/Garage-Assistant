@@ -252,7 +252,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void loadBookInfo2(ActionEvent event) {
+    private void loadIssueInfo(ActionEvent event) {
         ObservableList<String> issueData = FXCollections.observableArrayList();
         
         String id = motorID.getText();

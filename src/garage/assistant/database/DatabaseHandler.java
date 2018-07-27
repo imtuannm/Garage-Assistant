@@ -99,8 +99,6 @@ public final class DatabaseHandler {
         }    
     }
     
-    
-    //todo
     void setupIssueTable() {
         String TABLE_NAME = "ISSUE";
         try {
