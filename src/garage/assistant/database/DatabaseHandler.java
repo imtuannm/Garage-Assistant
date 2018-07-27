@@ -13,7 +13,7 @@ public final class DatabaseHandler {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/garagemanagement?useUnicode=true&characterEncoding=UTF-8";
     private static final String USR = "root";
     private static final String PWD = "toor";
-    private static Connection conn = null;
+    public static Connection conn = null;
     private static Statement stmt = null;
     
 //  PRIVATE constructor
@@ -116,7 +116,7 @@ public final class DatabaseHandler {
                         + "id_motorbike VARCHAR(9) primary key,\n"
                         + "id_member VARCHAR (9) primary key,\n"
                         + "issueTime timestamp default CURRENT_TIMESTAMP primary key,\n"
-                        + "deposit DOUBLE,\n"
+                        + "deposit DOUBLE default 500000,\n"
                         + "FOREIGN KEY (id_Motorbike) REFERENCES MOTORBIKE (idMotorbike),\n"
                         + "FOREIGN KEY (id_Member) REFERENCES MEMBER (idMember)"
                         + "}" );

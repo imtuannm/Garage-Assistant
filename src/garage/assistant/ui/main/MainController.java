@@ -110,6 +110,7 @@ public class MainController implements Initializable {
     @FXML
     private void loadMotorbikeInfo(ActionEvent event) {
         String id = motorbikeIdInput.getText();
+        
         String qr = "SELECT * FROM MOTORBIKE WHERE idMotorbike = '" + id + "'";
         
         ResultSet rs = dbHandler.excQuery(qr);
@@ -205,16 +206,40 @@ public class MainController implements Initializable {
         String mtbID = motorbikeIdInput.getText();
         
         //make an alert box to confirm
-        Alert alt = new Alert(Alert.AlertType.CONFIRMATION);
-        alt.setTitle("Confirm");
-        alt.setHeaderText(null);
-        alt.setContentText("Are you sure issuing [" + motorbikeName.getText() + "] to ["
-                            + memberName.getText() + "]?");
+        Alert altCfm = new Alert(Alert.AlertType.CONFIRMATION);
+        altCfm.setTitle("Confirm");
+        altCfm.setHeaderText(null);
+        altCfm.setContentText("Are you sure to issue [" + motorbikeName.getText()
+                            + "] to [" + memberName.getText() + "]?");
         
-        Optional<ButtonType> response = alt.showAndWait();
+        Optional<ButtonType> response = altCfm.showAndWait();
         
         if( response.get() == ButtonType.OK ) {
- 
+            String strIssue = "INSERT INTO ISSUE(id_motorbike,id_member) VALUES (+"
+                    + "'" + mtbID + "',"
+                    + "'" + memID + "')";
+            
+            String strUpdStt = "UPDATE MOTORBIKE SET isAvail = false WHERE idMotorbike = '" + mtbID + "'";
+            
+            if(dbHandler.excAction(strIssue) && dbHandler.excAction(strUpdStt)) {
+                Alert altScc = new Alert(Alert.AlertType.INFORMATION);
+                altScc.setTitle("Success");
+                altScc.setHeaderText(null);
+                altScc.setContentText("Issuing completed!");
+                altScc.showAndWait();
+            } else {
+                Alert altFl = new Alert(Alert.AlertType.ERROR);
+                altFl.setTitle("Failed");
+                altFl.setHeaderText(null);
+                altFl.setContentText("Issue Operation can NOT be completed!");
+                altFl.showAndWait();
+            }
+        } else {
+            Alert altCnc = new Alert(Alert.AlertType.INFORMATION);
+            altCnc.setTitle("Cancelled");
+            altCnc.setHeaderText(null);
+            altCnc.setContentText("Issue Operation cancelled!");
+            altCnc.showAndWait();
         }
         
     }

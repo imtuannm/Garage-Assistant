@@ -7,9 +7,14 @@
     -fx-text-fill: WHITE;
 }
 
-/*
-use in Style class
-*/
 .setup-button:hover {
     -fx-background-color: #2d98da;
+}
+
+.menulist-button {
+    -fx-background-color: #ffdd59;
+}
+
+.menulist-button:hover {
+    -fx-background-color: #ffd32a;
 }

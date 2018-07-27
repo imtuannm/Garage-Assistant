@@ -48,7 +48,7 @@
          <right>
             <VBox prefHeight="475.0" prefWidth="150.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#loadAddMember" prefHeight="150.0" prefWidth="150.0" text="Add Member">
+                  <JFXButton contentDisplay="TOP" mnemonicParsing="false" onAction="#loadAddMember" prefHeight="150.0" prefWidth="150.0" styleClass="menulist-button" stylesheets="@main.css" text="Add Member">
                      <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -56,8 +56,8 @@
                            </image>
                         </ImageView>
                      </graphic>
-                  </Button>
-                  <Button contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadAddMotorbike" prefHeight="150.0" prefWidth="150.0" text="Add Motorbike">
+                  </JFXButton>
+                  <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadAddMotorbike" prefHeight="150.0" prefWidth="150.0" styleClass="menulist-button" stylesheets="@main.css" text="Add Motorbike">
                      <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -65,8 +65,8 @@
                            </image>
                         </ImageView>
                      </graphic>
-                  </Button>
-                  <Button contentDisplay="TOP" layoutX="10.0" layoutY="92.0" mnemonicParsing="false" onAction="#loadMemberTable" prefHeight="150.0" prefWidth="150.0" text="All Members">
+                  </JFXButton>
+                  <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="92.0" mnemonicParsing="false" onAction="#loadMemberTable" prefHeight="150.0" prefWidth="150.0" styleClass="menulist-button" stylesheets="@main.css" text="All Members">
                      <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -74,8 +74,8 @@
                            </image>
                         </ImageView>
                      </graphic>
-                  </Button>
-                  <Button contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadMotorbikeTable" prefHeight="150.0" prefWidth="150.0" text="All Motorbikes">
+                  </JFXButton>
+                  <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadMotorbikeTable" prefHeight="150.0" prefWidth="150.0" styleClass="menulist-button" stylesheets="@main.css" text="All Motorbikes">
                      <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -83,8 +83,8 @@
                            </image>
                         </ImageView>
                      </graphic>
-                  </Button>
-                  <Button contentDisplay="TOP" layoutX="10.0" layoutY="256.0" mnemonicParsing="false" prefHeight="150.0" prefWidth="150.0" text="Setting">
+                  </JFXButton>
+                  <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="256.0" mnemonicParsing="false" prefHeight="150.0" prefWidth="150.0" styleClass="menulist-button" stylesheets="@main.css" text="Setting">
                      <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -92,7 +92,7 @@
                            </image>
                         </ImageView>
                      </graphic>
-                  </Button>
+                  </JFXButton>
                </children>
             </VBox>
          </right>
