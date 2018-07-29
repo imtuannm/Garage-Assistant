@@ -41,7 +41,7 @@ public class MainController implements Initializable {
     @FXML
     private Text motorbikeProducer;
     @FXML
-    private Text motorbikeID;
+    private Text motorbikeType;
     @FXML
     private Text motorbikeName;
     @FXML
@@ -52,8 +52,6 @@ public class MainController implements Initializable {
     @FXML
     private Text memberName;
     @FXML
-    private Text memberID;
-    @FXML
     private Text memberMobile;
     
     DatabaseHandler dbHandler;
@@ -61,7 +59,7 @@ public class MainController implements Initializable {
     private ListView<String> lsvIssueData;
     @FXML
     private JFXTextField motorID;
-
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -128,25 +126,24 @@ public class MainController implements Initializable {
         try {
             while(rs.next()) { //set info to textfield
                 String mbProducer = rs.getString("producer");
-                String mbID = rs.getString("idMotorbike");
                 String mbName = rs.getString("name");
                 int mbType = rs.getInt("type");
                 Boolean mbStatus = rs.getBoolean("isAvail");
                 
                 motorbikeProducer.setText(mbProducer);
                 
-                switch (mbType) {
+                switch (mbType) {//set type
                 case 1:
-                    motorbikeID.setText(mbID + " [Motor]");
+                    motorbikeType.setText("[Motor]");
                     break;
                 case 2:
-                    motorbikeID.setText(mbID + " [Car]");
+                    motorbikeType.setText("[Car]");
                     break;
                 case 3:
-                    motorbikeID.setText(mbID + " [S-D Car]");
+                    motorbikeType.setText("[Self-Driving Car]");
                     break;
                 default:
-                    motorbikeID.setText("null");
+                    motorbikeType.setText("null");
                     break;
                 }
                 
@@ -175,12 +172,10 @@ public class MainController implements Initializable {
         
         try {
             while(rs.next()) { //set info to textfield
-                String mID = rs.getString("idMember");
                 String mName = rs.getString("name");
                 String mMobile = rs.getString("mobile");
                 
                 memberName.setText(mName);
-                memberID.setText(mID);
                 memberMobile.setText(mMobile);
                 
                 flag = true;
@@ -197,13 +192,12 @@ public class MainController implements Initializable {
     //clear old text while can not find infomations
     void clrMotorbikeCached() {
         motorbikeProducer.setText("-");
-        motorbikeID.setText("-");
+        motorbikeType.setText("-");
         motorbikeStatus.setText("-");
     }
     
     //also clear old text
     void clrMemberCached() {
-        memberID.setText("-");
         memberMobile.setText("-");
     }
 

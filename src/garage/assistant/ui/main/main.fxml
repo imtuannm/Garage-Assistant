@@ -110,8 +110,8 @@
                                           <JFXTextField fx:id="motorbikeIdInput" labelFloat="true" onAction="#loadMotorbikeInfo" promptText="Motorbike's ID" />
                                           <VBox alignment="CENTER" prefHeight="212.0" prefWidth="396.0" spacing="10.0">
                                              <children>
+                                                <Text fx:id="motorbikeType" layoutX="10.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type" textAlignment="CENTER" wrappingWidth="376.13671875" />
                                                 <Text fx:id="motorbikeProducer" strokeType="OUTSIDE" strokeWidth="0.0" text="Producer" textAlignment="CENTER" wrappingWidth="376.13671875" />
-                                                <Text fx:id="motorbikeID" layoutX="10.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID Motorbike" textAlignment="CENTER" wrappingWidth="376.13671875" />
                                                 <Text fx:id="motorbikeName" layoutX="10.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" textAlignment="CENTER" wrappingWidth="376.13671875" />
                                                 <Text fx:id="motorbikeStatus" layoutX="20.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status" textAlignment="CENTER" wrappingWidth="376.13671875" />
                                              </children>
@@ -133,7 +133,6 @@
                                           <VBox alignment="CENTER" prefHeight="212.0" prefWidth="396.0" spacing="10.0">
                                              <children>
                                                 <Text fx:id="memberName" strokeType="OUTSIDE" strokeWidth="0.0" text="Member name" textAlignment="CENTER" wrappingWidth="376.13671875" />
-                                                <Text fx:id="memberID" layoutX="10.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID Member" textAlignment="CENTER" wrappingWidth="376.13671875" />
                                                 <Text fx:id="memberMobile" layoutX="10.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mobile" textAlignment="CENTER" wrappingWidth="376.13671875" />
                                              </children>
                                              <padding>
