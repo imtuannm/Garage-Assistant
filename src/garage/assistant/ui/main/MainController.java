@@ -218,9 +218,10 @@ public class MainController implements Initializable {
         Optional<ButtonType> response = altCfm.showAndWait();
         
         if( response.get() == ButtonType.OK ) {//confirm
-            String strIssue = "INSERT INTO ISSUE(id_motorbike,id_member) VALUES (+"
+            String strIssue = "INSERT INTO ISSUE(id_motorbike,id_member, renew_count) VALUES (+"
                     + "'" + mtbID + "',"
-                    + "'" + memID + "')";
+                    + "'" + memID + "',"
+                    + "'" + 0 + "')";
             
             String strUpdStt = "UPDATE MOTORBIKE SET isAvail = false WHERE idMotorbike = '" + mtbID + "'";
             
@@ -283,13 +284,13 @@ public class MainController implements Initializable {
                     issueData.add("\tEmail: " + rst.getString("email"));
                 }
                 
-                isReadyForSubmission = true;//everything is ok
+                isReadyForSubmission = true;//everything is set
             }
         } catch (SQLException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        lsvIssueData.getItems().setAll(issueData);//set all these to list view
+        lsvIssueData.getItems().setAll(issueData);//set all these above into list view
     }
 
     @FXML
@@ -333,6 +334,53 @@ public class MainController implements Initializable {
             altCnc.setTitle("Cancelled");
             altCnc.setHeaderText(null);
             altCnc.setContentText("Submission Operation cancelled!");
+            altCnc.showAndWait();
+        }
+    }
+
+    //renew the issue time into current time
+    @FXML
+    private void loadRenewOperation(ActionEvent event) {
+        if( !isReadyForSubmission ) { //not ready 
+            Alert altFl = new Alert(Alert.AlertType.ERROR);
+            altFl.setTitle("Failed!");
+            altFl.setHeaderText(null);
+            altFl.setContentText("Invalid Motorbike to renew.");
+            altFl.showAndWait();
+            return;
+        }
+        
+        String id = motorID.getText();
+        
+        //make an alert box to confirm
+        Alert altCfm = new Alert(Alert.AlertType.CONFIRMATION);
+        altCfm.setTitle("Confirm");
+        altCfm.setHeaderText(null);
+        altCfm.setContentText("Are you sure want to renew the motorbike?");
+        Optional<ButtonType> response = altCfm.showAndWait();
+        if( response.get() == ButtonType.OK ) {//OK button
+            //change issueTime & renew_count
+            String actUpd = "UPDATE ISSUE SET issueTime = CURRENT_TIMESTAMP, renew_count = renew_count+1 WHERE id_motorbike = '" + id + "'";
+            
+            if ( dbHandler.excAction(actUpd) ) {//success
+                Alert altScc = new Alert(Alert.AlertType.INFORMATION);
+                altScc.setTitle("Success!");
+                altScc.setHeaderText(null);
+                altScc.setContentText("Motorbike has been renewed.");
+                altScc.showAndWait();
+                //System.out.println(actUpd);//print debug
+            } else {//error
+                Alert altFl = new Alert(Alert.AlertType.ERROR);
+                altFl.setTitle("Failed!");
+                altFl.setHeaderText(null);
+                altFl.setContentText("Renewal has been failed.");
+                altFl.showAndWait();
+            }
+        } else {//cancel button
+            Alert altCnc = new Alert(Alert.AlertType.INFORMATION);
+            altCnc.setTitle("Cancelled");
+            altCnc.setHeaderText(null);
+            altCnc.setContentText("Renew Operation cancelled!");
             altCnc.showAndWait();
         }
     }
