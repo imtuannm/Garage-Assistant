@@ -201,7 +201,6 @@ public class MainController implements Initializable {
         memberMobile.setText("-");
     }
 
-    //todo
     @FXML
     private void loadIssueOperation(ActionEvent event) {
         String memID = memberIdInput.getText();
@@ -216,7 +215,7 @@ public class MainController implements Initializable {
         
         Optional<ButtonType> response = altCfm.showAndWait();
         
-        if( response.get() == ButtonType.OK ) {
+        if( response.get() == ButtonType.OK ) {//confirmed
             String strIssue = "INSERT INTO ISSUE(id_motorbike,id_member) VALUES (+"
                     + "'" + mtbID + "',"
                     + "'" + memID + "')";
@@ -229,14 +228,14 @@ public class MainController implements Initializable {
                 altScc.setHeaderText(null);
                 altScc.setContentText("Issuing completed!");
                 altScc.showAndWait();
-            } else {
+            } else { //can not issue or update status
                 Alert altFl = new Alert(Alert.AlertType.ERROR);
                 altFl.setTitle("Failed");
                 altFl.setHeaderText(null);
                 altFl.setContentText("Issue Operation can NOT be completed!");
                 altFl.showAndWait();
             }
-        } else {
+        } else {//cancel/close button is clicked
             Alert altCnc = new Alert(Alert.AlertType.INFORMATION);
             altCnc.setTitle("Cancelled");
             altCnc.setHeaderText(null);
@@ -266,25 +265,25 @@ public class MainController implements Initializable {
                 qr = "SELECT * FROM MOTORBIKE WHERE idMotorbike = '" + mtbID + "'";
                 ResultSet rst = dbHandler.excQuery(qr);
                 while(rst.next()){
-                    issueData.add("Producer: " + rst.getString("producer"));
-                    issueData.add("Name: " + rst.getString("name"));
-                    issueData.add("Color: " + rst.getString("color"));
+                    issueData.add("\tProducer: " + rst.getString("producer"));
+                    issueData.add("\tName: " + rst.getString("name"));
+                    issueData.add("\tColor: " + rst.getString("color"));
                 }
                 
                 qr = "SELECT * FROM MEMBER WHERE idMember = '" + mmbID + "'";
                 rst = dbHandler.excQuery(qr);
                 issueData.add("Member information: ");
                 while(rst.next()){
-                    issueData.add("Name: " + rst.getString("name"));
-                    issueData.add("Mobile: " + rst.getString("mobile"));
-                    issueData.add("Email: " + rst.getString("email"));
+                    issueData.add("\tName: " + rst.getString("name"));
+                    issueData.add("\tMobile: " + rst.getString("mobile"));
+                    issueData.add("\tEmail: " + rst.getString("email"));
                 }
             }
         } catch (SQLException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        lsvIssueData.getItems().setAll(issueData);
+        lsvIssueData.getItems().setAll(issueData);//set all these to list view
     }
     
 }
