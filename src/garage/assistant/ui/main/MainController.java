@@ -217,7 +217,7 @@ public class MainController implements Initializable {
         
         Optional<ButtonType> response = altCfm.showAndWait();
         
-        if( response.get() == ButtonType.OK ) {//confirmed
+        if( response.get() == ButtonType.OK ) {//confirm
             String strIssue = "INSERT INTO ISSUE(id_motorbike,id_member) VALUES (+"
                     + "'" + mtbID + "',"
                     + "'" + memID + "')";
@@ -230,14 +230,14 @@ public class MainController implements Initializable {
                 altScc.setHeaderText(null);
                 altScc.setContentText("Issuing completed!");
                 altScc.showAndWait();
-            } else { //can not issue or update status
+            } else {//can not issue or update status
                 Alert altFl = new Alert(Alert.AlertType.ERROR);
                 altFl.setTitle("Failed");
                 altFl.setHeaderText(null);
                 altFl.setContentText("Issue Operation can NOT be completed!");
                 altFl.showAndWait();
             }
-        } else {//cancel/close button is clicked
+        } else {//cancel button is clicked
             Alert altCnc = new Alert(Alert.AlertType.INFORMATION);
             altCnc.setTitle("Cancelled");
             altCnc.setHeaderText(null);
@@ -303,26 +303,37 @@ public class MainController implements Initializable {
             return;
         }
         
-        String id = motorID.getText();
-        
-        //1. remove the entry from the issue
-        String actDel = "DELETE FROM ISSUE WHERE id_motorbike = '" + id + "'";
-        //2. make the motor available in the database
-        String actUpd = "UPDATE MOTORBIKE SET isAvail = true WHERE idMotorbike = '" + id + "'";
-        
-        if ( dbHandler.excAction(actDel) && dbHandler.excAction(actUpd) ) {//success
-            Alert altScc = new Alert(Alert.AlertType.INFORMATION);
-            altScc.setTitle("Success!");
-            altScc.setHeaderText(null);
-            altScc.setContentText("Motorbike has been submitted.");
-            altScc.showAndWait();
-        } else {
-            Alert altFl = new Alert(Alert.AlertType.ERROR);
-            altFl.setTitle("Failed!");
-            altFl.setHeaderText(null);
-            altFl.setContentText("Submission has been failed.");
-            altFl.showAndWait();
+        //make an alert box to confirm
+        Alert altCfm = new Alert(Alert.AlertType.CONFIRMATION);
+        altCfm.setTitle("Confirm");
+        altCfm.setHeaderText(null);
+        altCfm.setContentText("Are you sure want to return the motorbike?");
+        Optional<ButtonType> response = altCfm.showAndWait();
+        if( response.get() == ButtonType.OK ) {//confirmed
+            String id = motorID.getText();
+            //1. remove the entry from the issue table
+            String actDel = "DELETE FROM ISSUE WHERE id_motorbike = '" + id + "'";
+            //2. make the motor available in the database
+            String actUpd = "UPDATE MOTORBIKE SET isAvail = true WHERE idMotorbike = '" + id + "'";
+            if ( dbHandler.excAction(actDel) && dbHandler.excAction(actUpd) ) {//success
+                Alert altScc = new Alert(Alert.AlertType.INFORMATION);
+                altScc.setTitle("Success!");
+                altScc.setHeaderText(null);
+                altScc.setContentText("Motorbike has been submitted.");
+                altScc.showAndWait();
+            } else { //error
+                Alert altFl = new Alert(Alert.AlertType.ERROR);
+                altFl.setTitle("Failed!");
+                altFl.setHeaderText(null);
+                altFl.setContentText("Submission has been failed.");
+                altFl.showAndWait();
+            }
+        } else {//cancel button is clicked
+            Alert altCnc = new Alert(Alert.AlertType.INFORMATION);
+            altCnc.setTitle("Cancelled");
+            altCnc.setHeaderText(null);
+            altCnc.setContentText("Submission Operation cancelled!");
+            altCnc.showAndWait();
         }
     }
-    
 }
