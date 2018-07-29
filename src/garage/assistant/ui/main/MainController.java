@@ -60,6 +60,8 @@ public class MainController implements Initializable {
     @FXML
     private JFXTextField motorID;
     
+    Boolean isReadyForSubmission = false;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -248,6 +250,8 @@ public class MainController implements Initializable {
     private void loadIssueInfo(ActionEvent event) {
         ObservableList<String> issueData = FXCollections.observableArrayList();
         
+        isReadyForSubmission = false;
+        
         String id = motorID.getText();
         String qr = "SELECT * FROM ISSUE WHERE id_motorbike = '" + id + "'";
         ResultSet rs = dbHandler.excQuery(qr);
@@ -278,12 +282,47 @@ public class MainController implements Initializable {
                     issueData.add("\tMobile: " + rst.getString("mobile"));
                     issueData.add("\tEmail: " + rst.getString("email"));
                 }
+                
+                isReadyForSubmission = true;//everything is ok
             }
         } catch (SQLException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         lsvIssueData.getItems().setAll(issueData);//set all these to list view
+    }
+
+    @FXML
+    private void loadSubmissionOperation(ActionEvent event) {
+        if( !isReadyForSubmission ) { //not ready 
+            Alert altFl = new Alert(Alert.AlertType.ERROR);
+            altFl.setTitle("Failed!");
+            altFl.setHeaderText(null);
+            altFl.setContentText("Invalid Motorbike to submit.");
+            altFl.showAndWait();
+            return;
+        }
+        
+        String id = motorID.getText();
+        
+        //1. remove the entry from the issue
+        String actDel = "DELETE FROM ISSUE WHERE id_motorbike = '" + id + "'";
+        //2. make the motor available in the database
+        String actUpd = "UPDATE MOTORBIKE SET isAvail = true WHERE idMotorbike = '" + id + "'";
+        
+        if ( dbHandler.excAction(actDel) && dbHandler.excAction(actUpd) ) {//success
+            Alert altScc = new Alert(Alert.AlertType.INFORMATION);
+            altScc.setTitle("Success!");
+            altScc.setHeaderText(null);
+            altScc.setContentText("Motorbike has been submitted.");
+            altScc.showAndWait();
+        } else {
+            Alert altFl = new Alert(Alert.AlertType.ERROR);
+            altFl.setTitle("Failed!");
+            altFl.setHeaderText(null);
+            altFl.setContentText("Submission has been failed.");
+            altFl.showAndWait();
+        }
     }
     
 }

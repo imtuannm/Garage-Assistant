@@ -185,7 +185,7 @@
                                                 <Insets right="10.0" />
                                              </HBox.margin>
                                           </JFXButton>
-                                          <JFXButton prefHeight="40.0" prefWidth="90.0" styleClass="setup-button" stylesheets="@main.css" text="Submission">
+                                          <JFXButton onAction="#loadSubmissionOperation" prefHeight="40.0" prefWidth="90.0" styleClass="setup-button" stylesheets="@main.css" text="Submission">
                                              <HBox.margin>
                                                 <Insets right="10.0" />
                                              </HBox.margin>
