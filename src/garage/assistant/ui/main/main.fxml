@@ -84,7 +84,7 @@
                         </ImageView>
                      </graphic>
                   </JFXButton>
-                  <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="256.0" mnemonicParsing="false" prefHeight="150.0" prefWidth="150.0" styleClass="menulist-button" stylesheets="@main.css" text="Setting">
+                  <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="256.0" mnemonicParsing="false" onAction="#loadSettings" prefHeight="150.0" prefWidth="150.0" styleClass="menulist-button" stylesheets="@main.css" text="Setting">
                      <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>

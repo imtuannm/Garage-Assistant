@@ -64,7 +64,6 @@ public class MainController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
         //UI - set depth
         JFXDepthManager.setDepth(motorbike_info, 1); //0 - 5
         JFXDepthManager.setDepth(member_info, 1);
@@ -94,6 +93,12 @@ public class MainController implements Initializable {
     private void loadMotorbikeTable(ActionEvent event) {
         loadWindow("/garage/assistant/ui/listmotorbike/motorbike_list.fxml",
                 "/garage/assistant/viewable/motorbile_list.png","All Motorbike");
+    }
+    
+    @FXML
+    private void loadSettings(ActionEvent event) {
+        loadWindow("/garage/assistant/settings/settings.fxml",
+                "/garage/assistant/viewable/setting.png","Settings");
     }
     
     //call another window in-app
@@ -384,4 +389,5 @@ public class MainController implements Initializable {
             altCnc.showAndWait();
         }
     }
+
 }

@@ -29,7 +29,7 @@ public final class DatabaseHandler {
         setupMemberTable();
         setupIssueTable();
         
-        System.out.println("Successfull load all tables"); //print debug
+        System.out.println("All set, ready to go!"); //print debug
     }
     
 //  share a single db object across all the classes
