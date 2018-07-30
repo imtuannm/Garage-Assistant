@@ -14,16 +14,18 @@ import org.apache.commons.codec.digest.DigestUtils;
 public class Preferences {
     public static final String CONFIG_FILE = "config.txt";
     
+    //default values
     int nDaysWithoutFine;
     float finePerDay;
     String username;
     String password;
     
+    //constructor, set all values to default
     public Preferences() {
         nDaysWithoutFine = 5;
         finePerDay = 500000;
         username = "tuan";
-        setPassword("root");
+        setPassword("root");//hashed
     }
 
     public int getnDaysWithoutFine() {
@@ -54,8 +56,11 @@ public class Preferences {
         return password;
     }
 
-    public void setPassword(String password) {//need security method
-        this.password = DigestUtils.shaHex(password);//hash and store the pass
+    public void setPassword(String password) {//assign a security method
+        if(password.length() < 16)//valid
+            this.password = DigestUtils.shaHex(password);//hash then store the pass
+        else//not hashing a hashed pass
+            this.password = password;
     }
     
     //whenever run app for the first time -> no config file -> create a config file with a default values
@@ -80,10 +85,10 @@ public class Preferences {
     public static Preferences getPreferences() {
         Gson gson = new Gson();
         Preferences preferences = new Preferences();
-        try {
+        try {//read from file
             preferences = gson.fromJson(new FileReader(CONFIG_FILE), Preferences.class);
         } catch (FileNotFoundException ex) {//not found an existing file
-            initConfig();
+            initConfig();//than create one
             Logger.getLogger(Preferences.class.getName()).log(Level.SEVERE, null, ex);
         }
         return preferences;
@@ -102,7 +107,7 @@ public class Preferences {
             AlertMaker.showErrorMessage(ex, "Failed", "Cant save the configuration file");
         } finally {
             try {
-                writer.close();
+                writer.close();//close the writer
             } catch (IOException ex) {
                 Logger.getLogger(Preferences.class.getName()).log(Level.SEVERE, null, ex);
             }

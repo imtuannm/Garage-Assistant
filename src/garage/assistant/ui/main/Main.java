@@ -13,12 +13,12 @@ public class Main extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/garage/assistant/ui/login/login.fxml"));
         
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
-        Image image = new Image("/garage/assistant/viewable/garage.png");
+        Image image = new Image("/garage/assistant/resources/garage.png");
         stage.getIcons().add(image);
         stage.setTitle("Garage Assistant");
         stage.show();

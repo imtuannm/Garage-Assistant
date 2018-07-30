@@ -74,31 +74,31 @@ public class MainController implements Initializable {
     @FXML
     private void loadAddMember(ActionEvent event) {
         loadWindow("/garage/assistant/ui/addmember/member_add.fxml",
-                "/garage/assistant/viewable/member.png", "Add new Member");
+                "/garage/assistant/resources/member.png", "Add new Member");
     }
 
     @FXML
     private void loadAddMotorbike(ActionEvent event) {
         loadWindow("/garage/assistant/ui/addmotorbike/add_motorbike.fxml",
-                "/garage/assistant/viewable/mobtorbike.png", "Add new Motorbike");
+                "/garage/assistant/resources/mobtorbike.png", "Add new Motorbike");
     }
 
     @FXML
     private void loadMemberTable(ActionEvent event) {
         loadWindow("/garage/assistant/ui/listmember/member_list.fxml",
-                "/garage/assistant/viewable/member_list.png","All Member");
+                "/garage/assistant/resources/member_list.png","All Member");
     }
 
     @FXML
     private void loadMotorbikeTable(ActionEvent event) {
         loadWindow("/garage/assistant/ui/listmotorbike/motorbike_list.fxml",
-                "/garage/assistant/viewable/motorbile_list.png","All Motorbike");
+                "/garage/assistant/resources/motorbile_list.png","All Motorbike");
     }
     
     @FXML
     private void loadSettings(ActionEvent event) {
         loadWindow("/garage/assistant/settings/settings.fxml",
-                "/garage/assistant/viewable/setting.png","Settings");
+                "/garage/assistant/resources/setting.png","Settings");
     }
     
     //call another window in-app

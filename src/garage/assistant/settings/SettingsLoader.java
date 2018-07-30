@@ -19,7 +19,7 @@ public class SettingsLoader extends Application {
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
-        Image image = new Image("/garage/assistant/viewable/garage.png");
+        Image image = new Image("/garage/assistant/resources/garage.png");
         stage.getIcons().add(image);
         stage.setTitle("Settings");
         stage.show();
