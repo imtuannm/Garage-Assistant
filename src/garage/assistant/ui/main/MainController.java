@@ -26,6 +26,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -61,6 +62,8 @@ public class MainController implements Initializable {
     private JFXTextField motorID;
     
     Boolean isReadyForSubmission = false;
+    @FXML
+    private StackPane rootPane;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -389,5 +392,40 @@ public class MainController implements Initializable {
             altCnc.showAndWait();
         }
     }
+
+    @FXML
+    private void handleMenuClose(ActionEvent event) {
+        ((Stage)rootPane.getScene().getWindow()).close();
+    }
+
+    @FXML
+    private void handleMenuAddMember(ActionEvent event) {
+        loadWindow("/garage/assistant/ui/addmember/member_add.fxml",
+                    "/garage/assistant/resources/member.png", "Add new Member");
+    }
+
+    @FXML
+    private void handleMenuAddMotorbike(ActionEvent event) {
+        loadWindow("/garage/assistant/ui/addmotorbike/add_motorbike.fxml",
+                    "/garage/assistant/resources/mobtorbike.png", "Add new Motorbike");
+    }
+
+    @FXML
+    private void handleMenuViewMembers(ActionEvent event) {
+        loadWindow("/garage/assistant/ui/listmember/member_list.fxml",
+                    "/garage/assistant/resources/member_list.png","All Member");
+    }
+
+    @FXML
+    private void handleMenuViewMotorbikes(ActionEvent event) {
+        loadWindow("/garage/assistant/ui/listmotorbike/motorbike_list.fxml",
+                    "/garage/assistant/resources/motorbile_list.png","All Motorbike");
+    }
+
+    @FXML
+    private void handleMenuFullScreen(ActionEvent event) {
+        Stage stage = ((Stage)rootPane.getScene().getWindow());
+        stage.setFullScreen(!stage.isFullScreen());//toggle full screen & no full 
+   }
 
 }

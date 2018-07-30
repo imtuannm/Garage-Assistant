@@ -45,9 +45,9 @@ public final class DatabaseHandler {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();//install driver
             conn = DriverManager.getConnection(DB_URL, USR, PWD);
-        } catch (Exception e) {
+        } catch (Exception e) {//another app is running
             JOptionPane.showMessageDialog(null, "Can't load database", "Database Error", JOptionPane.ERROR_MESSAGE);
-            System.exit(0);
+            System.exit(0);//close the app
         }
     }
     

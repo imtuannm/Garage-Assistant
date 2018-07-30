@@ -11,7 +11,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.ui.main.MainController">
+<StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="547.0" prefWidth="782.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.ui.main.MainController">
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0">
          <top>
@@ -19,20 +19,23 @@
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Close" />
+                    <MenuItem mnemonicParsing="false" onAction="#handleMenuClose" text="Close" />
                   </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Database">
+                <Menu mnemonicParsing="false" text="Add">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Delete" />
+                    <MenuItem mnemonicParsing="false" onAction="#handleMenuAddMember" text="Add Member" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleMenuAddMotorbike" text="Add Motorbike" />
                   </items>
                 </Menu>
-                  <Menu mnemonicParsing="false" text="Search">
+                  <Menu mnemonicParsing="false" text="View">
                      <items>
-                        <MenuItem mnemonicParsing="false" text="Delete" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleMenuViewMembers" text="View Members" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleMenuViewMotorbikes" text="View Motorbikes" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleMenuFullScreen" text="Full Screen" />
                      </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="View">
+                  <Menu mnemonicParsing="false" text="Search">
                      <items>
                         <MenuItem mnemonicParsing="false" text="Delete" />
                      </items>
