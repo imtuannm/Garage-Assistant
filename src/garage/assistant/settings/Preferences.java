@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.codec.digest.DigestUtils;
 
 public class Preferences {
     public static final String CONFIG_FILE = "config.txt";
@@ -21,8 +22,8 @@ public class Preferences {
     public Preferences() {
         nDaysWithoutFine = 5;
         finePerDay = 500000;
-        username = "icedtea";
-        password = "notcool";
+        username = "tuan";
+        setPassword("root");
     }
 
     public int getnDaysWithoutFine() {
@@ -53,8 +54,8 @@ public class Preferences {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassword(String password) {//need security method
+        this.password = DigestUtils.shaHex(password);//hash and store the pass
     }
     
     //whenever run app for the first time -> no config file -> create a config file with a default values
@@ -65,11 +66,11 @@ public class Preferences {
             Gson gson = new Gson();//converting an object into gson 'string'
             writer = new FileWriter(CONFIG_FILE);
             gson.toJson(preference, writer);
-        } catch (IOException ex) {
+        } catch (IOException ex) {//can not convert
             Logger.getLogger(Preferences.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
-                writer.close();
+                writer.close();//close the writer
             } catch (IOException ex) {
                 Logger.getLogger(Preferences.class.getName()).log(Level.SEVERE, null, ex);
             }

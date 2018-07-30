@@ -31,7 +31,7 @@ public class SettingsController implements Initializable {
         int nDays = Integer.parseInt(nDaysWithoutFine.getText());
         float fine = Float.parseFloat(finePerDay.getText());
         String urn = username.getText();
-        String pass = password.getText();
+        String pass = password.getText();//hash & send to the preferences
         
         //set values
         Preferences preferences = Preferences.getPreferences();
