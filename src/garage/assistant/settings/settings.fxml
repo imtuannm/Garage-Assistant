@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="260.0" prefWidth="345.0" stylesheets="@../viewable/common.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.settings.SettingsController">
+   <children>
+      <VBox layoutX="20.0" layoutY="-34.0" prefHeight="218.0" prefWidth="343.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <JFXTextField fx:id="nDaysWithoutFine" labelFloat="true" promptText="N.o day member can keep motor w/o fine">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="25.0" />
+               </VBox.margin>
+            </JFXTextField>
+            <JFXTextField fx:id="finePerDay" labelFloat="true" promptText="Fine per day">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </JFXTextField>
+            <JFXTextField fx:id="username" labelFloat="true" promptText="username">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </JFXTextField>
+            <JFXPasswordField fx:id="password" labelFloat="true" prefWidth="65.0" promptText="password">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </JFXPasswordField>
+         </children>
+      </VBox>
+      <HBox prefHeight="65.0" prefWidth="345.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="200.0">
+         <children>
+            <JFXButton onAction="#handleSaveButtonAction" prefHeight="60.0" prefWidth="200.0" text="Save" />
+            <JFXButton onAction="#handleCancelButtonAction" prefHeight="60.0" prefWidth="200.0" text="Cancel" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
