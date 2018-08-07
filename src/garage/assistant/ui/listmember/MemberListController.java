@@ -27,7 +27,7 @@ public class MemberListController implements Initializable {
     @FXML
     private TableView<Member> tblView;
     @FXML
-    private TableColumn<Member, String> idCol;
+    private TableColumn<Member, String> idCol; //from the Member, display String
     @FXML
     private TableColumn<Member, String> nameCol;
     @FXML

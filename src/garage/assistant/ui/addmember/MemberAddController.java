@@ -2,6 +2,7 @@ package garage.assistant.ui.addmember;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import garage.assistant.alert.AlertMaker;
 import garage.assistant.database.DatabaseHandler;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -62,17 +63,9 @@ public class MemberAddController implements Initializable {
         System.out.println(qu);//print debug
         
         if( handler.excAction(qu) ) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText(null);
-            alert.setTitle("Success");
-            alert.setContentText("New Member added!");
-            alert.showAndWait();   
+            AlertMaker.showSimpleInforAlert("Success", "New Member added!");   
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(null);
-            alert.setTitle("Failed");
-            alert.setContentText("Can not add Member!");
-            alert.showAndWait();
+            AlertMaker.showSimpleErrorMessage("Failed", "Can not add Member!");
         }
     }
 

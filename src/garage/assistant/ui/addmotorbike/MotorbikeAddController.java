@@ -2,6 +2,7 @@ package garage.assistant.ui.addmotorbike;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import garage.assistant.alert.AlertMaker;
 import garage.assistant.database.DatabaseHandler;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -76,17 +77,9 @@ public class MotorbikeAddController implements Initializable {
         System.out.println(qu); //print debug
         
         if( dbHandler.excAction(qu) ) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText(null);
-            alert.setTitle("Success");
-            alert.setContentText("New Motorbike added!");
-            alert.showAndWait();
+            AlertMaker.showSimpleInforAlert("Success", "New Motorbike added!");
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(null);
-            alert.setTitle("Failed");
-            alert.setContentText("Can not add Motorbike!");
-            alert.showAndWait();
+            AlertMaker.showSimpleErrorMessage("Failed", "Can not add Motorbike!");
         }
     }
 

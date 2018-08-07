@@ -43,7 +43,6 @@ public class MotorbikeListController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initCol();
-        
         loadData();
     }    
 
@@ -68,22 +67,22 @@ public class MotorbikeListController implements Initializable {
                 String mbProducer = rs.getString("producer");
                 String mbNname = rs.getString("name");
                 String mbColor = rs.getString("color");
-                String mbType = rs.getString("type");
-                
-                switch(Integer.parseInt(mbType)) {
-                    case 1:
-                        mbType = "Motorbike";
-                        break;
-                    case 2:
-                        mbType = "Car";
-                        break;
-                    case 3:
-                        mbType = "Self-driving Car";
-                        break;
-                    default:
-                        mbType = "Not exist in db yet";
-                        break;
-                }
+                String mbType = setType(rs.getString("type"));
+//                
+//                switch(Integer.parseInt(mbType)) {//require an Integer
+//                    case 1:
+//                        mbType = "Motorbike";
+//                        break;
+//                    case 2:
+//                        mbType = "Car";
+//                        break;
+//                    case 3:
+//                        mbType = "Self-driving Car";
+//                        break;
+//                    default:
+//                        mbType = "Not exist in db yet";
+//                        break;
+//                }
                 
                 Boolean mbAvail = rs.getBoolean("isAvail");
                 
@@ -94,6 +93,24 @@ public class MotorbikeListController implements Initializable {
         }
         
         tblView.getItems().setAll(list); 
+    }
+    
+    private static String setType(String mtbType) {//set a type for motorbike
+        switch(Integer.parseInt(mtbType)) {//require an Integer
+            case 1:
+                mtbType = "Motorbike";
+                break;
+            case 2:
+                mtbType = "Car";
+                break;
+            case 3:
+                mtbType = "Self-Driving Car";
+                break;
+            default:
+                mtbType = "Not exist in db yet";
+                break;
+        }
+        return mtbType;
     }
     
     public static class Motorbike {

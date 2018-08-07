@@ -2,7 +2,6 @@ package garage.assistant.ui.login;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import garage.assistant.alert.AlertMaker;
 import garage.assistant.settings.Preferences;
 import garage.assistant.ui.main.MainController;
 import java.io.IOException;
@@ -18,7 +17,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -78,7 +76,6 @@ public class LoginController implements Initializable {
             stage.getIcons().add(ico);
             
             stage.show();
-            
         } catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }

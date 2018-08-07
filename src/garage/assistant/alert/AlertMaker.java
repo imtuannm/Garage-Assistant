@@ -20,7 +20,7 @@ import javafx.scene.layout.StackPane;
 
 public class AlertMaker {
 
-    public static void showSimpleAlert(String title, String content) {
+    public static void showSimpleInforAlert(String title, String content) {
         Alert altInf = new Alert(AlertType.INFORMATION);
         altInf.setTitle(title);
         altInf.setHeaderText(null);
@@ -36,6 +36,15 @@ public class AlertMaker {
         altErr.setContentText(content);
 
         altErr.showAndWait();
+    }
+    
+    public static void showSimpleErrorMessage(String title, String content) {
+        Alert altSmpErr = new Alert(AlertType.ERROR);
+        altSmpErr.setTitle("Error");
+        altSmpErr.setHeaderText(null);
+        altSmpErr.setContentText(content);
+
+        altSmpErr.showAndWait();
     }
 
     public static void showErrorMessage(Exception ex) {

@@ -7,8 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public final class DatabaseHandler {
     private static DatabaseHandler handler = null;
@@ -23,12 +21,11 @@ public final class DatabaseHandler {
 //  no classes can create direct object of this database handler
 //  so as not to conflict database handler
     private DatabaseHandler() {
-        crtConnection();
-        
+        crtConnection();      
         setupMotorbikeTable();
         setupMemberTable();
         setupIssueTable();
-        
+
         System.out.println("All set, ready to go!"); //print debug
     }
     
@@ -47,7 +44,7 @@ public final class DatabaseHandler {
             conn = DriverManager.getConnection(DB_URL, USR, PWD);
         } catch (Exception e) {//another app is running
             JOptionPane.showMessageDialog(null, "Can't load database", "Database Error", JOptionPane.ERROR_MESSAGE);
-            System.exit(0);//close the app
+            System.exit(0);//close the newer app
         }
     }
     
@@ -72,7 +69,7 @@ public final class DatabaseHandler {
                         + "}" );
             }
         } catch (SQLException e) {
-            System.err.println(e.getMessage() + "\nSetup Database");
+            System.err.println(e.getMessage() + "\nSetup MOTORBIKE Database");
         } finally {
         }
     }
@@ -96,7 +93,7 @@ public final class DatabaseHandler {
                         + "}" );
             }
         } catch (SQLException e) {
-            System.err.println(e.getMessage() + "\nSetup Database");
+            System.err.println(e.getMessage() + "\nSetup MEMBER Database");
         } finally {
         }    
     }
@@ -123,40 +120,38 @@ public final class DatabaseHandler {
                         + "}" );
             }
         } catch (SQLException e) {
-            System.err.println(e.getMessage() + "\nSetup Database");
+            System.err.println(e.getMessage() + "\nSetup ISSUE Database");
         } finally {
         }    
     }
     
     //shorting out the execute query segment
+    //SELECT, COUNT...
     public ResultSet excQuery(String query) {
         ResultSet result;
         try {
             stmt = conn.createStatement();
             result = stmt.executeQuery(query);
-        }
-        catch (SQLException ex) {
-            System.out.println("Exception at excQuery: dataHandler" + ex.getLocalizedMessage());
+        } catch (SQLException ex) {
+            System.out.println("Exception at execute Query: dataHandler" + ex.getLocalizedMessage());
             return null;
-        }
-        finally {
+        } finally {
         }
         return result; //different
     }
 
-    //insert data, crt tables,...
+    //change the tables
+    //INSERT, DELETE, UPDATE (, DROP, ALTER)...
     public boolean excAction(String qu) {
         try {
             stmt = conn.createStatement();
             stmt.execute(qu);
             return true;
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage(), "Error Occured", JOptionPane.ERROR_MESSAGE);
             System.out.println("Exception at execQuery: dataHandler" + ex.getLocalizedMessage());
             return false;
-        }
-        finally {
+        } finally {
         }
     }
     
