@@ -55,7 +55,7 @@ public class MotorbikeListController implements Initializable {
         availabilityCol.setCellValueFactory(new PropertyValueFactory<>("availability"));
     }
 
-    private void loadData() {
+    private void loadData() {//push data from db to app
         DatabaseHandler handler = DatabaseHandler.getInstance();
         
         String qu = "SELECT * FROM MOTORBIKE";
@@ -67,8 +67,8 @@ public class MotorbikeListController implements Initializable {
                 String mbProducer = rs.getString("producer");
                 String mbNname = rs.getString("name");
                 String mbColor = rs.getString("color");
-                String mbType = setType(rs.getString("type"));
-//                
+                String mbType = setType(rs.getString("type"));//shorted
+           
 //                switch(Integer.parseInt(mbType)) {//require an Integer
 //                    case 1:
 //                        mbType = "Motorbike";

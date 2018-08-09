@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import garage.assistant.settings.Preferences;
 import garage.assistant.ui.main.MainController;
+import garage.assistant.util.GarageAssistantUtil;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -71,9 +72,7 @@ public class LoginController implements Initializable {
             stage.setTitle("Garage Assistant");
             stage.setScene(new Scene(parent));
             
-            //set icon
-            Image ico = new Image("/garage/assistant/resources/garage.png");
-            stage.getIcons().add(ico);
+            GarageAssistantUtil.setStageIcon(stage);
             
             stage.show();
         } catch (IOException ex) {
