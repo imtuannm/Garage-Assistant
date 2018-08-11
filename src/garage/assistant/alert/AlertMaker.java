@@ -40,7 +40,7 @@ public class AlertMaker {
     
     public static void showSimpleErrorMessage(String title, String content) {
         Alert altSmpErr = new Alert(AlertType.ERROR);
-        altSmpErr.setTitle("Error");
+        altSmpErr.setTitle(title);
         altSmpErr.setHeaderText(null);
         altSmpErr.setContentText(content);
 

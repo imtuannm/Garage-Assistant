@@ -1,10 +1,12 @@
 package garage.assistant.ui.listmotorbike;
 
+import garage.assistant.alert.AlertMaker;
 import garage.assistant.database.DatabaseHandler;
 import garage.assistant.ui.listmotorbike.MotorbikeListController.Motorbike;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +19,9 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class MotorbikeListController implements Initializable {
@@ -92,7 +97,7 @@ public class MotorbikeListController implements Initializable {
             Logger.getLogger(MotorbikeListController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        tblView.getItems().setAll(list); 
+        tblView.setItems(list); //refresh right after delete
     }
     
     private static String setType(String mtbType) {//set a type for motorbike
@@ -111,6 +116,53 @@ public class MotorbikeListController implements Initializable {
                 break;
         }
         return mtbType;
+    }
+
+    @FXML
+    private void handleMotorbikeDeleteOption(ActionEvent event) {
+        //fetch the selected row
+        Motorbike selectedForDeletion = tblView.getSelectionModel().getSelectedItem();
+        
+        if ( selectedForDeletion == null ) {//invalid row
+            AlertMaker.showSimpleErrorMessage("No Motorbike selected", "Pls select a motor for deletion.");
+            return;
+        }
+        
+        if ( DatabaseHandler.getInstance().isMotorbikeAlreadyIssued(selectedForDeletion) ) {
+            AlertMaker.showSimpleErrorMessage("Cant delete", "This Motorbike is already in use!");
+            return;
+        }
+        
+        //confirmation
+        Alert altCfm = new Alert(Alert.AlertType.CONFIRMATION);
+        altCfm.setTitle("Deleting Motorbike");
+        altCfm.setHeaderText(null);
+        altCfm.setContentText("Are you sure want to delete " + selectedForDeletion.getName() + "?");
+        Optional<ButtonType> answer = altCfm.showAndWait();
+        if (answer.get() == ButtonType.OK) {//OK
+            Boolean res = DatabaseHandler.getInstance().deleteMotorbike(selectedForDeletion);
+            if (res) {//success
+                AlertMaker.showSimpleInforAlert("Motorbike deleted", selectedForDeletion.getName() + "was deleted!");
+                list.remove(selectedForDeletion);//remove selected one from the memory
+            } else {//fail
+                AlertMaker.showSimpleErrorMessage("Failed", selectedForDeletion.getName() + "could not be deleted!");
+            }
+        } else {//cancel
+            AlertMaker.showSimpleInforAlert("Cancelled", "Motorbike is not deleted");
+        }
+        
+    }
+
+    @FXML
+    private void handleMotorbikeEditOption(ActionEvent event) {
+        Motorbike selectedForEdit = tblView.getSelectionModel().getSelectedItem();
+        
+        if ( selectedForEdit == null ) {//invalid row
+            AlertMaker.showSimpleErrorMessage("No Motorbike selected", "Pls select a motor for edit.");
+            return;
+        }
+        
+        //TODO
     }
     
     public static class Motorbike {

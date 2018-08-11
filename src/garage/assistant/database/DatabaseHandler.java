@@ -1,19 +1,23 @@
 package garage.assistant.database;
 
+import garage.assistant.ui.listmotorbike.MotorbikeListController.Motorbike;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public final class DatabaseHandler {
     private static DatabaseHandler handler = null;
     private static final String DB_URL = "jdbc:mysql://localhost:3306/garagemanagement?useUnicode=true&characterEncoding=UTF-8";
     private static final String USR = "root";
     private static final String PWD = "toor";
-    public static Connection conn = null;
+    private static Connection conn = null;
     private static Statement stmt = null;
     
 //  PRIVATE constructor
@@ -153,6 +157,37 @@ public final class DatabaseHandler {
             return false;
         } finally {
         }
+    }
+    
+    public boolean deleteMotorbike(Motorbike motorbike) {
+        try {
+            String delStmt = "DELETE FROM MOTORBIKE WHERE idMotorbike = ?";
+            PreparedStatement stmt = conn.prepareStatement(delStmt);
+            stmt.setString(1, motorbike.getId());//first one -> 1
+            int res = stmt.executeUpdate();//insert, update, delete
+            if (res == 1) {//no exception if res == 0
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    public boolean isMotorbikeAlreadyIssued(Motorbike motorbike) {
+        try {
+            String chkStmt = "SELECT COUNT(*) FROM ISSUE WHERE id_motorbike = ?";
+            PreparedStatement stmt = conn.prepareStatement(chkStmt);
+            stmt.setString(1, motorbike.getId());//first one -> 1
+            ResultSet rs = stmt.executeQuery();
+            if ( rs.next() ) {
+                int count = rs.getInt(1);
+                return ( count > 0 );
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
     
 }
