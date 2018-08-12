@@ -163,7 +163,7 @@ public final class DatabaseHandler {
         try {
             String delStmt = "DELETE FROM MOTORBIKE WHERE idMotorbike = ?";
             PreparedStatement stmt = conn.prepareStatement(delStmt);
-            stmt.setString(1, motorbike.getId());//first one -> 1
+            stmt.setString(1, motorbike.getId());
             int res = stmt.executeUpdate();//insert, update, delete
             if (res == 1) {//no exception if res == 0
                 return true;

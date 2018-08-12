@@ -128,7 +128,7 @@ public class MotorbikeListController implements Initializable {
             return;
         }
         
-        if ( DatabaseHandler.getInstance().isMotorbikeAlreadyIssued(selectedForDeletion) ) {
+        if ( DatabaseHandler.getInstance().isMotorbikeAlreadyIssued(selectedForDeletion) ) {//in use
             AlertMaker.showSimpleErrorMessage("Cant delete", "This Motorbike is already in use!");
             return;
         }
@@ -142,10 +142,10 @@ public class MotorbikeListController implements Initializable {
         if (answer.get() == ButtonType.OK) {//OK
             Boolean res = DatabaseHandler.getInstance().deleteMotorbike(selectedForDeletion);
             if (res) {//success
-                AlertMaker.showSimpleInforAlert("Motorbike deleted", selectedForDeletion.getName() + "was deleted!");
+                AlertMaker.showSimpleInforAlert("Motorbike deleted", selectedForDeletion.getName() + " was deleted!");
                 list.remove(selectedForDeletion);//remove selected one from the memory
             } else {//fail
-                AlertMaker.showSimpleErrorMessage("Failed", selectedForDeletion.getName() + "could not be deleted!");
+                AlertMaker.showSimpleErrorMessage("Failed", selectedForDeletion.getName() + " could not be deleted!");
             }
         } else {//cancel
             AlertMaker.showSimpleInforAlert("Cancelled", "Motorbike is not deleted");
