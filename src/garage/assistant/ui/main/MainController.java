@@ -131,21 +131,6 @@ public class MainController implements Initializable {
                 Boolean mbStatus = rs.getBoolean("isAvail");
 
                 motorbikeProducer.setText(mbProducer);
-
-//                switch (mbType) {//set type
-//                case 1:
-//                    motorbikeType.setText("[Motor]");
-//                    break;
-//                case 2:
-//                    motorbikeType.setText("[Car]");
-//                    break;
-//                case 3:
-//                    motorbikeType.setText("[Self-Driving Car]");
-//                    break;
-//                default:
-//                    motorbikeType.setText("null");
-//                    break;
-//                }
                 motorbikeType.setText(setType(rs.getInt("type")));//shorted
                 motorbikeName.setText(mbName);
                 String stt = (mbStatus) ? "Available" : "NOT Available";
@@ -278,7 +263,7 @@ public class MainController implements Initializable {
         String qr = "SELECT * FROM ISSUE WHERE id_motorbike = '" + id + "'";
         ResultSet rs = dbHandler.excQuery(qr);
         try {
-            while (rs.next()) {
+            while (rs.next()) {//push infor into ObservableList
                 String mtbID = id;
                 String mmbID = rs.getString("id_member");
                 Timestamp issTime = rs.getTimestamp("issueTime");

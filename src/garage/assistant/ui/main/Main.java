@@ -28,13 +28,6 @@ public class Main extends Application {
         new Thread(() -> { //lambda expression
             DatabaseHandler.getInstance(); // <- caused the delay while opening the app
         }).start();
-        
-//        new Thread(new Runnable() {
-//            @Override
-//                public void run() {
-//                    DatabaseHandler.getInstance();
-//            }
-//        }).start();
     }
 
     public static void main(String[] args) {

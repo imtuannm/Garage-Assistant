@@ -2,7 +2,11 @@ package garage.assistant.ui.listmotorbike;
 
 import garage.assistant.alert.AlertMaker;
 import garage.assistant.database.DatabaseHandler;
+import garage.assistant.ui.addmotorbike.MotorbikeAddController;
 import garage.assistant.ui.listmotorbike.MotorbikeListController.Motorbike;
+import garage.assistant.ui.main.MainController;
+import garage.assistant.util.GarageAssistantUtil;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,9 +24,14 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class MotorbikeListController implements Initializable {
 
@@ -61,6 +70,8 @@ public class MotorbikeListController implements Initializable {
     }
 
     private void loadData() {//push data from db to app
+        list.clear();
+        
         DatabaseHandler handler = DatabaseHandler.getInstance();
         
         String qu = "SELECT * FROM MOTORBIKE";
@@ -73,22 +84,6 @@ public class MotorbikeListController implements Initializable {
                 String mbNname = rs.getString("name");
                 String mbColor = rs.getString("color");
                 String mbType = setType(rs.getString("type"));//shorted
-           
-//                switch(Integer.parseInt(mbType)) {//require an Integer
-//                    case 1:
-//                        mbType = "Motorbike";
-//                        break;
-//                    case 2:
-//                        mbType = "Car";
-//                        break;
-//                    case 3:
-//                        mbType = "Self-driving Car";
-//                        break;
-//                    default:
-//                        mbType = "Not exist in db yet";
-//                        break;
-//                }
-                
                 Boolean mbAvail = rs.getBoolean("isAvail");
                 
                 list.add(new Motorbike(mbId, mbProducer, mbNname, mbType, mbColor, mbAvail));
@@ -155,14 +150,31 @@ public class MotorbikeListController implements Initializable {
 
     @FXML
     private void handleMotorbikeEditOption(ActionEvent event) {
+        //fetch the selected motorbike
         Motorbike selectedForEdit = tblView.getSelectionModel().getSelectedItem();
         
-        if ( selectedForEdit == null ) {//invalid row
+        if (selectedForEdit == null) {//invalid row
             AlertMaker.showSimpleErrorMessage("No Motorbike selected", "Pls select a motor for edit.");
             return;
         }
         
-        //TODO
+        try {
+            //creating a loader object
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/garage/assistant/ui/addmotorbike/add_motorbike.fxml"));
+            Parent parent = loader.load();//then load it
+            
+            //MotorbikeAddController controller = (MotorbikeAddController) loader.getController();
+            //controller.inflateUI(selectedForEdit);
+            
+            Stage stage = new Stage(StageStyle.DECORATED);
+            stage.setTitle("Edit Motorbike");
+            stage.setScene(new Scene(parent));
+            GarageAssistantUtil.setStageIcon(stage);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
     
     public static class Motorbike {

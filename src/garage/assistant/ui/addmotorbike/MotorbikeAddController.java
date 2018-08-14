@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import garage.assistant.alert.AlertMaker;
 import garage.assistant.database.DatabaseHandler;
+import garage.assistant.ui.listmotorbike.MotorbikeListController;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -42,7 +43,6 @@ public class MotorbikeAddController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         dbHandler = DatabaseHandler.getInstance();
-        
         checkData();
     }    
 
@@ -100,5 +100,16 @@ public class MotorbikeAddController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(MotorbikeAddController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    //use in MotorbikeListController
+    public void inflateUI(MotorbikeListController.Motorbike motorbike) {
+        txtId.setText(motorbike.getId());
+        txtProducer.setText(motorbike.getProducer());
+        txtName.setText(motorbike.getName());
+        txtType.setText(motorbike.getType());
+        txtColor.setText(motorbike.getColor());
+        
+        txtId.setEditable(false);//cant edit the primary key
     }
 }
