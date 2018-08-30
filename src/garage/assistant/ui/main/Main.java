@@ -21,7 +21,7 @@ public class Main extends Application {
         GarageAssistantUtil.setStageIcon(stage);
         stage.setTitle("Garage Assistant");
         stage.show();
-        
+
         //for better performance
         //create a multi-thread so as not to affect the UI
         new Thread(() -> { //lambda expression

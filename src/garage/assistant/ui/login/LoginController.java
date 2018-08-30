@@ -16,8 +16,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -30,8 +28,6 @@ public class LoginController implements Initializable {
     private JFXPasswordField password;
     
     Preferences preference; //store the username & pass
-    @FXML
-    private Label titleLabel;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -40,18 +36,15 @@ public class LoginController implements Initializable {
 
     @FXML
     private void handleLoginButtonAction(ActionEvent event) {
-        titleLabel.setText("Garage Assistand Log in");
-        titleLabel.setStyle("-fx-background-color:BLACK;-fx-text-fill:WHITE");
-
         String usrName = username.getText();
         String pass = DigestUtils.shaHex(password.getText());//compare with the stored password in config file
     
         if(usrName.equals(preference.getUsername()) && pass.equals(preference.getPassword())) {
             closeStage();
             loadMain();
-        } else {
-            titleLabel.setText("Invalid input");
-            titleLabel.setStyle("-fx-background-color:#e74c3c;-fx-text-fill:WHITE");
+        } else {//inform user that entered wrong credentials
+            username.getStyleClass().add("wrong-credentials");
+            password.getStyleClass().add("wrong-credentials");
         }
     }
 
@@ -69,7 +62,7 @@ public class LoginController implements Initializable {
         try {
             Parent parent  = FXMLLoader.load(getClass().getResource("/garage/assistant/ui/main/main.fxml"));
             Stage stage = new Stage(StageStyle.DECORATED);
-            stage.setTitle("Garage Assistant");
+            stage.setTitle("Garage Assistant");    
             stage.setScene(new Scene(parent));
             
             GarageAssistantUtil.setStageIcon(stage);

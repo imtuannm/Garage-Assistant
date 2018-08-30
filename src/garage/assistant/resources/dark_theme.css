@@ -1,0 +1,48 @@
+/* 
+    Created on : Aug 30, 2018, 7:02:40 PM
+    Author     : root
+*/
+
+/* 
+    global setting
+*/
+* {
+    -fx-primarytext: #C8D0DC;
+    
+    -fx-primary: #2A2E37;
+    -fx-secondary: #0BF9FE;
+    -fx-wrong: #E452E4;
+}
+
+.root {
+    -fx-background-color: -fx-primary;
+}
+
+.buton {
+    -fx-text-fill: -fx-primarytext;
+}
+
+/*Login Button specific*/
+.login-button {
+    -fx-border-color: -fx-secondary;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-text-fill: -fx-primarytext;
+}
+
+.login-button:hover {
+    -fx-border-color: -fx-secondary;
+    -fx-background-color: -fx-secondary;
+    -fx-text-fill: -fx-primary;
+}
+
+.wrong-credentials {
+    -jfx-unfocus-color: -fx-wrong;
+    -jfx-focus-color: -fx-wrong;
+}
+
+.text-field {
+    -fx-text-fill: -fx-primarytext;
+    -jfx-focus-color: -fx-secondary;
+}
+
