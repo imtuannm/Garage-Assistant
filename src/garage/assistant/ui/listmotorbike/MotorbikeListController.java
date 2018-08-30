@@ -91,7 +91,6 @@ public class MotorbikeListController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(MotorbikeListController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
         tblView.setItems(list); //refresh right after delete
     }
     
@@ -145,9 +144,9 @@ public class MotorbikeListController implements Initializable {
         } else {//cancel
             AlertMaker.showSimpleInforAlert("Cancelled", "Motorbike is not deleted");
         }
-        
     }
 
+    //TODO
     @FXML
     private void handleMotorbikeEditOption(ActionEvent event) {
         //fetch the selected motorbike
@@ -163,18 +162,28 @@ public class MotorbikeListController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/garage/assistant/ui/addmotorbike/add_motorbike.fxml"));
             Parent parent = loader.load();//then load it
             
-            //MotorbikeAddController controller = (MotorbikeAddController) loader.getController();
-            //controller.inflateUI(selectedForEdit);
+//          //need to check
+            MotorbikeAddController controller = (MotorbikeAddController)loader.getController();
+            controller.inflateUI(selectedForEdit);
             
             Stage stage = new Stage(StageStyle.DECORATED);
             stage.setTitle("Edit Motorbike");
             stage.setScene(new Scene(parent));
             GarageAssistantUtil.setStageIcon(stage);
             stage.show();
+            
+            stage.setOnCloseRequest((e) -> {//refresh after edit (setOnCloseRequest)
+                handleRefresh(new ActionEvent());
+            });
         } catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+    
+    @FXML
+    private void handleRefresh(ActionEvent event) {
+        loadData();
     }
     
     public static class Motorbike {

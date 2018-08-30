@@ -4,12 +4,12 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import garage.assistant.alert.AlertMaker;
 import garage.assistant.database.DatabaseHandler;
+import garage.assistant.ui.listmember.MemberListController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -31,6 +31,8 @@ public class MemberAddController implements Initializable {
     private JFXButton btnCancel;
     @FXML
     private AnchorPane rootPanez;
+    
+    private boolean isInEditMode = Boolean.FALSE;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -47,10 +49,12 @@ public class MemberAddController implements Initializable {
         Boolean flag = id.isEmpty() || name.isEmpty() || mobile.isEmpty() || email.isEmpty();
         
         if ( flag ) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText(null);
-            alert.setContentText("Please fill in all fields!");
-            alert.showAndWait();
+            AlertMaker.showSimpleErrorMessage("Can't process Member", "Pls fill in all fields");
+            return;
+        }
+        
+        if(isInEditMode) {
+            handleUpdateMember();
             return;
         }
         
@@ -73,6 +77,25 @@ public class MemberAddController implements Initializable {
     private void actCancel(ActionEvent event) {
         Stage stage = (Stage) rootPanez.getScene().getWindow();
         stage.close();
+    }
+    
+    public void inflateUI(MemberListController.Member member) {
+        txtId.setText(member.getId());
+        txtName.setText(member.getName());
+        txtMobile.setText(member.getMobile());
+        txtEmail.setText(member.getEmail());
+        
+        txtId.setEditable(Boolean.FALSE);//cant edit the primary key
+        isInEditMode = Boolean.TRUE;
+    }
+
+    private void handleUpdateMember() {
+        MemberListController.Member member = new MemberListController.Member(txtId.getText(), txtName.getText(), txtMobile.getText(), txtEmail.getText());
+        if ( handler.updateMember(member) ) {
+            AlertMaker.showSimpleInforAlert("Success", "Member updated!");
+        } else {
+            AlertMaker.showSimpleErrorMessage("Failed", "Cant update member!");
+        }
     }
     
 }

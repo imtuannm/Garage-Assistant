@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="garage.assistant.ui.listmember.MemberListController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.ui.listmember.MemberListController">
     <stylesheets>
         <URL value="@member_list.css" />
     </stylesheets>
@@ -22,6 +22,15 @@
             <TableColumn fx:id="mobileCol" prefWidth="75.0" text="Mobile" />
             <TableColumn fx:id="emailCol" prefWidth="75.0" text="Email" />
          </columns>
+         <contextMenu>
+            <ContextMenu>
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#handleMemberEdit" text="Edit" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleMemberDelete" text="Delete" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleRefresh" text="Refresh" />
+              </items>
+            </ContextMenu>
+         </contextMenu>
       </TableView>
    </children>
 </AnchorPane>

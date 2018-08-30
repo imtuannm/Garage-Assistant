@@ -36,7 +36,8 @@ public class MotorbikeAddController implements Initializable {
     private JFXButton btnCancel;
     @FXML
     private AnchorPane rootPane;
-    
+
+    private boolean isInEditMode = Boolean.FALSE;
     DatabaseHandler dbHandler;
     
     @Override
@@ -62,6 +63,11 @@ public class MotorbikeAddController implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("Please fill in all fields!");
             alert.showAndWait();
+            return;
+        }
+        
+        if (isInEditMode) {
+            handleEditOperation();
             return;
         }
         
@@ -102,14 +108,35 @@ public class MotorbikeAddController implements Initializable {
         }
     }
     
-    //use in MotorbikeListController
+    //reuse in MotorbikeListController
     public void inflateUI(MotorbikeListController.Motorbike motorbike) {
         txtId.setText(motorbike.getId());
         txtProducer.setText(motorbike.getProducer());
         txtName.setText(motorbike.getName());
-        txtType.setText(motorbike.getType());
+        
+//        txtType.setText(String.valueOf(motorbike.getType()));
+        
+        switch(Integer.parseInt(motorbike.getType())) {//require an Integer
+            case 1:
+                txtType.setText("Motorbike");
+                break;
+            case 2:
+                txtType.setText("Car");
+                break;
+            case 3:
+                txtType.setText("Self-Driving Car");
+                break;
+            default:
+                txtType.setText("Not exist in db yet");
+                break;
+        }
+        
         txtColor.setText(motorbike.getColor());
         
         txtId.setEditable(false);//cant edit the primary key
+        isInEditMode = Boolean.TRUE;
+    }
+    
+    private void handleEditOperation() {
     }
 }

@@ -1,5 +1,6 @@
 package garage.assistant.database;
 
+import garage.assistant.ui.listmember.MemberListController;
 import garage.assistant.ui.listmotorbike.MotorbikeListController.Motorbike;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -60,7 +61,7 @@ public final class DatabaseHandler {
             DatabaseMetaData dbm = conn.getMetaData(); //access metadata of the table
             ResultSet tables = dbm.getTables(null, null, TABLE_NAME.toUpperCase(), null);
             
-            if ( tables.next() ) {
+            if ( tables.next() ) { //already exist
                 System.out.println("The table " + TABLE_NAME + " already exists.");
             } else {
                 stmt.execute("CREATE TABLE " + TABLE_NAME + "{"
@@ -171,7 +172,7 @@ public final class DatabaseHandler {
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
+        return false;  
     }
     
     public boolean isMotorbikeAlreadyIssued(Motorbike motorbike) {
@@ -190,4 +191,71 @@ public final class DatabaseHandler {
         return false;
     }
     
+        public boolean isMemberHasAnyMotorbikes(MemberListController.Member member) {
+        try {
+            String checkstmt = "SELECT COUNT(*) FROM ISSUE WHERE id_member = ?";
+            PreparedStatement stmt = conn.prepareStatement(checkstmt);
+            
+            stmt.setString(1, member.getId());
+            
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                System.out.println(count);
+                return (count > 0);
+            }
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    public boolean updateMotorbike(Motorbike motorbike) {
+        try {
+            String strUpd = "UPDATE MOTORBIKE SET producer = ?, name = ?, type = ?, color = ? WHERE idMotorbike = ?";
+            PreparedStatement stmt = conn.prepareStatement(strUpd);
+            
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    public boolean updateMember(MemberListController.Member member) {
+        try {
+            String strUpd = "UPDATE MEMBER SET name = ?, mobile = ?, email = ? WHERE idMember = ?";
+            PreparedStatement stmt = conn.prepareStatement(strUpd);
+            
+            stmt.setString(1, member.getName());
+            stmt.setString(2, member.getMobile());
+            stmt.setString(3, member.getEmail());
+            stmt.setString(4, member.getId());
+            
+            int res = stmt.executeUpdate();
+            
+            return (res > 0); //check if succcessful or not
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public Boolean deleteMember(MemberListController.Member member) {
+        try {
+            String delStmt = "DELETE FROM MEMBER WHERE idMember = ?";
+            PreparedStatement stmt = conn.prepareStatement(delStmt);
+            
+            stmt.setString(1, member.getId());
+            
+            int res = stmt.executeUpdate();//insert, update, delete
+            if (res == 1) {//no exception if res == 0
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false; 
+    }
 }

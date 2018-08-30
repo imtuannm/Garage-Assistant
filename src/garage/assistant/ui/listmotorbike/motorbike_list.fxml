@@ -29,6 +29,7 @@
               <items>
                   <MenuItem mnemonicParsing="false" onAction="#handleMotorbikeEditOption" text="Edit" />
                 <MenuItem mnemonicParsing="false" onAction="#handleMotorbikeDeleteOption" text="Delete" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleRefresh" text="Refresh" />
               </items>
             </ContextMenu>
          </contextMenu>
