@@ -4,38 +4,37 @@
 */
 
 /* 
-    global setting
+    GLOBAL SETTINGS
 */
+
 * {
-    -fx-primarytext: #C8D0DC;
+    -fx-primarytext: #C8D0DC; /*gray's steam'*/
     
-    -fx-primary: #2A2E37;
-    -fx-secondary: #0BF9FE;
-    -fx-wrong: #E452E4;
+    -fx-primary: #2A2E37; /*dark background*/
+    -fx-secondary: #0BF9FE; /*blue's alienware*/
+    -fx-wrong: #E452E4; /*pink's alienware*/
 }
 
 .root {
     -fx-background-color: -fx-primary;
 }
 
-.buton {
+.button {
     -fx-text-fill: -fx-primarytext;
-}
+    -fx-background-color: -fx-primary;
 
-/*Login Button specific*/
-.login-button {
     -fx-border-color: -fx-secondary;
     -fx-border-radius: 20px;
     -fx-background-radius: 20px;
-    -fx-text-fill: -fx-primarytext;
 }
 
-.login-button:hover {
+.button:hover {
     -fx-border-color: -fx-secondary;
     -fx-background-color: -fx-secondary;
     -fx-text-fill: -fx-primary;
 }
 
+/*Login Button specific*/
 .wrong-credentials {
     -jfx-unfocus-color: -fx-wrong;
     -jfx-focus-color: -fx-wrong;
@@ -46,3 +45,67 @@
     -jfx-focus-color: -fx-secondary;
 }
 
+/*
+    MAIN SCREEN
+*/
+
+/*TabPane*/
+.tab {
+    -fx-background-color: -fx-primary;
+    
+    -fx-pref-width: 310;
+    -fx-pref-hight: 50;
+}
+
+.tab-header-background {
+    -fx-background-color: -fx-primary;
+}
+
+.tab-selected-line {
+    -fx-border-color: -fx-secondary;
+}
+
+/*
+change defalt color of rippler-fill from yellow
+https://github.com/jfoenixadmin/JFoenix/blob/cf28a9ff3a36ffeb36897e69e5ef907a7a10e43d/jfoenix/src/main/resources/css/controls/jfx-tab-pane.css
+*/
+.jfx-tab-pane .headers-region > .tab > .jfx-rippler {
+    -jfx-rippler-fill: -fx-secondary;
+}
+
+/*Menubar*/
+.menu-bar {
+    -fx-base: -fx-primary;
+    -fx-background-color: -fx-primary;
+}
+
+.context-menu {
+    -fx-background-color: derive(-fx-primary, 0.1); /*10% lighter*/
+}
+
+/*Hamburger*/
+.jfx-hamburger-icon {
+    -fx-spacing: 10;
+}
+
+.jfx-hamburger-icon StackPane{ /*inside the StackPane*/
+    -fx-background-color: -fx-secondary;
+    -fx-background-radius: 5px; /*border*/
+}
+
+
+/*Toolbar*/
+.toolbar-buttons {
+    -fx-background-color: derive(-fx-primary, 0.2); /*20% lighter*/
+    -fx-border-color: derive(-fx-primary, 0.2);
+    -fx-border-radius: 0px;
+    -fx-background-radius: 0px;
+}
+
+.toolbar-buttons:hover {
+    -fx-background-color: -fx-secondary; /*20% lighter*/
+    -fx-border-color: derive(-fx-primary, 0.2);
+    -fx-text-fill: -fx-primary;
+    -fx-border-radius: 0px;
+    -fx-background-radius: 0px;
+}

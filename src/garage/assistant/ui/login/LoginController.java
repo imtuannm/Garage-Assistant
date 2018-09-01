@@ -64,7 +64,6 @@ public class LoginController implements Initializable {
             Stage stage = new Stage(StageStyle.DECORATED);
             stage.setTitle("Garage Assistant");    
             stage.setScene(new Scene(parent));
-            
             GarageAssistantUtil.setStageIcon(stage);
             
             stage.show();

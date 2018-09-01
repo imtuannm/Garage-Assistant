@@ -19,7 +19,7 @@ public class Main extends Application {
         
         stage.setScene(scene);
         GarageAssistantUtil.setStageIcon(stage);
-        stage.setTitle("Garage Assistant");
+        stage.setTitle("Garage Assistant Login");
         stage.show();
 
         //for better performance

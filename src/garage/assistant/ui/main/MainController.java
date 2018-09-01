@@ -1,7 +1,10 @@
 package garage.assistant.ui.main;
 
+import com.jfoenix.controls.JFXDrawer;
+import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.effects.JFXDepthManager;
+import com.jfoenix.transitions.hamburger.*;
 import garage.assistant.alert.AlertMaker;
 import garage.assistant.database.DatabaseHandler;
 import garage.assistant.util.GarageAssistantUtil;
@@ -17,6 +20,9 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -26,8 +32,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -60,6 +68,10 @@ public class MainController implements Initializable {
     private ListView<String> lsvIssueData;
     @FXML
     private JFXTextField motorID;
+    @FXML
+    private JFXHamburger hamburger;
+    @FXML
+    private JFXDrawer drawer;
 
     Boolean isReadyForSubmission = false;
     DatabaseHandler dbHandler;
@@ -67,52 +79,12 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //UI - set depth
-        JFXDepthManager.setDepth(motorbike_info, 1); //0 - 5
-        JFXDepthManager.setDepth(member_info, 1);
+//        JFXDepthManager.setDepth(motorbike_info, 2); //0 - 5
+//        JFXDepthManager.setDepth(member_info, 2);
 
         dbHandler = DatabaseHandler.getInstance();
-    }
-
-    @FXML
-    private void loadAddMember(ActionEvent event) {
-        loadWindow("/garage/assistant/ui/addmember/member_add.fxml", "Add new Member");
-    }
-
-    @FXML
-    private void loadAddMotorbike(ActionEvent event) {
-        loadWindow("/garage/assistant/ui/addmotorbike/add_motorbike.fxml", "Add new Motorbike");
-    }
-
-    @FXML
-    private void loadMemberTable(ActionEvent event) {
-        loadWindow("/garage/assistant/ui/listmember/member_list.fxml", "All Member");
-    }
-
-    @FXML
-    private void loadMotorbikeTable(ActionEvent event) {
-        loadWindow("/garage/assistant/ui/listmotorbike/motorbike_list.fxml", "All Motorbike");
-    }
-
-    @FXML
-    private void loadSettings(ActionEvent event) {
-        loadWindow("/garage/assistant/settings/settings.fxml", "Settings");
-    }
-
-    //call another window in-app
-    void loadWindow(String dirLct, String title) {
-        try {
-            Parent parent = FXMLLoader.load(getClass().getResource(dirLct));
-            Stage stage = new Stage(StageStyle.DECORATED);
-            stage.setTitle(title);
-            stage.setScene(new Scene(parent));
-
-            //set universal icon
-            GarageAssistantUtil.setStageIcon(stage);
-            
-            stage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+        initDrawer();
     }
 
     @FXML
@@ -366,28 +338,49 @@ public class MainController implements Initializable {
 
     @FXML
     private void handleMenuAddMember(ActionEvent event) {
-        loadWindow("/garage/assistant/ui/addmember/member_add.fxml", "Add new Member");
+        GarageAssistantUtil.loadWindow(getClass().getResource("/garage/assistant/ui/addmember/member_add.fxml"), "Add new Member", null);
     }
 
     @FXML
     private void handleMenuAddMotorbike(ActionEvent event) {
-        loadWindow("/garage/assistant/ui/addmotorbike/add_motorbike.fxml", "Add new Motorbike");
+        GarageAssistantUtil.loadWindow(getClass().getResource("/garage/assistant/ui/addmotorbike/add_motorbike.fxml"), "Add new Motorbike", null);
     }
 
     @FXML
     private void handleMenuViewMembers(ActionEvent event) {
-        loadWindow("/garage/assistant/ui/listmember/member_list.fxml", "All Member");
+        GarageAssistantUtil.loadWindow(getClass().getResource("/garage/assistant/ui/listmember/member_list.fxml"), "All Member", null);
     }
 
     @FXML
     private void handleMenuViewMotorbikes(ActionEvent event) {
-        loadWindow("/garage/assistant/ui/listmotorbike/motorbike_list.fxml", "All Motorbike");
+        GarageAssistantUtil.loadWindow(getClass().getResource("/garage/assistant/ui/listmotorbike/motorbike_list.fxml"), "All Motorbike", null);
     }
 
     @FXML
     private void handleMenuFullScreen(ActionEvent event) {
         Stage stage = ((Stage) rootPane.getScene().getWindow());
         stage.setFullScreen(!stage.isFullScreen());//toggle full screen & no full screen 
+    }
+
+    private void initDrawer() {
+        try {
+            VBox toolbar = FXMLLoader.load(getClass().getResource("/garage/assistant/ui/main/toolbar/toolbar.fxml"));
+            drawer.setSidePane(toolbar); //call VBox toolbar
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        HamburgerSlideCloseTransition task =  new HamburgerSlideCloseTransition(hamburger);
+        task.setRate(-1); //use for toggle icon
+        hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, (Event event) -> {
+            task.setRate(task.getRate() * -1); //toggle icon
+            task.play(); //call the toolbar
+            
+            if(drawer.isClosed()) {
+                drawer.open();
+            } else {
+                drawer.close();
+            }
+        });
     }
 
 }

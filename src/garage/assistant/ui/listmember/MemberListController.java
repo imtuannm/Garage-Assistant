@@ -97,7 +97,7 @@ public class MemberListController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/garage/assistant/ui/addmember/member_add.fxml"));
             Parent parent = loader.load();//then load it
             
-//          need to check
+            //load data to edit
             MemberAddController controller = (MemberAddController)loader.getController();
             controller.inflateUI(selectedForEdit);
             
@@ -107,7 +107,7 @@ public class MemberListController implements Initializable {
             GarageAssistantUtil.setStageIcon(stage);
             stage.show();
             
-            stage.setOnCloseRequest((e) -> {//refresh after edit (setOnCloseRequest)
+            stage.setOnCloseRequest((e) -> {//refresh right after edit (setOnCloseRequest)
                 handleRefresh(new ActionEvent());
             });
         } catch (IOException ex) {

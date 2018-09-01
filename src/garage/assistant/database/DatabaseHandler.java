@@ -191,7 +191,7 @@ public final class DatabaseHandler {
         return false;
     }
     
-        public boolean isMemberHasAnyMotorbikes(MemberListController.Member member) {
+    public boolean isMemberHasAnyMotorbikes(MemberListController.Member member) {
         try {
             String checkstmt = "SELECT COUNT(*) FROM ISSUE WHERE id_member = ?";
             PreparedStatement stmt = conn.prepareStatement(checkstmt);

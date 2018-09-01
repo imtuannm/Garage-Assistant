@@ -11,11 +11,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="547.0" prefWidth="782.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.ui.main.MainController">
+<StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="547.0" prefWidth="782.0" stylesheets="@../../resources/dark_theme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.ui.main.MainController">
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0">
          <top>
-            <MenuBar BorderPane.alignment="CENTER">
+            <MenuBar stylesheets="@../../resources/dark_theme.css" BorderPane.alignment="CENTER">
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
@@ -48,171 +48,128 @@
               </menus>
             </MenuBar>
          </top>
-         <right>
-            <VBox prefHeight="475.0" prefWidth="150.0" BorderPane.alignment="CENTER">
-               <children>
-                  <JFXButton contentDisplay="TOP" mnemonicParsing="false" onAction="#loadAddMember" prefHeight="150.0" prefWidth="150.0" styleClass="menulist-button" stylesheets="@main.css" text="Add Member">
-                     <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../resources/member.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadAddMotorbike" prefHeight="150.0" prefWidth="150.0" styleClass="menulist-button" stylesheets="@main.css" text="Add Motorbike">
-                     <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../resources/mobtorbike.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="92.0" mnemonicParsing="false" onAction="#loadMemberTable" prefHeight="150.0" prefWidth="150.0" styleClass="menulist-button" stylesheets="@main.css" text="All Members">
-                     <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../resources/member_list.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadMotorbikeTable" prefHeight="150.0" prefWidth="150.0" styleClass="menulist-button" stylesheets="@main.css" text="All Motorbikes">
-                     <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../resources/motorbile_list.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="256.0" mnemonicParsing="false" onAction="#loadSettings" prefHeight="150.0" prefWidth="150.0" styleClass="menulist-button" stylesheets="@main.css" text="Setting">
-                     <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../resources/setting.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-               </children>
-            </VBox>
-         </right>
          <center>
-            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-              <tabs>
-                <Tab text="Issuing">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <VBox prefHeight="446.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane>
+               <children>
+                  <JFXTabPane stylesheets="@../../resources/dark_theme.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
+                     <tabs>
+                        <Tab text="Motorbike Issue">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <HBox fx:id="motorbike_info" alignment="CENTER" prefHeight="200.0" prefWidth="600.0" spacing="10.0" style="-fx-background-color: #f1f2f6;" stylesheets="@main.css">
+                                    <VBox prefHeight="487.0" prefWidth="701.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-69.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <JFXTextField fx:id="motorbikeIdInput" labelFloat="true" onAction="#loadMotorbikeInfo" promptText="Motorbike's ID" />
-                                          <VBox alignment="CENTER" prefHeight="212.0" prefWidth="396.0" spacing="10.0">
+                                          <HBox fx:id="motorbike_info" alignment="CENTER" prefHeight="200.0" prefWidth="600.0" spacing="10.0" stylesheets="@main.css">
                                              <children>
-                                                <Text fx:id="motorbikeType" layoutX="10.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type" textAlignment="CENTER" wrappingWidth="376.13671875" />
-                                                <Text fx:id="motorbikeProducer" strokeType="OUTSIDE" strokeWidth="0.0" text="Producer" textAlignment="CENTER" wrappingWidth="376.13671875" />
-                                                <Text fx:id="motorbikeName" layoutX="10.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" textAlignment="CENTER" wrappingWidth="376.13671875" />
-                                                <Text fx:id="motorbikeStatus" layoutX="20.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status" textAlignment="CENTER" wrappingWidth="376.13671875" />
+                                                <JFXTextField fx:id="motorbikeIdInput" labelFloat="true" onAction="#loadMotorbikeInfo" prefHeight="25.0" prefWidth="185.0" promptText="Motorbike's ID" />
+                                                <VBox alignment="CENTER" prefHeight="160.0" prefWidth="430.0" spacing="10.0" stylesheets="@../../resources/dark_theme.css">
+                                                   <children>
+                                                      <Text fx:id="motorbikeType" layoutX="10.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type" textAlignment="CENTER" wrappingWidth="376.13671875" />
+                                                      <Text fx:id="motorbikeProducer" strokeType="OUTSIDE" strokeWidth="0.0" text="Producer" textAlignment="CENTER" wrappingWidth="376.13671875" />
+                                                      <Text fx:id="motorbikeName" layoutX="10.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" textAlignment="CENTER" wrappingWidth="376.13671875" />
+                                                      <Text fx:id="motorbikeStatus" layoutX="20.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status" textAlignment="CENTER" wrappingWidth="376.13671875" />
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </VBox>
                                              </children>
                                              <padding>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                <Insets bottom="15.0" left="15.0" right="20.0" top="15.0" />
                                              </padding>
-                                          </VBox>
-                                       </children>
-                                       <padding>
-                                          <Insets bottom="15.0" left="15.0" right="20.0" top="15.0" />
-                                       </padding>
-                                       <VBox.margin>
-                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                       </VBox.margin>
-                                    </HBox>
-                                    <HBox fx:id="member_info" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="600.0" spacing="10.0" style="-fx-background-color: #f1f2f6;">
-                                       <children>
-                                          <JFXTextField fx:id="memberIdInput" labelFloat="true" onAction="#loadMemberInfo" promptText="Member's ID" />
-                                          <VBox alignment="CENTER" prefHeight="212.0" prefWidth="396.0" spacing="10.0">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox fx:id="member_info" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="600.0" spacing="10.0">
                                              <children>
-                                                <Text fx:id="memberName" strokeType="OUTSIDE" strokeWidth="0.0" text="Member name" textAlignment="CENTER" wrappingWidth="376.13671875" />
-                                                <Text fx:id="memberMobile" layoutX="10.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mobile" textAlignment="CENTER" wrappingWidth="376.13671875" />
+                                                <JFXTextField fx:id="memberIdInput" labelFloat="true" onAction="#loadMemberInfo" prefHeight="25.0" prefWidth="185.0" promptText="Member's ID" />
+                                                <VBox alignment="CENTER" prefHeight="160.0" prefWidth="430.0" spacing="10.0" stylesheets="@../../resources/dark_theme.css">
+                                                   <children>
+                                                      <Text fx:id="memberName" strokeType="OUTSIDE" strokeWidth="0.0" text="Member name" textAlignment="CENTER" wrappingWidth="376.13671875" />
+                                                      <Text fx:id="memberMobile" layoutX="10.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mobile" textAlignment="CENTER" wrappingWidth="376.13671875" />
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </VBox>
                                              </children>
                                              <padding>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                <Insets bottom="15.0" left="15.0" right="20.0" top="15.0" />
                                              </padding>
-                                          </VBox>
+                                             <VBox.margin>
+                                                <Insets left="10.0" right="10.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                             <children>
+                                                <JFXButton onAction="#loadIssueOperation" prefHeight="40.0" prefWidth="90.0" styleClass="login-button" stylesheets="@../../resources/dark_theme.css" text="Issue!" />
+                                             </children>
+                                          </HBox>
                                        </children>
-                                       <padding>
-                                          <Insets bottom="15.0" left="15.0" right="20.0" top="15.0" />
-                                       </padding>
-                                       <VBox.margin>
-                                          <Insets left="10.0" right="10.0" />
-                                       </VBox.margin>
-                                    </HBox>
-                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                       <children>
-                                          <JFXButton onAction="#loadIssueOperation" prefHeight="40.0" prefWidth="90.0" styleClass="setup-button" stylesheets="@main.css" text="Issue!" />
-                                       </children>
-                                    </HBox>
+                                    </VBox>
                                  </children>
-                              </VBox>
-                           </children>
-                        </AnchorPane>
-                  </content>
-                </Tab>
-                <Tab text="Renew / Submission">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <BorderPane layoutX="95.0" layoutY="70.0" prefHeight="446.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <top>
-                                    <JFXTextField fx:id="motorID" labelFloat="true" onAction="#loadIssueInfo" prefHeight="25.0" prefWidth="265.0" promptText="Motorbike's ID" BorderPane.alignment="CENTER">
-                                       <BorderPane.margin>
-                                          <Insets bottom="20.0" left="170.0" right="170.0" top="15.0" />
-                                       </BorderPane.margin>
-                                    </JFXTextField>
-                                 </top>
-                                 <center>
-                                    <ListView fx:id="lsvIssueData" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                                       <padding>
-                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                       </padding>
-                                       <BorderPane.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </BorderPane.margin>
-                                    </ListView>
-                                 </center>
-                                 <bottom>
-                                    <HBox alignment="CENTER" prefHeight="60.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-                                       <children>
-                                          <JFXButton onAction="#loadRenewOperation" prefHeight="40.0" prefWidth="90.0" styleClass="setup-button" stylesheets="@main.css" text="Renew">
-                                             <HBox.margin>
-                                                <Insets right="10.0" />
-                                             </HBox.margin>
-                                          </JFXButton>
-                                          <JFXButton onAction="#loadSubmissionOperation" prefHeight="40.0" prefWidth="90.0" styleClass="setup-button" stylesheets="@main.css" text="Submission">
-                                             <HBox.margin>
-                                                <Insets right="10.0" />
-                                             </HBox.margin>
-                                          </JFXButton>
-                                       </children>
-                                       <padding>
-                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                       </padding>
-                                       <BorderPane.margin>
-                                          <Insets />
-                                       </BorderPane.margin>
-                                    </HBox>
-                                 </bottom>
-                              </BorderPane>
-                           </children>
-                        </AnchorPane>
-                  </content>
-                </Tab>
-              </tabs>
-            </TabPane>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                        <Tab text="Renew / Submission">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <BorderPane layoutX="95.0" layoutY="70.0" prefHeight="446.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <bottom>
+                                          <HBox alignment="CENTER" prefHeight="60.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                                             <children>
+                                                <JFXButton onAction="#loadRenewOperation" prefHeight="40.0" prefWidth="90.0" styleClass="login-button" stylesheets="@../../resources/dark_theme.css" text="Renew">
+                                                   <HBox.margin>
+                                                      <Insets right="10.0" />
+                                                   </HBox.margin>
+                                                </JFXButton>
+                                                <JFXButton onAction="#loadSubmissionOperation" prefHeight="40.0" prefWidth="90.0" styleClass="login-button" stylesheets="@../../resources/dark_theme.css" text="Submission">
+                                                   <HBox.margin>
+                                                      <Insets right="10.0" />
+                                                   </HBox.margin>
+                                                </JFXButton>
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </padding>
+                                             <BorderPane.margin>
+                                                <Insets />
+                                             </BorderPane.margin>
+                                          </HBox>
+                                       </bottom>
+                                       <center>
+                                          <ListView fx:id="lsvIssueData" prefHeight="357.0" prefWidth="676.0" BorderPane.alignment="CENTER">
+                                             <padding>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </padding>
+                                             <BorderPane.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </BorderPane.margin>
+                                          </ListView>
+                                       </center>
+                                       <top>
+                                          <JFXTextField fx:id="motorID" labelFloat="true" onAction="#loadIssueInfo" prefHeight="25.0" prefWidth="265.0" promptText="Motorbike's ID" BorderPane.alignment="CENTER">
+                                             <BorderPane.margin>
+                                                <Insets bottom="20.0" left="170.0" right="170.0" top="15.0" />
+                                             </BorderPane.margin>
+                                          </JFXTextField>
+                                       </top>
+                                    </BorderPane>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                     </tabs>
+                  </JFXTabPane>
+                  <JFXHamburger fx:id="hamburger" styleClass="jfx-hamburger-icon" stylesheets="@../../resources/dark_theme.css" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="40.0" />
+               </children>
+            </AnchorPane>
          </center>
+         <right>
+            <JFXDrawer fx:id="drawer" defaultDrawerSize="150.0" direction="RIGHT" prefHeight="522.0" prefWidth="150.0" stylesheets="@../../resources/dark_theme.css" BorderPane.alignment="CENTER" />
+         </right>
       </BorderPane>
    </children>
 </StackPane>
