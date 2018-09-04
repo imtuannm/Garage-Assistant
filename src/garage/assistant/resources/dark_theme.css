@@ -21,6 +21,7 @@
 
 .button {
     -fx-text-fill: -fx-primarytext;
+    -fx-font-size: 12pt;
     -fx-background-color: -fx-primary;
 
     -fx-border-color: -fx-secondary;
@@ -97,15 +98,21 @@ https://github.com/jfoenixadmin/JFoenix/blob/cf28a9ff3a36ffeb36897e69e5ef907a7a1
 /*Toolbar*/
 .toolbar-buttons {
     -fx-background-color: derive(-fx-primary, 0.2); /*20% lighter*/
-    -fx-border-color: derive(-fx-primary, 0.2);
+    -fx-border-color: derive(-fx-primary, 0.2); /*20% lighter*/
     -fx-border-radius: 0px;
     -fx-background-radius: 0px;
 }
 
 .toolbar-buttons:hover {
-    -fx-background-color: -fx-secondary; /*20% lighter*/
-    -fx-border-color: derive(-fx-primary, 0.2);
+    -fx-background-color: -fx-secondary; 
+    -fx-border-color: derive(-fx-primary, 0.2);/*20% lighter*/
     -fx-text-fill: -fx-primary;
     -fx-border-radius: 0px;
     -fx-background-radius: 0px;
+}
+
+/*Text*/
+.main-text {
+    -fx-fill: -fx-secondary;
+    -fx-font-size: 12pt;
 }
