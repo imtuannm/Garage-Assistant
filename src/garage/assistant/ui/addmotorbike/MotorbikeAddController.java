@@ -38,12 +38,12 @@ public class MotorbikeAddController implements Initializable {
     private AnchorPane rootPane;
 
     private boolean isInEditMode = Boolean.FALSE;
-    DatabaseHandler dbHandler;
+    DatabaseHandler databaseHandler;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        dbHandler = DatabaseHandler.getInstance();
+        databaseHandler = DatabaseHandler.getInstance();
         checkData();
     }    
 
@@ -82,7 +82,7 @@ public class MotorbikeAddController implements Initializable {
         
         System.out.println(qu); //print debug
         
-        if( dbHandler.excAction(qu) ) {
+        if( databaseHandler.excAction(qu) ) {
             AlertMaker.showSimpleInforAlert("Success", "New Motorbike added!");
         } else {
             AlertMaker.showSimpleErrorMessage("Failed", "Can not add Motorbike!");
@@ -97,7 +97,7 @@ public class MotorbikeAddController implements Initializable {
 
     private void checkData() {
         String qu = "SELECT name FROM MOTORBIKE";
-        ResultSet rs = dbHandler.excQuery(qu);
+        ResultSet rs = databaseHandler.excQuery(qu);
         try {
             while( rs.next() ) {
                 String mbName = rs.getString("name");

@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="280.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.FXMLDocumentController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="280.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.ui.addmotorbike.MotorbikeAddController">
    <children>
       <VBox prefHeight="300.0" prefWidth="400.0" stylesheets="@addmotorbike.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>

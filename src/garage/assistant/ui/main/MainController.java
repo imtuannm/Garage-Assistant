@@ -1,8 +1,12 @@
 package garage.assistant.ui.main;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.events.JFXDialogEvent;
 import com.jfoenix.transitions.hamburger.*;
 import garage.assistant.alert.AlertMaker;
 import garage.assistant.database.DatabaseHandler;
@@ -12,12 +16,13 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -25,12 +30,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ListView;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -58,20 +66,46 @@ public class MainController implements Initializable {
     @FXML
     private StackPane rootPane;
     @FXML
-    private ListView<String> lsvIssueData;
-    @FXML
     private JFXTextField motorID;
     @FXML
     private JFXHamburger hamburger;
     @FXML
     private JFXDrawer drawer;
-
+    @FXML
+    private Text txtMemberName;
+    @FXML
+    private Text txtMemberEmail;
+    @FXML
+    private Text txtMemberMobile;
+    @FXML
+    private Text txtMotorbikeProducer;
+    @FXML
+    private Text txtMotorbikeName;
+    @FXML
+    private Text txtMotorbikeType;
+    @FXML
+    private Text txtMotorbikeColor;
+    @FXML
+    private Text txtIssueDate;
+    @FXML
+    private Text txtIssueNoDays;
+    @FXML
+    private Text txtIssueFine;
+    @FXML
+    private BorderPane rootBorderPane;
+    @FXML
+    private JFXButton btnRenew;
+    @FXML
+    private JFXButton btnSubmission;
+    @FXML
+    private HBox submissionDataContainer;
+    
     Boolean isReadyForSubmission = false;
-    DatabaseHandler dbHandler;
+    DatabaseHandler databseHandler;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        dbHandler = DatabaseHandler.getInstance();
+        databseHandler = DatabaseHandler.getInstance();
         initDrawer();
     }
 
@@ -81,7 +115,7 @@ public class MainController implements Initializable {
         String qr = "SELECT * FROM MOTORBIKE WHERE idMotorbike = '" + id + "'";
         Boolean flag = false;
 
-        ResultSet rs = dbHandler.excQuery(qr);
+        ResultSet rs = databseHandler.excQuery(qr);
 
         try {
             while (rs.next()) { //set info to textfield
@@ -130,7 +164,7 @@ public class MainController implements Initializable {
         String qr = "SELECT * FROM MEMBER WHERE idMember = '" + id + "'";
         Boolean flag = false;
 
-        ResultSet rs = dbHandler.excQuery(qr);
+        ResultSet rs = databseHandler.excQuery(qr);
 
         try {
             while (rs.next()) { //set info to textfields
@@ -172,7 +206,7 @@ public class MainController implements Initializable {
 
         //check if motor is ready for issue
         String chkStt = "SELECT * FROM MOTORBIKE WHERE idMotorbike = '" + mtbID + "'";;
-        ResultSet rss = dbHandler.excQuery(chkStt);
+        ResultSet rss = databseHandler.excQuery(chkStt);
         try {
             while (rss.next()) {
                 mtbStatus = rss.getBoolean("isAvail");
@@ -203,7 +237,7 @@ public class MainController implements Initializable {
 
             String strUpdStt = "UPDATE MOTORBIKE SET isAvail = false WHERE idMotorbike = '" + mtbID + "'";
 
-            if (dbHandler.excAction(strIssue) && dbHandler.excAction(strUpdStt)) {
+            if (databseHandler.excAction(strIssue) && databseHandler.excAction(strUpdStt)) {
                 AlertMaker.showSimpleInforAlert("Success", "Issuing completed!");
             } else {//can not issue or update status
                 AlertMaker.showSimpleErrorMessage("Failed", "Issue Operation can NOT be completed!");
@@ -215,46 +249,76 @@ public class MainController implements Initializable {
 
     @FXML
     private void loadIssueInfo(ActionEvent event) {
-        ObservableList<String> issueData = FXCollections.observableArrayList();
-
+        clearEntries();
         isReadyForSubmission = false;
 
-        String id = motorID.getText();
-        String qr = "SELECT * FROM ISSUE WHERE id_motorbike = '" + id + "'";
-        ResultSet rs = dbHandler.excQuery(qr);
-        try {
-            while (rs.next()) {//push infor into ObservableList
-                String mtbID = id;
-                String mmbID = rs.getString("id_member");
-                Timestamp issTime = rs.getTimestamp("issueTime");
-                int rnwCount = rs.getInt("renew_count");
-
-                issueData.add("Issue time: " + issTime.toGMTString()); //Greenwich time zone
-                issueData.add("Renew count: " + rnwCount);
-
-                issueData.add("\nMotorbike information: ");
-                qr = "SELECT * FROM MOTORBIKE WHERE idMotorbike = '" + mtbID + "'";
-                ResultSet rst = dbHandler.excQuery(qr);
-                while (rst.next()) {
-                    issueData.add("\tProducer: " + rst.getString("producer"));
-                    issueData.add("\tName: " + rst.getString("name"));
-                    issueData.add("\tColor: " + rst.getString("color"));
-                }
-
-                qr = "SELECT * FROM MEMBER WHERE idMember = '" + mmbID + "'";
-                rst = dbHandler.excQuery(qr);
-                issueData.add("\nMember information: ");
-                while (rst.next()) {
-                    issueData.add("\tName: " + rst.getString("name"));
-                    issueData.add("\tMobile: " + rst.getString("mobile"));
-                    issueData.add("\tEmail: " + rst.getString("email"));
+        try{
+            String id = motorID.getText();
+            //use a single query for better performance
+            String qr = "SELECT ISSUE.id_motorbike, ISSUE.id_member, ISSUE.issueTime, ISSUE.renew_count,\n" +
+                        "MEMBER.name AS mbName, MEMBER.mobile, MEMBER.email,\n" +
+                        "MOTORBIKE.producer, MOTORBIKE.name AS mtName, MOTORBIKE.type, MOTORBIKE.color\n" +
+                        "FROM ISSUE\n" +
+                        "LEFT JOIN MEMBER\n" +
+                        "ON ISSUE.id_member = MEMBER.idMember\n" +
+                        "LEFT JOIN MOTORBIKE\n" +
+                        "ON ISSUE.id_motorbike = MOTORBIKE.idMotorbike\n" +
+                        "WHERE ISSUE.id_motorbike = '" + id + "'";
+            ResultSet rs = databseHandler.excQuery(qr);
+            
+            if(rs.next()) {//exist
+                //member inf
+                txtMemberName.setText(rs.getString("mbName"));
+                txtMemberEmail.setText(rs.getString("email"));
+                txtMemberMobile.setText(rs.getString("mobile"));
+                
+                //motorbike inf
+                txtMotorbikeProducer.setText(rs.getString("producer"));
+                txtMotorbikeName.setText(rs.getString("mtName"));
+                txtMotorbikeType.setText(setType(rs.getInt("type")));//shorted
+                txtMotorbikeColor.setText(rs.getString("color"));
+                
+                //issue inf
+                Timestamp issueTime = rs.getTimestamp("issueTime");
+                Date dateOfIssue = new Date(issueTime.getTime());
+                txtIssueDate.setText(dateOfIssue.toString());
+                Long timeElapsed = System.currentTimeMillis() - issueTime.getTime();
+                Long days = TimeUnit.DAYS.convert(timeElapsed, TimeUnit.MILLISECONDS) + 1;
+                String daysElapsed = String.format("Used for %d day(s)", days);
+                txtIssueNoDays.setText(daysElapsed);
+                Float fine = GarageAssistantUtil.getFineAmount(days.intValue());
+                if (fine > 0) {
+                    DecimalFormat currencyFormat = new DecimalFormat("####,###,###.#");
+                    txtIssueFine.setText("Fine: $" + currencyFormat.format(GarageAssistantUtil.getFineAmount(days.intValue())));
+                    txtIssueFine.setFill(Color.web("#E452E4"));
+                } else {
+                    txtIssueFine.setText("No fine");
                 }
                 isReadyForSubmission = true;//everything is set
+                //enable controls
+                toggleControls(true);
+                submissionDataContainer.setOpacity(1);
+            } else {//not exist
+                BoxBlur blur = new BoxBlur(2,2,2);//effect
+                //inform user
+                JFXDialogLayout dialogLayout = new JFXDialogLayout();
+                JFXButton button = new JFXButton("Let me try again!");
+                button.getStyleClass().add("dialog-button");
+                JFXDialog dialog = new JFXDialog(rootPane, dialogLayout, JFXDialog.DialogTransition.TOP);//content for dialogLayout
+                button.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent mouseEvent)->{//insert button inside dialogLayout
+                    dialog.close();
+                });
+                dialogLayout.setHeading(new Label("No such Motor exists in Issue record!"));
+                dialogLayout.setActions(button);
+                dialog.show();
+                dialog.setOnDialogClosed((JFXDialogEvent event1) -> {//reset blur effect
+                    rootBorderPane.setEffect(null);
+                });
+                rootBorderPane.setEffect(blur);
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch(Exception e) {
+             e.printStackTrace();
         }
-        lsvIssueData.getItems().setAll(issueData);//set all these above into list view
     }
 
     @FXML
@@ -276,8 +340,9 @@ public class MainController implements Initializable {
             String actDel = "DELETE FROM ISSUE WHERE id_motorbike = '" + id + "'";
             //2. make the motor available in the database
             String actUpd = "UPDATE MOTORBIKE SET isAvail = true WHERE idMotorbike = '" + id + "'";
-            if (dbHandler.excAction(actDel) && dbHandler.excAction(actUpd)) {//success
+            if (databseHandler.excAction(actDel) && databseHandler.excAction(actUpd)) {//success
                 AlertMaker.showSimpleInforAlert("Success!", "Motorbike has been submitted.");
+                loadIssueInfo(null);// refresh
             } else {//error
                 AlertMaker.showSimpleErrorMessage("Failed!", "Submission has been failed.");
             }
@@ -306,9 +371,9 @@ public class MainController implements Initializable {
             //change issueTime & renew_count
             String actUpd = "UPDATE ISSUE SET issueTime = CURRENT_TIMESTAMP, renew_count = renew_count+1 WHERE id_motorbike = '" + id + "'";
 
-            if (dbHandler.excAction(actUpd)) {//success
+            if (databseHandler.excAction(actUpd)) {//success
                 AlertMaker.showSimpleInforAlert("Success!", "Motorbike has been renewed.");
-                //System.out.println(actUpd);//print debug
+                loadIssueInfo(null); //refresh
             } else {//error
                 AlertMaker.showSimpleErrorMessage("Failed!", "Renewal has been failed.");
             }
@@ -367,6 +432,36 @@ public class MainController implements Initializable {
                 drawer.close();
             }
         });
+    }
+
+    private void clearEntries() {
+        txtMemberName.setText("-");
+        txtMemberEmail.setText("-");
+        txtMemberMobile.setText("-");
+
+        //motorbike inf
+        txtMotorbikeProducer.setText("-");
+        txtMotorbikeName.setText("-");
+        txtMotorbikeType.setText("-");//shorted
+        txtMotorbikeColor.setText("-");
+
+        //issue inf
+        txtIssueDate.setText("-");
+        txtIssueNoDays.setText("-");
+        txtIssueFine.setText("-");
+        
+        toggleControls(false);
+        submissionDataContainer.setOpacity(0);//hide it
+    }
+    
+    private void toggleControls(Boolean enableFlag) {
+        if (enableFlag) {
+            btnRenew.setDisable(false);
+            btnSubmission.setDisable(false);
+        } else {
+            btnRenew.setDisable(true);
+            btnSubmission.setDisable(true);
+        }
     }
 
 }

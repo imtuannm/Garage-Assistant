@@ -1,5 +1,6 @@
 package garage.assistant.util;
 
+import garage.assistant.settings.Preferences;
 import garage.assistant.ui.main.MainController;
 import java.io.IOException;
 import java.net.URL;
@@ -17,6 +18,16 @@ public class GarageAssistantUtil {
     
     public static void setStageIcon(Stage stage) {
         stage.getIcons().add(new Image(IMG));
+    }
+    
+    public static Float getFineAmount(int totalDays) {
+        Preferences pref = Preferences.getPreferences();
+        Integer fineDays = totalDays - pref.getnDaysWithoutFine();
+        Float fine = 0f;
+        if (fineDays > 0) {
+            fine = fineDays * pref.getFinePerDay();
+        }
+        return fine;
     }
     
     //call another window in-app

@@ -13,7 +13,7 @@
 
 <StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" stylesheets="@../../resources/dark_theme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.ui.main.MainController">
    <children>
-      <BorderPane prefHeight="200.0" prefWidth="200.0">
+      <BorderPane fx:id="rootBorderPane" prefHeight="200.0" prefWidth="200.0">
          <top>
             <MenuBar stylesheets="@../../resources/dark_theme.css" BorderPane.alignment="CENTER">
               <menus>
@@ -61,7 +61,11 @@
                                        <children>
                                           <HBox fx:id="motorbike_info" alignment="CENTER" prefHeight="200.0" prefWidth="600.0" spacing="10.0" stylesheets="@main.css">
                                              <children>
-                                                <JFXTextField fx:id="motorbikeIdInput" labelFloat="true" onAction="#loadMotorbikeInfo" prefHeight="25.0" prefWidth="185.0" promptText="Motorbike's ID" />
+                                                <JFXTextField fx:id="motorbikeIdInput" labelFloat="true" onAction="#loadMotorbikeInfo" prefHeight="25.0" prefWidth="185.0" promptText="Motorbike's ID">
+                                                   <font>
+                                                      <Font size="13.0" />
+                                                   </font>
+                                                </JFXTextField>
                                                 <VBox alignment="CENTER" prefHeight="160.0" prefWidth="450.0" spacing="10.0" stylesheets="@../../resources/dark_theme.css">
                                                    <children>
                                                       <Text fx:id="motorbikeType" layoutX="10.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Type" textAlignment="CENTER" wrappingWidth="350.0" />
@@ -83,7 +87,11 @@
                                           </HBox>
                                           <HBox fx:id="member_info" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="600.0" spacing="10.0">
                                              <children>
-                                                <JFXTextField fx:id="memberIdInput" labelFloat="true" onAction="#loadMemberInfo" prefHeight="25.0" prefWidth="185.0" promptText="Member's ID" />
+                                                <JFXTextField fx:id="memberIdInput" labelFloat="true" onAction="#loadMemberInfo" prefHeight="25.0" prefWidth="185.0" promptText="Member's ID">
+                                                   <font>
+                                                      <Font size="13.0" />
+                                                   </font>
+                                                </JFXTextField>
                                                 <VBox alignment="CENTER" prefHeight="160.0" prefWidth="450.0" spacing="10.0" stylesheets="@../../resources/dark_theme.css">
                                                    <children>
                                                       <Text fx:id="memberName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Member name" textAlignment="CENTER" wrappingWidth="350.0" />
@@ -120,12 +128,12 @@
                                        <bottom>
                                           <HBox alignment="CENTER" prefHeight="60.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                                              <children>
-                                                <JFXButton onAction="#loadRenewOperation" prefHeight="40.0" prefWidth="110.0" styleClass="login-button" stylesheets="@../../resources/dark_theme.css" text="Renew">
+                                                <JFXButton fx:id="btnRenew" disable="true" onAction="#loadRenewOperation" prefHeight="40.0" prefWidth="110.0" styleClass="login-button" stylesheets="@../../resources/dark_theme.css" text="Renew">
                                                    <HBox.margin>
                                                       <Insets right="10.0" />
                                                    </HBox.margin>
                                                 </JFXButton>
-                                                <JFXButton onAction="#loadSubmissionOperation" prefHeight="40.0" prefWidth="110.0" styleClass="login-button" stylesheets="@../../resources/dark_theme.css" text="Submission">
+                                                <JFXButton fx:id="btnSubmission" disable="true" onAction="#loadSubmissionOperation" prefHeight="40.0" prefWidth="110.0" styleClass="login-button" stylesheets="@../../resources/dark_theme.css" text="Submission">
                                                    <HBox.margin>
                                                       <Insets right="10.0" />
                                                    </HBox.margin>
@@ -139,23 +147,126 @@
                                              </BorderPane.margin>
                                           </HBox>
                                        </bottom>
-                                       <center>
-                                          <ListView fx:id="lsvIssueData" prefHeight="357.0" prefWidth="676.0" BorderPane.alignment="CENTER">
-                                             <padding>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                             </padding>
-                                             <BorderPane.margin>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </BorderPane.margin>
-                                          </ListView>
-                                       </center>
                                        <top>
-                                          <JFXTextField fx:id="motorID" labelFloat="true" onAction="#loadIssueInfo" prefHeight="25.0" prefWidth="265.0" promptText="Motorbike's ID" BorderPane.alignment="CENTER">
+                                          <JFXTextField fx:id="motorID" labelFloat="true" onAction="#loadIssueInfo" prefHeight="30.0" prefWidth="200.0" promptText="Motorbike's ID" BorderPane.alignment="CENTER">
                                              <BorderPane.margin>
-                                                <Insets bottom="20.0" left="170.0" right="170.0" top="15.0" />
+                                                <Insets bottom="10.0" left="220.0" right="220.0" top="20.0" />
                                              </BorderPane.margin>
+                                             <font>
+                                                <Font size="13.0" />
+                                             </font>
                                           </JFXTextField>
                                        </top>
+                                       <center>
+                                          <HBox fx:id="submissionDataContainer" opacity="0.0" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                             <children>
+                                                <VBox prefHeight="200.0" prefWidth="400.0" styleClass="subbmission-container">
+                                                   <children>
+                                                      <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                                                         <VBox.margin>
+                                                            <Insets bottom="10.0" left="35.0" right="10.0" top="10.0" />
+                                                         </VBox.margin>
+                                                         <image>
+                                                            <Image url="@../../resources/member_list.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                      <Text fx:id="txtMemberName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Member Name" wrappingWidth="210.0">
+                                                         <VBox.margin>
+                                                            <Insets left="1.0" right="1.0" top="10.0" />
+                                                         </VBox.margin>
+                                                      </Text>
+                                                      <Text fx:id="txtMemberEmail" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Email" wrappingWidth="210.0">
+                                                         <VBox.margin>
+                                                            <Insets left="1.0" right="1.0" top="10.0" />
+                                                         </VBox.margin>
+                                                      </Text>
+                                                      <Text fx:id="txtMemberMobile" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Mobile" wrappingWidth="210.0">
+                                                         <VBox.margin>
+                                                            <Insets left="1.0" right="1.0" top="10.0" />
+                                                         </VBox.margin>
+                                                      </Text>
+                                                   </children>
+                                                   <opaqueInsets>
+                                                      <Insets />
+                                                   </opaqueInsets>
+                                                   <HBox.margin>
+                                                      <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                                                   </HBox.margin>
+                                                </VBox>
+                                                <VBox prefHeight="200.0" prefWidth="400.0" styleClass="subbmission-container">
+                                                   <children>
+                                                      <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                                                         <VBox.margin>
+                                                            <Insets bottom="10.0" left="35.0" right="10.0" top="10.0" />
+                                                         </VBox.margin>
+                                                         <image>
+                                                            <Image url="@../../resources/mobtorbike.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                      <Text fx:id="txtMotorbikeProducer" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Producer" wrappingWidth="210.0">
+                                                         <VBox.margin>
+                                                            <Insets left="1.0" right="1.0" top="10.0" />
+                                                         </VBox.margin>
+                                                      </Text>
+                                                      <Text fx:id="txtMotorbikeName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Motorbike Name" wrappingWidth="210.0">
+                                                         <VBox.margin>
+                                                            <Insets left="1.0" right="1.0" top="10.0" />
+                                                         </VBox.margin>
+                                                      </Text>
+                                                      <Text fx:id="txtMotorbikeType" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Type" wrappingWidth="210.0">
+                                                         <VBox.margin>
+                                                            <Insets left="1.0" right="1.0" top="10.0" />
+                                                         </VBox.margin>
+                                                      </Text>
+                                                      <Text fx:id="txtMotorbikeColor" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Color" wrappingWidth="210.0">
+                                                         <VBox.margin>
+                                                            <Insets left="1.0" right="1.0" top="10.0" />
+                                                         </VBox.margin>
+                                                      </Text>
+                                                   </children>
+                                                   <opaqueInsets>
+                                                      <Insets />
+                                                   </opaqueInsets>
+                                                   <HBox.margin>
+                                                      <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                                                   </HBox.margin>
+                                                </VBox>
+                                                <VBox prefHeight="200.0" prefWidth="400.0" styleClass="subbmission-container">
+                                                   <children>
+                                                      <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                                                         <VBox.margin>
+                                                            <Insets bottom="10.0" left="35.0" right="10.0" top="10.0" />
+                                                         </VBox.margin>
+                                                         <image>
+                                                            <Image url="@../../resources/motorbile_list1.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                      <Text fx:id="txtIssueDate" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Issue Date" wrappingWidth="210.0">
+                                                         <VBox.margin>
+                                                            <Insets left="1.0" right="1.0" top="10.0" />
+                                                         </VBox.margin>
+                                                      </Text>
+                                                      <Text fx:id="txtIssueNoDays" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text=" N.O days" wrappingWidth="210.0">
+                                                         <VBox.margin>
+                                                            <Insets left="1.0" right="1.0" top="10.0" />
+                                                         </VBox.margin>
+                                                      </Text>
+                                                      <Text fx:id="txtIssueFine" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Fine" wrappingWidth="210.0">
+                                                         <VBox.margin>
+                                                            <Insets left="1.0" right="1.0" top="10.0" />
+                                                         </VBox.margin>
+                                                      </Text>
+                                                   </children>
+                                                   <opaqueInsets>
+                                                      <Insets />
+                                                   </opaqueInsets>
+                                                   <HBox.margin>
+                                                      <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                                                   </HBox.margin>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                       </center>
                                     </BorderPane>
                                  </children>
                               </AnchorPane>
@@ -163,7 +274,7 @@
                         </Tab>
                      </tabs>
                   </JFXTabPane>
-                  <JFXHamburger fx:id="hamburger" styleClass="jfx-hamburger-icon" stylesheets="@../../resources/dark_theme.css" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="41.0" />
+                  <JFXHamburger fx:id="hamburger" styleClass="jfx-hamburger-icon" stylesheets="@../../resources/dark_theme.css" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="45.0" />
                </children>
             </AnchorPane>
          </center>
