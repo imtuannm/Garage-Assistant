@@ -1,12 +1,9 @@
 package garage.assistant.ui.main;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.events.JFXDialogEvent;
 import com.jfoenix.transitions.hamburger.*;
 import garage.assistant.alert.AlertMaker;
 import garage.assistant.database.DatabaseHandler;
@@ -17,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -30,9 +28,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -132,6 +128,7 @@ public class MainController implements Initializable {
                 flag = true;
             }
             if (!flag) { //doesnt exist
+                motorbikeIdInput.getStyleClass().add("wrong-credentials");
                 clrMotorbikeCached();
             }
         } catch (SQLException ex) {
@@ -168,15 +165,16 @@ public class MainController implements Initializable {
 
         try {
             while (rs.next()) { //set info to textfields
-                String mName = rs.getString("name");
-                String mMobile = rs.getString("mobile");
+                String mbName = rs.getString("name");
+                String mbMobile = rs.getString("mobile");
 
-                memberName.setText(mName);
-                memberMobile.setText(mMobile);
+                memberName.setText(mbName);
+                memberMobile.setText(mbMobile);
 
                 flag = true;
             }
             if (!flag) { //doesnt exist
+                memberIdInput.getStyleClass().add("wrong-credentials");
                 clrMemberCached();
             }
         } catch (SQLException ex) {
@@ -204,7 +202,7 @@ public class MainController implements Initializable {
         String mtbID = motorbikeIdInput.getText();
         Boolean mtbStatus = false;
 
-        //check if motor is ready for issue
+        //check if motor is ready for issue operation
         String chkStt = "SELECT * FROM MOTORBIKE WHERE idMotorbike = '" + mtbID + "'";;
         ResultSet rss = databseHandler.excQuery(chkStt);
         try {
@@ -215,21 +213,15 @@ public class MainController implements Initializable {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        //make an alert box to confirm
-        Alert altCfm = new Alert(Alert.AlertType.CONFIRMATION);
-        altCfm.setTitle("Confirm");
-        altCfm.setHeaderText(null);
-        altCfm.setContentText("Are you sure to issue [" + motorbikeName.getText()
-                + "] to [" + memberName.getText() + "]?");
-
-        Optional<ButtonType> response = altCfm.showAndWait();
-
-        if (response.get() == ButtonType.OK) {//confirm
-            if (!mtbStatus) {//not avaiable
-                AlertMaker.showSimpleErrorMessage("Failed", "This motorbike is NOT available to issue!");
-                return;
-            }
-
+        if (!mtbStatus) {//not avaiable
+            JFXButton btt = new JFXButton("OK, Lemme check");
+            AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btt), "Failed", "This motorbike is NOT available to issue!");
+            return;
+        }
+        
+        //YES
+        JFXButton yesButton = new JFXButton("YES");
+        yesButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1)->{
             String strIssue = "INSERT INTO ISSUE(id_motorbike,id_member, renew_count) VALUES (+"
                     + "'" + mtbID + "',"
                     + "'" + memID + "',"
@@ -238,13 +230,28 @@ public class MainController implements Initializable {
             String strUpdStt = "UPDATE MOTORBIKE SET isAvail = false WHERE idMotorbike = '" + mtbID + "'";
 
             if (databseHandler.excAction(strIssue) && databseHandler.excAction(strUpdStt)) {
-                AlertMaker.showSimpleInforAlert("Success", "Issuing completed!");
+                JFXButton button = new JFXButton("Done");
+                AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(button), "Issuing completed!", null);
             } else {//can not issue or update status
-                AlertMaker.showSimpleErrorMessage("Failed", "Issue Operation can NOT be completed!");
+                JFXButton button = new JFXButton("Ok, Lemme check!");
+                AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(button), "Issue Operation FAILED", null);
             }
-        } else {//cancel button
-            AlertMaker.showSimpleInforAlert("Cancelled", "Issue Operation cancelled!");
-        }
+            
+            clearIssueEntries();
+        });
+        
+        //NO
+        JFXButton noButton = new JFXButton("NO");
+        noButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1)->{
+            JFXButton button = new JFXButton("Ok");
+            AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(button), "Issue Cancelled", null);
+            
+            clearIssueEntries();
+        });
+        
+        //confirm
+        AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(yesButton, noButton), "Confirm" , "Are you sure to issue " + motorbikeName.getText()
+                + " to " + memberName.getText() + "?");
     }
 
     @FXML
@@ -290,33 +297,20 @@ public class MainController implements Initializable {
                 if (fine > 0) {
                     DecimalFormat currencyFormat = new DecimalFormat("####,###,###.#");
                     txtIssueFine.setText("Fine: $" + currencyFormat.format(GarageAssistantUtil.getFineAmount(days.intValue())));
-                    txtIssueFine.setFill(Color.web("#E452E4"));
+                    txtIssueFine.setFill(Color.web("#E452E4"));//easier to see
                 } else {
-                    txtIssueFine.setText("No fine");
+                    txtIssueFine.setText("");
                 }
                 isReadyForSubmission = true;//everything is set
                 //enable controls
                 toggleControls(true);
-                submissionDataContainer.setOpacity(1);
+                submissionDataContainer.setOpacity(1);//unhide
             } else {//not exist
-                BoxBlur blur = new BoxBlur(2,2,2);//effect
-                //inform user
-                JFXDialogLayout dialogLayout = new JFXDialogLayout();
-                JFXButton button = new JFXButton("Let me try again!");
-                button.getStyleClass().add("dialog-button");
-                JFXDialog dialog = new JFXDialog(rootPane, dialogLayout, JFXDialog.DialogTransition.TOP);//content for dialogLayout
-                button.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent mouseEvent)->{//insert button inside dialogLayout
-                    dialog.close();
-                });
-                dialogLayout.setHeading(new Label("No such Motor exists in Issue record!"));
-                dialogLayout.setActions(button);
-                dialog.show();
-                dialog.setOnDialogClosed((JFXDialogEvent event1) -> {//reset blur effect
-                    rootBorderPane.setEffect(null);
-                });
-                rootBorderPane.setEffect(blur);
+                motorID.getStyleClass().add("wrong-credentials");
+                JFXButton button = new JFXButton("Lemme try again!");
+                AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(button), "No such Motor exists in Issue database", null);
             }
-        } catch(Exception e) {
+        } catch(SQLException e) {
              e.printStackTrace();
         }
     }
@@ -324,62 +318,71 @@ public class MainController implements Initializable {
     @FXML
     private void loadSubmissionOperation(ActionEvent event) {
         if (!isReadyForSubmission) { //not ready 
-            AlertMaker.showSimpleErrorMessage("Failed!", "Invalid Motorbike to submit.");
+            JFXButton btn = new JFXButton("Lemme check again!");
+            AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn), "Failed!", "Invalid Motorbike to submit.");
             return;
         }
 
         //make an alert box to confirm
-        Alert altCfm = new Alert(Alert.AlertType.CONFIRMATION);
-        altCfm.setTitle("Confirm");
-        altCfm.setHeaderText(null);
-        altCfm.setContentText("Are you sure want to return the motorbike?");
-        Optional<ButtonType> response = altCfm.showAndWait();
-        if (response.get() == ButtonType.OK) {//confirmed
+        JFXButton yesButton = new JFXButton("YES");
+        yesButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1)->{
             String id = motorID.getText();
             //1. remove the entry from the Issue table
             String actDel = "DELETE FROM ISSUE WHERE id_motorbike = '" + id + "'";
             //2. make the motor available in the database
             String actUpd = "UPDATE MOTORBIKE SET isAvail = true WHERE idMotorbike = '" + id + "'";
             if (databseHandler.excAction(actDel) && databseHandler.excAction(actUpd)) {//success
-                AlertMaker.showSimpleInforAlert("Success!", "Motorbike has been submitted.");
-                loadIssueInfo(null);// refresh
+                JFXButton btn = new JFXButton("OK");
+                AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn),"Success!", "Motorbike has been submitted.");
+                loadIssueInfo(null); //refresh
             } else {//error
-                AlertMaker.showSimpleErrorMessage("Failed!", "Submission has been failed.");
+                JFXButton btn = new JFXButton("Lemme check again");
+                AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn),"Failed!", "Submission has been failed.");
             }
-        } else {//cancel button
-            AlertMaker.showSimpleInforAlert("Cancelled", "Submission Operation cancelled!");
-        }
+        });
+        
+        JFXButton noButton = new JFXButton("NO");
+        noButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1)->{
+            JFXButton btn = new JFXButton("Sure");
+            AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn), "Cancelled", "Submission Operation cancelled!");
+        });
+        
+        AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(yesButton, noButton), "Confirm", "Are you sure want to return the motorbike?");
     }
 
     //renew the issue time into current time
     @FXML
     private void loadRenewOperation(ActionEvent event) {
         if (!isReadyForSubmission) { //not ready 
-            AlertMaker.showSimpleErrorMessage("Failed!", "Invalid Motorbike to renew.");
+            JFXButton btn = new JFXButton("Lemme check again");
+            AlertMaker.showMaterialDialog(rootPane, rootBorderPane,Arrays.asList(btn), "Failed!", "Invalid Motorbike to renew.");
             return;
         }
 
         String id = motorID.getText();
-
-        //make an alert box to confirm
-        Alert altCfm = new Alert(Alert.AlertType.CONFIRMATION);
-        altCfm.setTitle("Confirm");
-        altCfm.setHeaderText(null);
-        altCfm.setContentText("Are you sure want to renew the motorbike?");
-        Optional<ButtonType> response = altCfm.showAndWait();
-        if (response.get() == ButtonType.OK) {//OK button
+        
+        JFXButton yesButton = new JFXButton("YES");
+        yesButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1)->{
             //change issueTime & renew_count
             String actUpd = "UPDATE ISSUE SET issueTime = CURRENT_TIMESTAMP, renew_count = renew_count+1 WHERE id_motorbike = '" + id + "'";
-
             if (databseHandler.excAction(actUpd)) {//success
-                AlertMaker.showSimpleInforAlert("Success!", "Motorbike has been renewed.");
+                JFXButton btn = new JFXButton("OK");
+                AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn), "Success!", "Motorbike has been renewed.");
                 loadIssueInfo(null); //refresh
             } else {//error
-                AlertMaker.showSimpleErrorMessage("Failed!", "Renewal has been failed.");
+                JFXButton btn = new JFXButton("Lemme check again");
+                AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn),"Failed!", "Renewal has been failed.");
             }
-        } else {//cancel button
-            AlertMaker.showSimpleInforAlert("Cancelled", "Renew Operation cancelled!");
-        }
+        });
+        
+        JFXButton noButton = new JFXButton("NO");
+        noButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1)->{
+            JFXButton btn = new JFXButton("SURE");
+            AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn),"Cancelled", "Renew Operation cancelled!");
+        });
+        
+        //confirm
+        AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(yesButton, noButton), "Confirm", "Are you sure want to renew the motorbike?");
     }
 
     @FXML
@@ -435,20 +438,21 @@ public class MainController implements Initializable {
     }
 
     private void clearEntries() {
-        txtMemberName.setText("-");
-        txtMemberEmail.setText("-");
-        txtMemberMobile.setText("-");
+        //member inf
+        txtMemberName.setText("");
+        txtMemberEmail.setText("");
+        txtMemberMobile.setText("");
 
         //motorbike inf
-        txtMotorbikeProducer.setText("-");
-        txtMotorbikeName.setText("-");
-        txtMotorbikeType.setText("-");//shorted
-        txtMotorbikeColor.setText("-");
+        txtMotorbikeProducer.setText("");
+        txtMotorbikeName.setText("");
+        txtMotorbikeType.setText("");
+        txtMotorbikeColor.setText("");
 
         //issue inf
-        txtIssueDate.setText("-");
-        txtIssueNoDays.setText("-");
-        txtIssueFine.setText("-");
+        txtIssueDate.setText("");
+        txtIssueNoDays.setText("");
+        txtIssueFine.setText("");
         
         toggleControls(false);
         submissionDataContainer.setOpacity(0);//hide it
@@ -462,6 +466,19 @@ public class MainController implements Initializable {
             btnRenew.setDisable(true);
             btnSubmission.setDisable(true);
         }
+    }
+
+    private void clearIssueEntries() {
+        motorbikeIdInput.clear();
+        memberIdInput.clear();
+        
+        motorbikeType.setText("");
+        motorbikeProducer.setText("");
+        motorbikeName.setText("");
+        motorbikeStatus.setText("");
+        
+        memberName.setText("");
+        memberMobile.setText("");   
     }
 
 }
