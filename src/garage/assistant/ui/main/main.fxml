@@ -53,7 +53,7 @@
                <children>
                   <JFXTabPane stylesheets="@../../resources/dark_theme.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
                      <tabs>
-                        <Tab text="Motorbike Issue">
+                        <Tab fx:id="motorbikeIssueTab" text="Motorbike Issue">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
@@ -66,17 +66,21 @@
                                                       <Font size="13.0" />
                                                    </font>
                                                 </JFXTextField>
-                                                <VBox alignment="CENTER" prefHeight="160.0" prefWidth="450.0" spacing="10.0" stylesheets="@../../resources/dark_theme.css">
+                                                <StackPane fx:id="motorbikeInfoContainer">
                                                    <children>
-                                                      <Text fx:id="motorbikeType" layoutX="10.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" textAlignment="CENTER" wrappingWidth="350.0" />
-                                                      <Text fx:id="motorbikeProducer" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" textAlignment="CENTER" wrappingWidth="350.0" />
-                                                      <Text fx:id="motorbikeName" layoutX="10.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" textAlignment="CENTER" wrappingWidth="350.0" />
-                                                      <Text fx:id="motorbikeStatus" layoutX="20.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" textAlignment="CENTER" wrappingWidth="350.0" />
+                                                      <VBox alignment="CENTER" prefHeight="160.0" prefWidth="450.0" spacing="10.0" stylesheets="@../../resources/dark_theme.css">
+                                                         <children>
+                                                            <Text fx:id="motorbikeType" layoutX="10.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" textAlignment="CENTER" wrappingWidth="350.0" />
+                                                            <Text fx:id="motorbikeProducer" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" textAlignment="CENTER" wrappingWidth="350.0" />
+                                                            <Text fx:id="motorbikeName" layoutX="10.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" textAlignment="CENTER" wrappingWidth="350.0" />
+                                                            <Text fx:id="motorbikeStatus" layoutX="20.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" textAlignment="CENTER" wrappingWidth="350.0" />
+                                                         </children>
+                                                         <padding>
+                                                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                         </padding>
+                                                      </VBox>
                                                    </children>
-                                                   <padding>
-                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                                   </padding>
-                                                </VBox>
+                                                </StackPane>
                                              </children>
                                              <padding>
                                                 <Insets bottom="15.0" left="15.0" right="20.0" top="15.0" />
@@ -92,15 +96,19 @@
                                                       <Font size="13.0" />
                                                    </font>
                                                 </JFXTextField>
-                                                <VBox alignment="CENTER" prefHeight="160.0" prefWidth="450.0" spacing="10.0" stylesheets="@../../resources/dark_theme.css">
+                                                <StackPane fx:id="motorbikeTypeContainer">
                                                    <children>
-                                                      <Text fx:id="memberName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" textAlignment="CENTER" wrappingWidth="350.0" />
-                                                      <Text fx:id="memberMobile" layoutX="10.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" textAlignment="CENTER" wrappingWidth="350.0" />
+                                                      <VBox alignment="CENTER" prefHeight="160.0" prefWidth="450.0" spacing="10.0" stylesheets="@../../resources/dark_theme.css">
+                                                         <children>
+                                                            <Text fx:id="memberName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" textAlignment="CENTER" wrappingWidth="350.0" />
+                                                            <Text fx:id="memberMobile" layoutX="10.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" textAlignment="CENTER" wrappingWidth="350.0" />
+                                                         </children>
+                                                         <padding>
+                                                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                         </padding>
+                                                      </VBox>
                                                    </children>
-                                                   <padding>
-                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                                   </padding>
-                                                </VBox>
+                                                </StackPane>
                                              </children>
                                              <padding>
                                                 <Insets bottom="15.0" left="15.0" right="20.0" top="15.0" />
@@ -274,7 +282,7 @@
                         </Tab>
                      </tabs>
                   </JFXTabPane>
-                  <JFXHamburger fx:id="hamburger" styleClass="jfx-hamburger-icon" stylesheets="@../../resources/dark_theme.css" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="45.0" />
+                  <JFXHamburger fx:id="hamburger" styleClass="jfx-hamburger-icon" stylesheets="@../../resources/dark_theme.css" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="42.0" />
                </children>
             </AnchorPane>
          </center>

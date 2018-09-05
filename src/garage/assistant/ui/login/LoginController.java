@@ -60,7 +60,7 @@ public class LoginController implements Initializable {
     //call MAIN window
     void loadMain() {
         try {
-            Parent parent  = FXMLLoader.load(getClass().getResource("/garage/assistant/ui/main/main.fxml"));
+            Parent parent = FXMLLoader.load(getClass().getResource("/garage/assistant/ui/main/main.fxml"));
             Stage stage = new Stage(StageStyle.DECORATED);
             stage.setTitle("Garage Assistant");    
             stage.setScene(new Scene(parent));

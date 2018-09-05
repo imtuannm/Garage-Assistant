@@ -8,26 +8,26 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="280.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.ui.addmotorbike.MotorbikeAddController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="280.0" prefWidth="400.0" stylesheets="@../../resources/dark_theme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.ui.addmotorbike.MotorbikeAddController">
    <children>
-      <VBox prefHeight="300.0" prefWidth="400.0" stylesheets="@addmotorbike.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox prefHeight="300.0" prefWidth="400.0" stylesheets="@../../resources/dark_theme.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <JFXTextField fx:id="txtId" labelFloat="true" promptText="Motorbike ID">
+            <JFXTextField fx:id="txtId" labelFloat="true" promptText="Motorbike ID" stylesheets="@../../resources/dark_theme.css">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXTextField fx:id="txtProducer" labelFloat="true" layoutX="20.0" layoutY="30.0" promptText="Producer">
+            <JFXTextField fx:id="txtProducer" labelFloat="true" layoutX="20.0" layoutY="30.0" promptText="Producer" stylesheets="@../../resources/dark_theme.css">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXTextField fx:id="txtName" labelFloat="true" layoutX="20.0" layoutY="75.0" promptText="Name">
+            <JFXTextField fx:id="txtName" labelFloat="true" layoutX="20.0" layoutY="75.0" promptText="Name" stylesheets="@../../resources/dark_theme.css">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXTextField fx:id="txtType" labelFloat="true" layoutX="20.0" layoutY="75.0" promptText="Type [1-3]">
+            <JFXTextField fx:id="txtType" labelFloat="true" layoutX="20.0" layoutY="75.0" promptText="Type [1-3]" stylesheets="@../../resources/dark_theme.css">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -35,15 +35,15 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXTextField fx:id="txtColor" labelFloat="true" layoutX="20.0" layoutY="30.0" promptText="Color">
+            <JFXTextField fx:id="txtColor" labelFloat="true" layoutX="20.0" layoutY="30.0" promptText="Color" stylesheets="@../../resources/dark_theme.css">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
             </JFXTextField>
-            <HBox prefHeight="45.0" prefWidth="400.0">
+            <HBox alignment="CENTER" prefHeight="45.0" prefWidth="400.0" spacing="5.0" stylesheets="@../../resources/dark_theme.css">
                <children>
-                  <JFXButton fx:id="btnSave" onAction="#actSave" prefHeight="45.0" prefWidth="200.0" stylesheets="@addmotorbike.css" text="Save" />
-                  <JFXButton fx:id="btnCancel" layoutX="10.0" layoutY="10.0" onAction="#actCancel" prefHeight="45.0" prefWidth="200.0" stylesheets="@addmotorbike.css" text="Cancel" />
+                  <JFXButton fx:id="btnSave" onAction="#actSave" prefWidth="100.0" stylesheets="@../../resources/dark_theme.css" text="Save" />
+                  <JFXButton fx:id="btnCancel" layoutX="10.0" layoutY="10.0" onAction="#actCancel" prefWidth="100.0" stylesheets="@../../resources/dark_theme.css" text="Cancel" />
                </children>
             </HBox>
          </children>

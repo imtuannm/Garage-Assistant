@@ -7,10 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.ui.listmember.MemberListController">
-    <stylesheets>
-        <URL value="@member_list.css" />
-    </stylesheets>
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../resources/dark_theme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.ui.listmember.MemberListController">
    <children>
       <TableView fx:id="tblView" prefHeight="400.0" prefWidth="600.0">
          <columnResizePolicy>

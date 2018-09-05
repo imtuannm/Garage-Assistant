@@ -16,7 +16,6 @@ import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -26,8 +25,8 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
+import javafx.scene.chart.PieChart;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -37,6 +36,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import garage.assistant.ui.main.toolbar.ToolbarController;
 
 public class MainController implements Initializable {
     @FXML
@@ -95,18 +95,30 @@ public class MainController implements Initializable {
     private JFXButton btnSubmission;
     @FXML
     private HBox submissionDataContainer;
+    @FXML
+    private StackPane motorbikeInfoContainer;
     
+    PieChart motorbikeChart;
+    PieChart motorbikeTypeChart;
     Boolean isReadyForSubmission = false;
     DatabaseHandler databseHandler;
+    @FXML
+    private StackPane motorbikeTypeContainer;
+    @FXML
+    private Tab motorbikeIssueTab;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         databseHandler = DatabaseHandler.getInstance();
         initDrawer();
+        initGraphs();
     }
 
     @FXML
     private void loadMotorbikeInfo(ActionEvent event) {
+        clrMotorbikeCached();
+        toggleGraphs(false);
+        
         String id = motorbikeIdInput.getText();
         String qr = "SELECT * FROM MOTORBIKE WHERE idMotorbike = '" + id + "'";
         Boolean flag = false;
@@ -157,6 +169,9 @@ public class MainController implements Initializable {
 
     @FXML
     private void loadMemberInfo(ActionEvent event) {
+        clrMemberCached();
+        toggleGraphs(false);
+        
         String id = memberIdInput.getText();
         String qr = "SELECT * FROM MEMBER WHERE idMember = '" + id + "'";
         Boolean flag = false;
@@ -184,16 +199,16 @@ public class MainController implements Initializable {
 
     //clear old text while can not find informations
     void clrMotorbikeCached() {
-        motorbikeName.setText("No such Motorbike found!");
-        motorbikeProducer.setText("-");
-        motorbikeType.setText("-");
-        motorbikeStatus.setText("-");
+        motorbikeName.setText("");
+        motorbikeProducer.setText("");
+        motorbikeType.setText("");
+        motorbikeStatus.setText("");
     }
 
     //also clear old text
     void clrMemberCached() {
-        memberName.setText("No such Member found!");
-        memberMobile.setText("-");
+        memberName.setText("");
+        memberMobile.setText("");
     }
 
     @FXML
@@ -232,6 +247,7 @@ public class MainController implements Initializable {
             if (databseHandler.excAction(strIssue) && databseHandler.excAction(strUpdStt)) {
                 JFXButton button = new JFXButton("Done");
                 AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(button), "Issuing completed!", null);
+                refreshGraphs();
             } else {//can not issue or update status
                 JFXButton button = new JFXButton("Ok, Lemme check!");
                 AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(button), "Issue Operation FAILED", null);
@@ -416,6 +432,27 @@ public class MainController implements Initializable {
         stage.setFullScreen(!stage.isFullScreen());//toggle full screen & no full screen 
     }
 
+//    private void initDrawer() {
+//        try {
+//            VBox toolbar = FXMLLoader.load(getClass().getResource("/garage/assistant/ui/main/toolbar/toolbar.fxml"));
+//            drawer.setSidePane(toolbar); //call VBox toolbar
+//        } catch (IOException ex) {
+//            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        HamburgerSlideCloseTransition task =  new HamburgerSlideCloseTransition(hamburger);
+//        task.setRate(-1); //use for toggle icon
+//        hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, (Event event) -> {
+//            task.setRate(task.getRate() * -1); //toggle icon
+//            task.play(); //call the toolbar
+//            
+//            if(drawer.isClosed()) {
+//                drawer.open();
+//            } else {
+//                drawer.close();
+//            }
+//        });
+//    }
+    
     private void initDrawer() {
         try {
             VBox toolbar = FXMLLoader.load(getClass().getResource("/garage/assistant/ui/main/toolbar/toolbar.fxml"));
@@ -423,19 +460,23 @@ public class MainController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        HamburgerSlideCloseTransition task =  new HamburgerSlideCloseTransition(hamburger);
-        task.setRate(-1); //use for toggle icon
+        HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
+        task.setRate(-1);
         hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, (Event event) -> {
-            task.setRate(task.getRate() * -1); //toggle icon
-            task.play(); //call the toolbar
-            
-            if(drawer.isClosed()) {
-                drawer.open();
-            } else {
-                drawer.close();
-            }
+            drawer.toggle();
+        });
+        drawer.setOnDrawerOpening((event) -> {
+            task.setRate(task.getRate() * -1);
+            task.play();
+            drawer.toFront();
+        });
+        drawer.setOnDrawerClosed((event) -> {
+            drawer.toBack();
+            task.setRate(task.getRate() * -1);
+            task.play();
         });
     }
+
 
     private void clearEntries() {
         //member inf
@@ -468,7 +509,7 @@ public class MainController implements Initializable {
         }
     }
 
-    private void clearIssueEntries() {
+    private void clearIssueEntries() { //remove the data from the UI
         motorbikeIdInput.clear();
         memberIdInput.clear();
         
@@ -478,7 +519,38 @@ public class MainController implements Initializable {
         motorbikeStatus.setText("");
         
         memberName.setText("");
-        memberMobile.setText("");   
+        memberMobile.setText("");
+        
+        toggleGraphs(true);
+    }
+
+    private void initGraphs() {
+        motorbikeChart = new PieChart(databseHandler.getMotorbikeStatistics());
+        motorbikeTypeChart = new PieChart(databseHandler.getMotorbikeTypes());
+        motorbikeInfoContainer.getChildren().add(motorbikeChart);
+        motorbikeTypeContainer.getChildren().add(motorbikeTypeChart);
+                
+        motorbikeIssueTab.setOnSelectionChanged((Event event) -> {//refreshGraphs whenever change the selection
+            clearIssueEntries();
+            if (motorbikeIssueTab.isSelected()) {
+                refreshGraphs();
+            }
+        });
+    }
+    
+    private void refreshGraphs() {
+        motorbikeChart.setData(databseHandler.getMotorbikeStatistics());
+        motorbikeTypeChart.setData(databseHandler.getMotorbikeTypes());
+    }
+    
+    private void toggleGraphs(Boolean status) {
+        if (status) { //enable
+            motorbikeChart.setOpacity(1);
+            motorbikeTypeChart.setOpacity(1);
+        } else { //hide
+            motorbikeChart.setOpacity(0);
+            motorbikeTypeChart.setOpacity(0);
+        }
     }
 
 }

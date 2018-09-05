@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="260.0" prefWidth="345.0" stylesheets="@../resources/common.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.settings.SettingsController">
+<AnchorPane id="AnchorPane" prefHeight="251.0" prefWidth="345.0" stylesheets="@../resources/dark_theme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.settings.SettingsController">
    <children>
       <VBox layoutX="20.0" layoutY="-34.0" prefHeight="218.0" prefWidth="343.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -34,10 +34,10 @@
             </JFXPasswordField>
          </children>
       </VBox>
-      <HBox prefHeight="65.0" prefWidth="345.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="200.0">
+      <HBox alignment="CENTER" prefHeight="51.0" prefWidth="345.0" spacing="5.0" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="200.0">
          <children>
-            <JFXButton onAction="#handleSaveButtonAction" prefHeight="60.0" prefWidth="200.0" text="Save" />
-            <JFXButton onAction="#handleCancelButtonAction" prefHeight="60.0" prefWidth="200.0" text="Cancel" />
+            <JFXButton onAction="#handleSaveButtonAction" prefWidth="100.0" stylesheets="@../resources/dark_theme.css" text="Save" />
+            <JFXButton onAction="#handleCancelButtonAction" prefWidth="100.0" stylesheets="@../resources/dark_theme.css" text="Cancel" />
          </children>
       </HBox>
    </children>

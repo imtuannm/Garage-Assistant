@@ -12,6 +12,9 @@ import javax.swing.JOptionPane;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
 
 public final class DatabaseHandler {
     private static DatabaseHandler handler = null;
@@ -257,5 +260,62 @@ public final class DatabaseHandler {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false; 
+    }
+    
+    public ObservableList<PieChart.Data> getMotorbikeStatistics() {
+        ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
+        int remaining = 0;
+        int issued = 0;
+        
+        
+        try {
+            String strTotal = "SELECT COUNT(*) FROM MOTORBIKE";
+            String strIssued = "SELECT COUNT(*) FROM MOTORBIKE WHERE isAvail = FALSE";
+            
+            ResultSet rs = excQuery(strIssued);
+            if(rs.next()) {
+                issued = rs.getInt(1);
+                data.add(new PieChart.Data("Issued Motorbike (" + issued + ")", issued));
+            }
+            rs = excQuery(strTotal);
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                remaining = count - issued;
+                data.add(new PieChart.Data("Remaining One (" + remaining + ")", remaining));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return data;
+    }
+    
+    public ObservableList<PieChart.Data> getMotorbikeTypes() {
+        ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
+        try {
+            String strMtb = "SELECT COUNT(*) FROM MOTORBIKE WHERE type = 1";
+            String strCar = "SELECT COUNT(*) FROM MOTORBIKE WHERE type = 2";
+            String strSD = "SELECT COUNT(*) FROM MOTORBIKE WHERE type = 3";
+            
+            ResultSet rs = excQuery(strMtb);
+            if(rs.next()) {
+                int count = rs.getInt(1);
+                data.add(new PieChart.Data("Motorbike (" + count + ")", count));
+            }
+            rs = excQuery(strCar);
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                data.add(new PieChart.Data("Car (" + count + ")", count));
+            }
+            rs = excQuery(strSD);
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                data.add(new PieChart.Data("Self-Driving (" + count + ")", count));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return data;
     }
 }

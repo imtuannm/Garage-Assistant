@@ -138,3 +138,23 @@ https://github.com/jfoenixadmin/JFoenix/blob/cf28a9ff3a36ffeb36897e69e5ef907a7a1
 .jfx-layout-actions {
     -fx-hgap: 10;
 }
+
+/*Chart*/
+.data0.chart-pie {
+    -fx-pie-color: #ff7979;
+    -fx-border-color: #ff7979;
+}
+
+.data1.chart-pie {
+    -fx-pie-color: #eb4d4b;
+    -fx-border-color: #eb4d4b;
+}
+
+.data2.chart-pie {
+    -fx-pie-color: #ffd32a;
+    -fx-border-color: #ffd32a;
+}
+
+.chart-pie-label {
+    -fx-fill: -fx-secondary;
+}
