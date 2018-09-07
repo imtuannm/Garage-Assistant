@@ -36,7 +36,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import garage.assistant.ui.main.toolbar.ToolbarController;
 
 public class MainController implements Initializable {
     @FXML
@@ -96,16 +95,16 @@ public class MainController implements Initializable {
     @FXML
     private HBox submissionDataContainer;
     @FXML
-    private StackPane motorbikeInfoContainer;
+    private StackPane motorbikeInfoContainer;    
+    @FXML
+    private StackPane motorbikeTypeContainer;
+    @FXML
+    private Tab motorbikeIssueTab;
     
     PieChart motorbikeChart;
     PieChart motorbikeTypeChart;
     Boolean isReadyForSubmission = false;
     DatabaseHandler databseHandler;
-    @FXML
-    private StackPane motorbikeTypeContainer;
-    @FXML
-    private Tab motorbikeIssueTab;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -116,6 +115,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void loadMotorbikeInfo(ActionEvent event) {
+        //clear the pane to load infors
         clrMotorbikeCached();
         toggleGraphs(false);
         
@@ -133,7 +133,7 @@ public class MainController implements Initializable {
                 Boolean mbStatus = rs.getBoolean("isAvail");
 
                 motorbikeProducer.setText(mbProducer);
-                motorbikeType.setText(setType(rs.getInt("type")));//shorted
+                motorbikeType.setText(setType(mbType));//shorted
                 motorbikeName.setText(mbName);
                 String stt = (mbStatus) ? "Available" : "NOT Available";
                 motorbikeStatus.setText(stt);
@@ -149,7 +149,7 @@ public class MainController implements Initializable {
     }
 
     private static String setType(int mtbType) {//set a type for motorbike
-        String str = null;
+        String str;
         switch (mtbType) {
             case 1:
                 str = "Motorbike";
@@ -169,6 +169,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void loadMemberInfo(ActionEvent event) {
+        //clear the pane to load infors
         clrMemberCached();
         toggleGraphs(false);
         
@@ -197,7 +198,7 @@ public class MainController implements Initializable {
         }
     }
 
-    //clear old text while can not find informations
+    //clear old text when can not find the informations
     void clrMotorbikeCached() {
         motorbikeName.setText("");
         motorbikeProducer.setText("");
@@ -205,7 +206,7 @@ public class MainController implements Initializable {
         motorbikeStatus.setText("");
     }
 
-    //also clear old text
+    //clear old text
     void clrMemberCached() {
         memberName.setText("");
         memberMobile.setText("");
@@ -309,6 +310,7 @@ public class MainController implements Initializable {
                 Long days = TimeUnit.DAYS.convert(timeElapsed, TimeUnit.MILLISECONDS) + 1;
                 String daysElapsed = String.format("Used for %d day(s)", days);
                 txtIssueNoDays.setText(daysElapsed);
+                //fine
                 Float fine = GarageAssistantUtil.getFineAmount(days.intValue());
                 if (fine > 0) {
                     DecimalFormat currencyFormat = new DecimalFormat("####,###,###.#");
@@ -326,8 +328,8 @@ public class MainController implements Initializable {
                 JFXButton button = new JFXButton("Lemme try again!");
                 AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(button), "No such Motor exists in Issue database", null);
             }
-        } catch(SQLException e) {
-             e.printStackTrace();
+        } catch(SQLException ex) {
+             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -429,7 +431,7 @@ public class MainController implements Initializable {
     @FXML
     private void handleMenuFullScreen(ActionEvent event) {
         Stage stage = ((Stage) rootPane.getScene().getWindow());
-        stage.setFullScreen(!stage.isFullScreen());//toggle full screen & no full screen 
+        stage.setFullScreen(!stage.isFullScreen());//toggle full screen & windowed
     }
 
 //    private void initDrawer() {

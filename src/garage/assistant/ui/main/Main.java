@@ -24,7 +24,7 @@ public class Main extends Application {
 
         //for better performance
         //create a multi-thread so as not to affect the UI
-        new Thread(() -> { //lambda expression
+        new Thread(() -> {
             DatabaseHandler.getInstance(); // <- caused the delay while opening the app
         }).start();
     }

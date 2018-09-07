@@ -281,7 +281,7 @@ public final class DatabaseHandler {
             if (rs.next()) {
                 int count = rs.getInt(1);
                 remaining = count - issued;
-                data.add(new PieChart.Data("Remaining One (" + remaining + ")", remaining));
+                data.add(new PieChart.Data("Available (" + remaining + ")", remaining));
             }
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);

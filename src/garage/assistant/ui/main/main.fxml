@@ -13,6 +13,7 @@
 
 <StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" stylesheets="@../../resources/dark_theme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.ui.main.MainController">
    <children>
+      <JFXDrawer fx:id="drawer" defaultDrawerSize="150.0" direction="RIGHT" prefHeight="550.0" prefWidth="150.0" stylesheets="@../../resources/dark_theme.css" />
       <BorderPane fx:id="rootBorderPane" prefHeight="200.0" prefWidth="200.0">
          <top>
             <MenuBar stylesheets="@../../resources/dark_theme.css" BorderPane.alignment="CENTER">
@@ -178,17 +179,17 @@
                                                             <Image url="@../../resources/member_list.png" />
                                                          </image>
                                                       </ImageView>
-                                                      <Text fx:id="txtMemberName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Member Name" wrappingWidth="210.0">
+                                                      <Text fx:id="txtMemberName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Member Name" textAlignment="CENTER" wrappingWidth="262.0">
                                                          <VBox.margin>
                                                             <Insets left="1.0" right="1.0" top="10.0" />
                                                          </VBox.margin>
                                                       </Text>
-                                                      <Text fx:id="txtMemberEmail" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Email" wrappingWidth="210.0">
+                                                      <Text fx:id="txtMemberEmail" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Email" textAlignment="CENTER" wrappingWidth="262.0">
                                                          <VBox.margin>
                                                             <Insets left="1.0" right="1.0" top="10.0" />
                                                          </VBox.margin>
                                                       </Text>
-                                                      <Text fx:id="txtMemberMobile" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Mobile" wrappingWidth="210.0">
+                                                      <Text fx:id="txtMemberMobile" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Mobile" textAlignment="CENTER" wrappingWidth="262.0">
                                                          <VBox.margin>
                                                             <Insets left="1.0" right="1.0" top="10.0" />
                                                          </VBox.margin>
@@ -211,22 +212,22 @@
                                                             <Image url="@../../resources/mobtorbike.png" />
                                                          </image>
                                                       </ImageView>
-                                                      <Text fx:id="txtMotorbikeProducer" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Producer" wrappingWidth="210.0">
+                                                      <Text fx:id="txtMotorbikeProducer" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Producer" textAlignment="CENTER" wrappingWidth="262.0">
                                                          <VBox.margin>
                                                             <Insets left="1.0" right="1.0" top="10.0" />
                                                          </VBox.margin>
                                                       </Text>
-                                                      <Text fx:id="txtMotorbikeName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Motorbike Name" wrappingWidth="210.0">
+                                                      <Text fx:id="txtMotorbikeName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Motorbike Name" textAlignment="CENTER" wrappingWidth="262.0">
                                                          <VBox.margin>
                                                             <Insets left="1.0" right="1.0" top="10.0" />
                                                          </VBox.margin>
                                                       </Text>
-                                                      <Text fx:id="txtMotorbikeType" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Type" wrappingWidth="210.0">
+                                                      <Text fx:id="txtMotorbikeType" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Type" textAlignment="CENTER" wrappingWidth="262.0">
                                                          <VBox.margin>
                                                             <Insets left="1.0" right="1.0" top="10.0" />
                                                          </VBox.margin>
                                                       </Text>
-                                                      <Text fx:id="txtMotorbikeColor" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Color" wrappingWidth="210.0">
+                                                      <Text fx:id="txtMotorbikeColor" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Color" textAlignment="CENTER" wrappingWidth="262.0">
                                                          <VBox.margin>
                                                             <Insets left="1.0" right="1.0" top="10.0" />
                                                          </VBox.margin>
@@ -249,17 +250,17 @@
                                                             <Image url="@../../resources/motorbile_list1.png" />
                                                          </image>
                                                       </ImageView>
-                                                      <Text fx:id="txtIssueDate" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Issue Date" wrappingWidth="210.0">
+                                                      <Text fx:id="txtIssueDate" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Issue Date" textAlignment="CENTER" wrappingWidth="262.0">
                                                          <VBox.margin>
                                                             <Insets left="1.0" right="1.0" top="10.0" />
                                                          </VBox.margin>
                                                       </Text>
-                                                      <Text fx:id="txtIssueNoDays" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text=" N.O days" wrappingWidth="210.0">
+                                                      <Text fx:id="txtIssueNoDays" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text=" N.O days" textAlignment="CENTER" wrappingWidth="262.0">
                                                          <VBox.margin>
                                                             <Insets left="1.0" right="1.0" top="10.0" />
                                                          </VBox.margin>
                                                       </Text>
-                                                      <Text fx:id="txtIssueFine" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Fine" wrappingWidth="210.0">
+                                                      <Text fx:id="txtIssueFine" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Fine" textAlignment="CENTER" wrappingWidth="262.0">
                                                          <VBox.margin>
                                                             <Insets left="1.0" right="1.0" top="10.0" />
                                                          </VBox.margin>
@@ -282,13 +283,10 @@
                         </Tab>
                      </tabs>
                   </JFXTabPane>
-                  <JFXHamburger fx:id="hamburger" styleClass="jfx-hamburger-icon" stylesheets="@../../resources/dark_theme.css" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="42.0" />
+                  <JFXHamburger fx:id="hamburger" styleClass="jfx-hamburger-icon" stylesheets="@../../resources/dark_theme.css" AnchorPane.rightAnchor="5.0" />
                </children>
             </AnchorPane>
          </center>
-         <right>
-            <JFXDrawer fx:id="drawer" defaultDrawerSize="150.0" direction="RIGHT" prefHeight="550.0" prefWidth="150.0" stylesheets="@../../resources/dark_theme.css" BorderPane.alignment="CENTER" />
-         </right>
       </BorderPane>
    </children>
 </StackPane>

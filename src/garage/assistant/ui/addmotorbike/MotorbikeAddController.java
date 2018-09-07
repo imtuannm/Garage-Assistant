@@ -72,10 +72,10 @@ public class MotorbikeAddController implements Initializable {
         }
         
         String qu = "INSERT INTO MOTORBIKE VALUES ("
+                + "'" + type + "' ,"
                 + "'" + id + "', "
                 + "'" + producer + "',"
                 + "'" + name + "',"
-                + "'" + type + "' ,"
                 + "'" + color + "',"
                 + "" + "true" + "" //available whenever added
                 + ")";
