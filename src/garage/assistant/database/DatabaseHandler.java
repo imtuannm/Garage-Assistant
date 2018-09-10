@@ -2,6 +2,10 @@ package garage.assistant.database;
 
 import garage.assistant.ui.listmember.MemberListController;
 import garage.assistant.ui.listmotorbike.MotorbikeListController.Motorbike;
+import garage.assistant.util.GarageAssistantUtil;
+import static garage.assistant.util.GarageAssistantUtil.VEHICLE_1;
+import static garage.assistant.util.GarageAssistantUtil.VEHICLE_2;
+import static garage.assistant.util.GarageAssistantUtil.VEHICLE_3;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -29,12 +33,11 @@ public final class DatabaseHandler {
 //  no classes can create direct object of this database handler
 //  so as not to conflict database handler
     private DatabaseHandler() {
-        crtConnection();      
-        setupMotorbikeTable();
-        setupMemberTable();
-        setupIssueTable();
-
-        System.out.println("All set, ready to go!"); //print debug
+        createConnection();      
+        
+//        setupMotorbikeTable();
+//        setupMemberTable();
+//        setupIssueTable();
     }
     
 //  share a single db object across all the classes
@@ -46,7 +49,7 @@ public final class DatabaseHandler {
         return handler; //reuse if already existed
     }
     
-    void crtConnection() { //create the connection between app & database using JDBC
+    void createConnection() { //create the connection between app & database using JDBC
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();//install driver
             conn = DriverManager.getConnection(DB_URL, USR, PWD);
@@ -267,16 +270,18 @@ public final class DatabaseHandler {
         int remaining = 0;
         int issued = 0;
         
-        
         try {
+            //fetch data
             String strTotal = "SELECT COUNT(*) FROM MOTORBIKE";
             String strIssued = "SELECT COUNT(*) FROM MOTORBIKE WHERE isAvail = FALSE";
             
+            //push to data ObservableList
             ResultSet rs = excQuery(strIssued);
             if(rs.next()) {
                 issued = rs.getInt(1);
                 data.add(new PieChart.Data("Issued Motorbike (" + issued + ")", issued));
             }
+            
             rs = excQuery(strTotal);
             if (rs.next()) {
                 int count = rs.getInt(1);
@@ -285,7 +290,7 @@ public final class DatabaseHandler {
             }
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }     
         
         return data;
     }
@@ -293,24 +298,28 @@ public final class DatabaseHandler {
     public ObservableList<PieChart.Data> getMotorbikeTypes() {
         ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
         try {
+            //fetch data
             String strMtb = "SELECT COUNT(*) FROM MOTORBIKE WHERE type = 1";
             String strCar = "SELECT COUNT(*) FROM MOTORBIKE WHERE type = 2";
             String strSD = "SELECT COUNT(*) FROM MOTORBIKE WHERE type = 3";
             
+            //push to data ObservableList
             ResultSet rs = excQuery(strMtb);
             if(rs.next()) {
                 int count = rs.getInt(1);
-                data.add(new PieChart.Data("Motorbike (" + count + ")", count));
+                data.add(new PieChart.Data(VEHICLE_1 + " (" + count + ")", count));
             }
+            
             rs = excQuery(strCar);
             if (rs.next()) {
                 int count = rs.getInt(1);
-                data.add(new PieChart.Data("Car (" + count + ")", count));
+                data.add(new PieChart.Data(VEHICLE_2 + " (" + count + ")", count));
             }
+            
             rs = excQuery(strSD);
             if (rs.next()) {
                 int count = rs.getInt(1);
-                data.add(new PieChart.Data("Self-Driving (" + count + ")", count));
+                data.add(new PieChart.Data(VEHICLE_3 + " (" + count + ")", count));
             }
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);

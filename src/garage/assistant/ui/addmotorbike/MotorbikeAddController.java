@@ -6,11 +6,7 @@ import garage.assistant.alert.AlertMaker;
 import garage.assistant.database.DatabaseHandler;
 import garage.assistant.ui.listmotorbike.MotorbikeListController;
 import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -44,17 +40,17 @@ public class MotorbikeAddController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         databaseHandler = DatabaseHandler.getInstance();
-        checkData();
+//        checkData();
     }    
 
     //push the data to the db
     @FXML
     private void actSave(ActionEvent event) {
-        String id = txtId.getText();
-        String producer = txtProducer.getText();
-        String name = txtName.getText();
-        int type = Integer.parseInt(txtType.getText());
-        String color = txtColor.getText();
+        String id = txtId.getText().replaceAll("[^\\w\\s]","");
+        String producer = txtProducer.getText().replaceAll("[^\\w\\s]","");
+        String name = txtName.getText().replaceAll("[^\\w\\s]","");
+        int type = Integer.parseInt(txtType.getText().replaceAll("[^\\w\\s]",""));
+        String color = txtColor.getText().replaceAll("[^\\w\\s]","");
         
         if (id.isEmpty() || producer.isEmpty() || name.isEmpty()
                 || color.isEmpty() || (txtType.getText().length() == 0) ) {
@@ -95,42 +91,25 @@ public class MotorbikeAddController implements Initializable {
         stage.close();
     }
 
-    private void checkData() {
-        String qu = "SELECT name FROM MOTORBIKE";
-        ResultSet rs = databaseHandler.excQuery(qu);
-        try {
-            while( rs.next() ) {
-                String mbName = rs.getString("name");
-                System.out.println(mbName);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(MotorbikeAddController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    private void checkData() {
+//        String qu = "SELECT name FROM MOTORBIKE";
+//        ResultSet rs = databaseHandler.excQuery(qu);
+//        try {
+//            while( rs.next() ) {
+//                String mbName = rs.getString("name");
+//                System.out.println(mbName);
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(MotorbikeAddController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
     
     //reuse in MotorbikeListController
     public void inflateUI(MotorbikeListController.Motorbike motorbike) {
         txtId.setText(motorbike.getId());
         txtProducer.setText(motorbike.getProducer());
         txtName.setText(motorbike.getName());
-        
-//        txtType.setText(String.valueOf(motorbike.getType()));
-        
-        switch(Integer.parseInt(motorbike.getType())) {//require an Integer
-            case 1:
-                txtType.setText("Motorbike");
-                break;
-            case 2:
-                txtType.setText("Car");
-                break;
-            case 3:
-                txtType.setText("Self-Driving Car");
-                break;
-            default:
-                txtType.setText("Not exist in db yet");
-                break;
-        }
-        
+        txtType.setText(motorbike.getType());
         txtColor.setText(motorbike.getColor());
         
         txtId.setEditable(false);//cant edit the primary key

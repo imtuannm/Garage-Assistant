@@ -14,7 +14,6 @@ public class MemberAddLoader extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("member_add.fxml"));
         
         Scene scene = new Scene(root);
-        
         stage.setScene(scene);
         stage.show();
     }

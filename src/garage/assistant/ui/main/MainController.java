@@ -100,6 +100,8 @@ public class MainController implements Initializable {
     private StackPane motorbikeTypeContainer;
     @FXML
     private Tab motorbikeIssueTab;
+    @FXML
+    private Tab renewSubmitTab;
     
     PieChart motorbikeChart;
     PieChart motorbikeTypeChart;
@@ -119,7 +121,7 @@ public class MainController implements Initializable {
         clrMotorbikeCached();
         toggleGraphs(false);
         
-        String id = motorbikeIdInput.getText();
+        String id = motorbikeIdInput.getText().replaceAll("[^\\w\\s]","");
         String qr = "SELECT * FROM MOTORBIKE WHERE idMotorbike = '" + id + "'";
         Boolean flag = false;
 
@@ -133,38 +135,18 @@ public class MainController implements Initializable {
                 Boolean mbStatus = rs.getBoolean("isAvail");
 
                 motorbikeProducer.setText(mbProducer);
-                motorbikeType.setText(setType(mbType));//shorted
+                motorbikeType.setText(GarageAssistantUtil.categorizeVehicle(mbType));//shorted
                 motorbikeName.setText(mbName);
                 String stt = (mbStatus) ? "Available" : "NOT Available";
                 motorbikeStatus.setText(stt);
                 flag = true;
             }
             if (!flag) { //doesnt exist
-                motorbikeIdInput.getStyleClass().add("wrong-credentials");
                 clrMotorbikeCached();
             }
         } catch (SQLException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    private static String setType(int mtbType) {//set a type for motorbike
-        String str;
-        switch (mtbType) {
-            case 1:
-                str = "Motorbike";
-                break;
-            case 2:
-                str = "Car";
-                break;
-            case 3:
-                str = "Self-Driving Car";
-                break;
-            default:
-                str = "Not exist in db yet";
-                break;
-        }
-        return str;
     }
 
     @FXML
@@ -173,7 +155,7 @@ public class MainController implements Initializable {
         clrMemberCached();
         toggleGraphs(false);
         
-        String id = memberIdInput.getText();
+        String id = memberIdInput.getText().replaceAll("[^\\w\\s]","");
         String qr = "SELECT * FROM MEMBER WHERE idMember = '" + id + "'";
         Boolean flag = false;
 
@@ -190,7 +172,6 @@ public class MainController implements Initializable {
                 flag = true;
             }
             if (!flag) { //doesnt exist
-                memberIdInput.getStyleClass().add("wrong-credentials");
                 clrMemberCached();
             }
         } catch (SQLException ex) {
@@ -214,8 +195,8 @@ public class MainController implements Initializable {
 
     @FXML
     private void loadIssueOperation(ActionEvent event) {
-        String memID = memberIdInput.getText();
-        String mtbID = motorbikeIdInput.getText();
+        String memID = memberIdInput.getText().replaceAll("[^\\w\\s]","");
+        String mtbID = motorbikeIdInput.getText().replaceAll("[^\\w\\s]","");
         Boolean mtbStatus = false;
 
         //check if motor is ready for issue operation
@@ -253,7 +234,6 @@ public class MainController implements Initializable {
                 JFXButton button = new JFXButton("Ok, Lemme check!");
                 AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(button), "Issue Operation FAILED", null);
             }
-            
             clearIssueEntries();
         });
         
@@ -277,7 +257,7 @@ public class MainController implements Initializable {
         isReadyForSubmission = false;
 
         try{
-            String id = motorID.getText();
+            String id = motorID.getText().replaceAll("[^\\w\\s]",""); //avoid SQLi
             //use a single query for better performance
             String qr = "SELECT ISSUE.id_motorbike, ISSUE.id_member, ISSUE.issueTime, ISSUE.renew_count,\n" +
                         "MEMBER.name AS mbName, MEMBER.mobile, MEMBER.email,\n" +
@@ -289,7 +269,7 @@ public class MainController implements Initializable {
                         "ON ISSUE.id_motorbike = MOTORBIKE.idMotorbike\n" +
                         "WHERE ISSUE.id_motorbike = '" + id + "'";
             ResultSet rs = databseHandler.excQuery(qr);
-            
+            System.out.println(qr);
             if(rs.next()) {//exist
                 //member inf
                 txtMemberName.setText(rs.getString("mbName"));
@@ -299,7 +279,7 @@ public class MainController implements Initializable {
                 //motorbike inf
                 txtMotorbikeProducer.setText(rs.getString("producer"));
                 txtMotorbikeName.setText(rs.getString("mtName"));
-                txtMotorbikeType.setText(setType(rs.getInt("type")));//shorted
+                txtMotorbikeType.setText(GarageAssistantUtil.categorizeVehicle(rs.getInt("type")));//shorted
                 txtMotorbikeColor.setText(rs.getString("color"));
                 
                 //issue inf
@@ -313,8 +293,8 @@ public class MainController implements Initializable {
                 //fine
                 Float fine = GarageAssistantUtil.getFineAmount(days.intValue());
                 if (fine > 0) {
-                    DecimalFormat currencyFormat = new DecimalFormat("####,###,###.#");
-                    txtIssueFine.setText("Fine: $" + currencyFormat.format(GarageAssistantUtil.getFineAmount(days.intValue())));
+                    DecimalFormat currencyFormater = new DecimalFormat("####,###,###.#");
+                    txtIssueFine.setText("Fine: $" + currencyFormater.format(GarageAssistantUtil.getFineAmount(days.intValue())));
                     txtIssueFine.setFill(Color.web("#E452E4"));//easier to see
                 } else {
                     txtIssueFine.setText("");
@@ -324,7 +304,6 @@ public class MainController implements Initializable {
                 toggleControls(true);
                 submissionDataContainer.setOpacity(1);//unhide
             } else {//not exist
-                motorID.getStyleClass().add("wrong-credentials");
                 JFXButton button = new JFXButton("Lemme try again!");
                 AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(button), "No such Motor exists in Issue database", null);
             }
@@ -433,6 +412,11 @@ public class MainController implements Initializable {
         Stage stage = ((Stage) rootPane.getScene().getWindow());
         stage.setFullScreen(!stage.isFullScreen());//toggle full screen & windowed
     }
+    
+    @FXML
+    private void handleMenuAbout(ActionEvent event) {
+        GarageAssistantUtil.loadWindow(getClass().getResource("/garage/assistant/ui/about/about.fxml"), "About", null);
+    }
 
 //    private void initDrawer() {
 //        try {
@@ -463,9 +447,9 @@ public class MainController implements Initializable {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
         HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
-        task.setRate(-1);
+        task.setRate(-1); //toggle icon
         hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, (Event event) -> {
-            drawer.toggle();
+            drawer.toggle(); //on / off
         });
         drawer.setOnDrawerOpening((event) -> {
             task.setRate(task.getRate() * -1);
@@ -529,13 +513,17 @@ public class MainController implements Initializable {
     private void initGraphs() {
         motorbikeChart = new PieChart(databseHandler.getMotorbikeStatistics());
         motorbikeTypeChart = new PieChart(databseHandler.getMotorbikeTypes());
+        
         motorbikeInfoContainer.getChildren().add(motorbikeChart);
         motorbikeTypeContainer.getChildren().add(motorbikeTypeChart);
                 
-        motorbikeIssueTab.setOnSelectionChanged((Event event) -> {//refreshGraphs whenever change the selection
+        motorbikeIssueTab.setOnSelectionChanged((Event event) -> {//refresh whenever change the selection
             clearIssueEntries();
             if (motorbikeIssueTab.isSelected()) {
                 refreshGraphs();
+            } else {
+                motorID.clear();
+                clearEntries();
             }
         });
     }

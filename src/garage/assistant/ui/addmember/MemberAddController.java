@@ -41,15 +41,15 @@ public class MemberAddController implements Initializable {
 
     @FXML
     private void actSave(ActionEvent event) {
-        String id = txtId.getText();
-        String name = txtName.getText();
-        String mobile = txtMobile.getText();
+        String id = txtId.getText().replaceAll("[^\\w\\s]","");
+        String name = txtName.getText().replaceAll("[^\\w\\s]","");
+        String mobile = txtMobile.getText().replaceAll("[^\\w\\s]","");
         String email = txtEmail.getText();
         
         Boolean flag = id.isEmpty() || name.isEmpty() || mobile.isEmpty() || email.isEmpty();
         
         if ( flag ) {
-            AlertMaker.showSimpleErrorMessage("Can't process Member", "Pls fill in all fields");
+            AlertMaker.showSimpleErrorMessage("Something is missed", "Pls fill in all fields");
             return;
         }
         

@@ -83,7 +83,7 @@ public class MotorbikeListController implements Initializable {
                 String mbProducer = rs.getString("producer");
                 String mbNname = rs.getString("name");
                 String mbColor = rs.getString("color");
-                String mbType = setType(rs.getString("type"));//shorted
+                String mbType = GarageAssistantUtil.categorizeVehicle(rs.getInt("type"));//shorted
                 Boolean mbAvail = rs.getBoolean("isAvail");
                 
                 list.add(new Motorbike(mbId, mbProducer, mbNname, mbType, mbColor, mbAvail));
@@ -92,24 +92,6 @@ public class MotorbikeListController implements Initializable {
             Logger.getLogger(MotorbikeListController.class.getName()).log(Level.SEVERE, null, ex);
         }
         tblView.setItems(list); //refresh right after delete
-    }
-    
-    private static String setType(String mtbType) {//set a type for motorbike
-        switch(Integer.parseInt(mtbType)) {//require an Integer
-            case 1:
-                mtbType = "Motorbike";
-                break;
-            case 2:
-                mtbType = "Car";
-                break;
-            case 3:
-                mtbType = "Self-Driving Car";
-                break;
-            default:
-                mtbType = "Not exist in db yet";
-                break;
-        }
-        return mtbType;
     }
 
     @FXML
@@ -162,7 +144,7 @@ public class MotorbikeListController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/garage/assistant/ui/addmotorbike/add_motorbike.fxml"));
             Parent parent = loader.load();//then load it
             
-//          //need to check
+//          need to check
             MotorbikeAddController controller = (MotorbikeAddController)loader.getController();
             controller.inflateUI(selectedForEdit);
             
@@ -178,7 +160,6 @@ public class MotorbikeListController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
     
     @FXML

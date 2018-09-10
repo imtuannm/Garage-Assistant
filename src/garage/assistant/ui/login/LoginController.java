@@ -27,7 +27,7 @@ public class LoginController implements Initializable {
     @FXML
     private JFXPasswordField password;
     
-    Preferences preference; //store the username & pass
+    Preferences preference; //to get the stored the username & pass
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {

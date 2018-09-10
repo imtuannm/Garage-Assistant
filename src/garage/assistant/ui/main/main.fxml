@@ -43,7 +43,7 @@
                   </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
+                    <MenuItem mnemonicParsing="false" onAction="#handleMenuAbout" text="About" />
                   </items>
                 </Menu>
               </menus>
@@ -129,7 +129,7 @@
                               </AnchorPane>
                            </content>
                         </Tab>
-                        <Tab text="Renew / Submission">
+                        <Tab fx:id="renewSubmitTab" text="Renew / Submission">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>

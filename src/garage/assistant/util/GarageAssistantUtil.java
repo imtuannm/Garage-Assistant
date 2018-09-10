@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,6 +16,9 @@ import javafx.stage.StageStyle;
 
 public class GarageAssistantUtil {
     private static final String IMG = "/garage/assistant/resources/icon.png";
+    public static final String VEHICLE_1 = "Motorbike";
+    public static final String VEHICLE_2 = "Car";
+    public static final String VEHICLE_3 = "Self-Driving Car";
     
     public static void setStageIcon(Stage stage) {
         stage.getIcons().add(new Image(IMG));
@@ -50,5 +54,32 @@ public class GarageAssistantUtil {
         } catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public static boolean validateEmailAddress(String emailID) {
+        //string@domain.xxx(.xx)
+        String regex = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        Pattern pattern = Pattern.compile(regex);
+        return pattern.matcher(emailID).matches();
+    }
+    
+    public static String categorizeVehicle(int type) {
+        String vehicleCategory = null;
+        switch (type) {
+        case 1:
+            vehicleCategory = VEHICLE_1;
+            break;
+        case 2:
+            vehicleCategory = VEHICLE_2;
+            break;
+        case 3:
+            vehicleCategory = VEHICLE_3;
+            break;
+        default:
+            vehicleCategory = "404";
+            break;
+        }
+        return vehicleCategory;
     }
 }

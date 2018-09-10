@@ -35,15 +35,16 @@
     -fx-text-fill: -fx-primary;
 }
 
+.text-field {
+    -fx-text-fill: -fx-primarytext;
+    -jfx-unfocus-color: -fx-primarytext;
+    -jfx-focus-color: -fx-secondary;
+}
+
 /*Login Button specific*/
 .wrong-credentials {
     -jfx-unfocus-color: -fx-wrong;
     -jfx-focus-color: -fx-wrong;
-}
-
-.text-field {
-    -fx-text-fill: -fx-primarytext;
-    -jfx-focus-color: -fx-secondary;
 }
 
 /*
@@ -157,4 +158,21 @@ https://github.com/jfoenixadmin/JFoenix/blob/cf28a9ff3a36ffeb36897e69e5ef907a7a1
 
 .chart-pie-label {
     -fx-fill: -fx-secondary;
+}
+
+/*About*/
+.about-buttons {
+    -fx-text-fill: -fx-primarytext;
+    -fx-font-size: 12pt;
+    -fx-background-color: -fx-primary;
+
+    -fx-border-color: -fx-secondary;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.about-buttons:hover {
+    -fx-border-color: -fx-secondary;
+    -fx-background-color: -fx-secondary;
+    -fx-text-fill: -fx-primary;
 }
