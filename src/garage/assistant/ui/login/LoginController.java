@@ -31,12 +31,14 @@ public class LoginController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        preference = Preferences.getPreferences();
+        new Thread(()-> {
+            preference = Preferences.getPreferences();
+        }).start();
     }    
 
     @FXML
     private void handleLoginButtonAction(ActionEvent event) {
-        String usrName = username.getText();
+        String usrName = username.getText().replaceAll("[^\\w\\s]","");
         String pass = DigestUtils.shaHex(password.getText());//compare with the stored password in config file
     
         if(usrName.equals(preference.getUsername()) && pass.equals(preference.getPassword())) {

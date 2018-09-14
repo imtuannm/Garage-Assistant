@@ -16,9 +16,13 @@ import javafx.stage.StageStyle;
 
 public class GarageAssistantUtil {
     private static final String IMG = "/garage/assistant/resources/icon.png";
+    
     public static final String VEHICLE_1 = "Motorbike";
     public static final String VEHICLE_2 = "Car";
     public static final String VEHICLE_3 = "Self-Driving Car";
+    public enum VEHICLE {
+        VEHICLE_1, VEHICLE_2, VEHICLE_3;
+    }
     
     public static void setStageIcon(Stage stage) {
         stage.getIcons().add(new Image(IMG));
@@ -64,9 +68,9 @@ public class GarageAssistantUtil {
         return pattern.matcher(emailID).matches();
     }
     
-    public static String categorizeVehicle(int type) {
+    public static String categorizeVehicle(int value) {
         String vehicleCategory = null;
-        switch (type) {
+        switch (value) {
         case 1:
             vehicleCategory = VEHICLE_1;
             break;

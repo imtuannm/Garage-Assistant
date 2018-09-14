@@ -117,7 +117,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void loadMotorbikeInfo(ActionEvent event) {
-        //clear the pane to load infors
+        //clear the pane to load infs
         clrMotorbikeCached();
         toggleGraphs(false);
         
@@ -179,7 +179,7 @@ public class MainController implements Initializable {
         }
     }
 
-    //clear old text when can not find the informations
+    //clear old text when can not find the infs
     void clrMotorbikeCached() {
         motorbikeName.setText("");
         motorbikeProducer.setText("");
@@ -288,22 +288,20 @@ public class MainController implements Initializable {
                 txtIssueDate.setText(dateOfIssue.toString());
                 Long timeElapsed = System.currentTimeMillis() - issueTime.getTime();
                 Long days = TimeUnit.DAYS.convert(timeElapsed, TimeUnit.MILLISECONDS) + 1;
-                String daysElapsed = String.format("Used for %d day(s)", days);
+                String daysElapsed = String.format("Used for %d day(s)", days);//used days
                 txtIssueNoDays.setText(daysElapsed);
-                //fine
-                Float fine = GarageAssistantUtil.getFineAmount(days.intValue());
+                Float fine = GarageAssistantUtil.getFineAmount(days.intValue());//fine
                 if (fine > 0) {
-                    DecimalFormat currencyFormater = new DecimalFormat("####,###,###.#");
-                    txtIssueFine.setText("Fine: $" + currencyFormater.format(GarageAssistantUtil.getFineAmount(days.intValue())));
-                    txtIssueFine.setFill(Color.web("#E452E4"));//easier to see
+                    DecimalFormat currencyFormatter = new DecimalFormat("####,###,###.#"); //formatting
+                    txtIssueFine.setText("Fine: $" + currencyFormatter.format(fine));
+                    txtIssueFine.setFill(Color.web("#E452E4")); //easier to see
                 } else {
-                    txtIssueFine.setText("");
+                    txtIssueFine.setText(""); //allowed days
                 }
-                isReadyForSubmission = true;//everything is set
-                //enable controls
-                toggleControls(true);
-                submissionDataContainer.setOpacity(1);//unhide
-            } else {//not exist
+                isReadyForSubmission = true; //everything is set
+                toggleControls(true); //enable controls
+                submissionDataContainer.setOpacity(1); //unhide
+            } else { //does not exist
                 JFXButton button = new JFXButton("Lemme try again!");
                 AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(button), "No such Motor exists in Issue database", null);
             }
@@ -320,10 +318,10 @@ public class MainController implements Initializable {
             return;
         }
 
-        //make an alert box to confirm
+        //confirm button
         JFXButton yesButton = new JFXButton("YES");
         yesButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1)->{
-            String id = motorID.getText();
+            String id = motorID.getText().replaceAll("[^\\w\\s]","");
             //1. remove the entry from the Issue table
             String actDel = "DELETE FROM ISSUE WHERE id_motorbike = '" + id + "'";
             //2. make the motor available in the database
@@ -338,6 +336,7 @@ public class MainController implements Initializable {
             }
         });
         
+        //cancel button
         JFXButton noButton = new JFXButton("NO");
         noButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1)->{
             JFXButton btn = new JFXButton("Sure");
@@ -346,7 +345,7 @@ public class MainController implements Initializable {
         
         AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(yesButton, noButton), "Confirm", "Are you sure want to return the motorbike?");
     }
-
+    
     //renew the issue time into current time
     @FXML
     private void loadRenewOperation(ActionEvent event) {
@@ -356,8 +355,8 @@ public class MainController implements Initializable {
             return;
         }
 
-        String id = motorID.getText();
-        
+        String id = motorID.getText().replaceAll("[^\\w\\s]","");
+
         JFXButton yesButton = new JFXButton("YES");
         yesButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1)->{
             //change issueTime & renew_count
@@ -447,9 +446,9 @@ public class MainController implements Initializable {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
         HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
-        task.setRate(-1); //toggle icon
+        task.setRate(-1); //for toggling icon
         hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, (Event event) -> {
-            drawer.toggle(); //on / off
+            drawer.toggle(); //slide
         });
         drawer.setOnDrawerOpening((event) -> {
             task.setRate(task.getRate() * -1);
@@ -481,11 +480,11 @@ public class MainController implements Initializable {
         txtIssueNoDays.setText("");
         txtIssueFine.setText("");
         
-        toggleControls(false);
-        submissionDataContainer.setOpacity(0);//hide it
+        toggleControls(false); //hide controls
+        submissionDataContainer.setOpacity(0); //hide it
     }
     
-    private void toggleControls(Boolean enableFlag) {
+    private void toggleControls(Boolean enableFlag) { //control buttons
         if (enableFlag) {
             btnRenew.setDisable(false);
             btnSubmission.setDisable(false);
@@ -495,7 +494,7 @@ public class MainController implements Initializable {
         }
     }
 
-    private void clearIssueEntries() { //remove the data from the UI
+    private void clearIssueEntries() { //remove texts from the UI
         motorbikeIdInput.clear();
         memberIdInput.clear();
         
@@ -534,7 +533,7 @@ public class MainController implements Initializable {
     }
     
     private void toggleGraphs(Boolean status) {
-        if (status) { //enable
+        if (status) { //visible
             motorbikeChart.setOpacity(1);
             motorbikeTypeChart.setOpacity(1);
         } else { //hide

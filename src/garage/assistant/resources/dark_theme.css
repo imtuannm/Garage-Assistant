@@ -143,17 +143,17 @@ https://github.com/jfoenixadmin/JFoenix/blob/cf28a9ff3a36ffeb36897e69e5ef907a7a1
 /*Chart*/
 .data0.chart-pie {
     -fx-pie-color: #00BECC;
-    -fx-border-color: #00BECC;
+    -fx-border-color: -fx-primary;
 }
 
 .data1.chart-pie {
     -fx-pie-color: #9A76BE;
-    -fx-border-color: #9A76BE;
+    -fx-border-color: -fx-primary;
 }
 
 .data2.chart-pie {
     -fx-pie-color: #FFB400;
-    -fx-border-color: #FFB400;
+    -fx-border-color: -fx-primary;
 }
 
 .chart-pie-label {

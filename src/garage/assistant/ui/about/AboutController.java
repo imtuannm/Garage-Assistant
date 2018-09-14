@@ -17,8 +17,8 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 public class AboutController implements Initializable {
-    private static final String FACEBOOK = "https://www.facebook.com/itsTrada";
     private static final String GITHUB = "https://github.com/itsTrada";
+    private static final String FACEBOOK = "https://www.facebook.com/itsTrada";
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {

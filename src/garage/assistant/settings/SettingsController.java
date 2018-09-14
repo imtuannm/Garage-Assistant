@@ -28,10 +28,10 @@ public class SettingsController implements Initializable {
 
     @FXML
     private void handleSaveButtonAction(ActionEvent event) {
-        int nDays = Integer.parseInt(nDaysWithoutFine.getText());
-        float fine = Float.parseFloat(finePerDay.getText());
-        String urn = username.getText();
-        String pass = password.getText();//hash & send to the preferences
+        int nDays = Integer.parseInt(nDaysWithoutFine.getText().replaceAll("[^\\w\\s]",""));
+        float fine = Float.parseFloat(finePerDay.getText().replaceAll("[^\\w\\s]",""));
+        String urn = username.getText().replaceAll("[^\\w\\s]","");
+        String pass = password.getText();//hash & write to the preference file
         
         //set values
         Preferences preferences = Preferences.getPreferences();
