@@ -17,12 +17,16 @@ import javafx.stage.StageStyle;
 public class GarageAssistantUtil {
     private static final String IMG = "/garage/assistant/resources/icon.png";
     
+    //Category
     public static final String VEHICLE_1 = "Motorbike";
     public static final String VEHICLE_2 = "Car";
     public static final String VEHICLE_3 = "Self-Driving Car";
-    public enum VEHICLE {
-        VEHICLE_1, VEHICLE_2, VEHICLE_3;
-    }
+    
+    //status
+    public static final String STATUS_M1 = "Under Maintenance";
+    public static final String STATUS_0 = "NOT Available";
+    public static final String STATUS_1 = "Available";
+    public static final String STATUS_2 = "Booked";
     
     public static void setStageIcon(Stage stage) {
         stage.getIcons().add(new Image(IMG));
@@ -85,5 +89,27 @@ public class GarageAssistantUtil {
             break;
         }
         return vehicleCategory;
+    }
+    
+    public static String vehicleStatus(int value) {
+        String stringStatus = null;
+        switch (value) {
+            case -1:
+                stringStatus = STATUS_M1;
+                break;
+            case 0:
+                stringStatus = STATUS_0;
+                break;
+            case 1:
+                stringStatus = STATUS_1;
+                break;
+            case 2:
+                stringStatus = STATUS_2;
+                break;
+            default:
+                stringStatus = "404";
+                break;
+        }
+        return stringStatus;
     }
 }

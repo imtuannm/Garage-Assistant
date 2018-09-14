@@ -156,6 +156,11 @@ https://github.com/jfoenixadmin/JFoenix/blob/cf28a9ff3a36ffeb36897e69e5ef907a7a1
     -fx-border-color: -fx-primary;
 }
 
+.data3.chart-pie {
+    -fx-pie-color: #f1f2f6;
+    -fx-border-color: -fx-primary;
+}
+
 .chart-pie-label {
     -fx-fill: -fx-secondary;
 }

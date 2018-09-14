@@ -73,7 +73,7 @@ public class MotorbikeAddController implements Initializable {
                 + "'" + producer + "',"
                 + "'" + name + "',"
                 + "'" + color + "',"
-                + "" + "true" + "" //available whenever added
+                + "" + "1" + "" //available whenever added
                 + ")";
         
         System.out.println(qu); //print debug

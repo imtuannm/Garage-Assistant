@@ -19,7 +19,7 @@
             <TableColumn fx:id="nameCol" prefWidth="75.0" text="Name" />
             <TableColumn fx:id="typeCol" prefWidth="75.0" text="Type" />
             <TableColumn fx:id="colorCol" prefWidth="154.0" text="Color" />
-            <TableColumn fx:id="availabilityCol" prefWidth="106.0" text="Availability" />
+            <TableColumn fx:id="statusCol" prefWidth="106.0" text="Status" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -27,7 +27,7 @@
          <contextMenu>
             <ContextMenu>
               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#handleMotorbikeEditOption" text="Edit" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleMotorbikeMaintainOption" text="Maintain" />
                 <MenuItem mnemonicParsing="false" onAction="#handleMotorbikeDeleteOption" text="Delete" />
                   <MenuItem mnemonicParsing="false" onAction="#handleRefresh" text="Refresh" />
               </items>

@@ -20,7 +20,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -52,7 +52,7 @@ public class MotorbikeListController implements Initializable {
     @FXML
     private TableColumn<Motorbike, String> colorCol;
     @FXML
-    private TableColumn<Motorbike, Boolean> availabilityCol;
+    private TableColumn<Motorbike, String> statusCol;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -66,7 +66,7 @@ public class MotorbikeListController implements Initializable {
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
         colorCol.setCellValueFactory(new PropertyValueFactory<>("color"));
-        availabilityCol.setCellValueFactory(new PropertyValueFactory<>("availability"));
+        statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
     }
 
     private void loadData() {//push data from db to app
@@ -84,9 +84,9 @@ public class MotorbikeListController implements Initializable {
                 String mbNname = rs.getString("name");
                 String mbColor = rs.getString("color");
                 String mbType = GarageAssistantUtil.categorizeVehicle(rs.getInt("type"));//shorted
-                Boolean mbAvail = rs.getBoolean("isAvail");
+                String status = GarageAssistantUtil.vehicleStatus(rs.getInt("status"));
                 
-                list.add(new Motorbike(mbId, mbProducer, mbNname, mbType, mbColor, mbAvail));
+                list.add(new Motorbike(mbId, mbProducer, mbNname, mbType, mbColor, status));
             }
         } catch (SQLException ex) {
             Logger.getLogger(MotorbikeListController.class.getName()).log(Level.SEVERE, null, ex);
@@ -129,60 +129,92 @@ public class MotorbikeListController implements Initializable {
     }
 
     //TODO
-    @FXML
-    private void handleMotorbikeEditOption(ActionEvent event) {
-        //fetch the selected motorbike
-        Motorbike selectedForEdit = tblView.getSelectionModel().getSelectedItem();
-        
-        if (selectedForEdit == null) {//invalid row
-            AlertMaker.showSimpleErrorMessage("No Motorbike selected", "Pls select a motor for edit.");
-            return;
-        }
-        
-        try {
-            //creating a loader object
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/garage/assistant/ui/addmotorbike/add_motorbike.fxml"));
-            Parent parent = loader.load();//then load it
-            
-//          need to check
-            MotorbikeAddController controller = (MotorbikeAddController)loader.getController();
-            controller.inflateUI(selectedForEdit);
-            
-            Stage stage = new Stage(StageStyle.DECORATED);
-            stage.setTitle("Edit Motorbike");
-            stage.setScene(new Scene(parent));
-            GarageAssistantUtil.setStageIcon(stage);
-            stage.show();
-            
-            stage.setOnCloseRequest((e) -> {//refresh after edit (setOnCloseRequest)
-                handleRefresh(new ActionEvent());
-            });
-        } catch (IOException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    @FXML
+//    private void handleMotorbikeEditOption(ActionEvent event) {
+//        //fetch the selected motorbike
+//        Motorbike selectedForEdit = tblView.getSelectionModel().getSelectedItem();
+//        
+//        if (selectedForEdit == null) {//invalid row
+//            AlertMaker.showSimpleErrorMessage("No Motorbike selected", "Pls select a motor for edit.");
+//            return;
+//        }
+//        
+//        try {
+//            //creating a loader object
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/garage/assistant/ui/addmotorbike/add_motorbike.fxml"));
+//            Parent parent = loader.load();//then load it
+//            
+////          need to check
+//            MotorbikeAddController controller = (MotorbikeAddController)loader.getController();
+//            controller.inflateUI(selectedForEdit);
+//            
+//            Stage stage = new Stage(StageStyle.DECORATED);
+//            stage.setTitle("Edit Motorbike");
+//            stage.setScene(new Scene(parent));
+//            GarageAssistantUtil.setStageIcon(stage);
+//            stage.show();
+//            
+//            stage.setOnCloseRequest((e) -> {//refresh after edit (setOnCloseRequest)
+//                handleRefresh(new ActionEvent());
+//            });
+//        } catch (IOException ex) {
+//            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
     
     @FXML
     private void handleRefresh(ActionEvent event) {
         loadData();
     }
+
+    @FXML
+    private void handleMotorbikeMaintainOption(ActionEvent event) {
+        //fetch the selected motorbike
+        Motorbike selectedForMaintain = tblView.getSelectionModel().getSelectedItem();
+        
+        if (selectedForMaintain == null) {//invalid row
+            AlertMaker.showSimpleErrorMessage("No Motorbike selected", "Pls select a motor for Maintain.");
+            return;
+        } else if ( DatabaseHandler.getInstance().isMotorbikeAlreadyIssued(selectedForMaintain) ) {//in use
+            AlertMaker.showSimpleErrorMessage("Cant set", "This Motorbike is already in use!");
+            return;
+        }
+        
+        Alert altCfm = new Alert(Alert.AlertType.CONFIRMATION);
+        altCfm.setTitle("Motorbike Maintenance");
+        altCfm.setHeaderText(null);
+        altCfm.setContentText("Are you sure want to set status for " + selectedForMaintain.getName() + "?");
+        Optional<ButtonType> answer = altCfm.showAndWait();
+        if (answer.get() == ButtonType.OK) {//OK
+            Boolean res = DatabaseHandler.getInstance().maintainMotorbike(selectedForMaintain);
+            if (res) {//success
+                AlertMaker.showSimpleInforAlert("Success", selectedForMaintain.getName() + " is set!");
+                handleRefresh(new ActionEvent());
+            } else {//fail
+                AlertMaker.showSimpleErrorMessage("Failed", selectedForMaintain.getName() + " could not be set!");
+            }
+        } else {//cancel
+            AlertMaker.showSimpleInforAlert("Cancelled", "Motorbike is not set!");
+        }
+    }
     
+    //list specific
     public static class Motorbike {
         private final SimpleStringProperty id;
         private final SimpleStringProperty producer;
         private final SimpleStringProperty name;
         private final SimpleStringProperty type;
         private final SimpleStringProperty color;
-        private final SimpleBooleanProperty availability;
+        private final SimpleStringProperty status;
         
         //constructor
-        Motorbike(String id, String producer, String name, String type, String color, boolean availability) {
+        Motorbike(String id, String producer, String name, String type, String color, String status) {
             this.id = new SimpleStringProperty(id);
             this.producer = new SimpleStringProperty(producer);
             this.name = new SimpleStringProperty(name);
             this.type = new SimpleStringProperty(type);
             this.color = new SimpleStringProperty(color);
-            this.availability = new SimpleBooleanProperty(availability);
+            this.status = new SimpleStringProperty(status);
         }
 
         public String getId() {
@@ -205,8 +237,8 @@ public class MotorbikeListController implements Initializable {
             return type.get();
         }
 
-        public Boolean getAvailability() {
-            return availability.get();
+        public String getStatus() {
+            return status.get();
         }
     }
     

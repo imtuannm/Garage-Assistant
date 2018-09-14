@@ -132,14 +132,12 @@ public class MainController implements Initializable {
                 String mbProducer = rs.getString("producer");
                 String mbName = rs.getString("name");
                 int mbType = rs.getInt("type");
-                Boolean mbStatus = rs.getBoolean("isAvail");
+                int mbStatus = rs.getInt("status");
 
                 motorbikeProducer.setText(mbProducer);
                 motorbikeType.setText(GarageAssistantUtil.categorizeVehicle(mbType));//shorted
                 motorbikeName.setText(mbName);
-                String stt = (mbStatus) ? "Available" : "NOT Available";
-                motorbikeStatus.setText(stt);
-                flag = true;
+                motorbikeStatus.setText(GarageAssistantUtil.vehicleStatus(mbStatus));
             }
             if (!flag) { //doesnt exist
                 clrMotorbikeCached();
@@ -197,20 +195,20 @@ public class MainController implements Initializable {
     private void loadIssueOperation(ActionEvent event) {
         String memID = memberIdInput.getText().replaceAll("[^\\w\\s]","");
         String mtbID = motorbikeIdInput.getText().replaceAll("[^\\w\\s]","");
-        Boolean mtbStatus = false;
+        int mtbStatus = 0;
 
         //check if motor is ready for issue operation
         String chkStt = "SELECT * FROM MOTORBIKE WHERE idMotorbike = '" + mtbID + "'";;
         ResultSet rss = databseHandler.excQuery(chkStt);
         try {
             while (rss.next()) {
-                mtbStatus = rss.getBoolean("isAvail");
+                mtbStatus = rss.getInt("status");
             }
         } catch (SQLException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        if (!mtbStatus) {//not avaiable
+        if ( mtbStatus != 1) {//not avaiable
             JFXButton btt = new JFXButton("OK, Lemme check");
             AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btt), "Failed", "This motorbike is NOT available to issue!");
             return;
@@ -224,7 +222,7 @@ public class MainController implements Initializable {
                     + "'" + memID + "',"
                     + "'" + 0 + "')";
 
-            String strUpdStt = "UPDATE MOTORBIKE SET isAvail = false WHERE idMotorbike = '" + mtbID + "'";
+            String strUpdStt = "UPDATE MOTORBIKE SET status = 0 WHERE idMotorbike = '" + mtbID + "'";
 
             if (databseHandler.excAction(strIssue) && databseHandler.excAction(strUpdStt)) {
                 JFXButton button = new JFXButton("Done");
@@ -325,7 +323,7 @@ public class MainController implements Initializable {
             //1. remove the entry from the Issue table
             String actDel = "DELETE FROM ISSUE WHERE id_motorbike = '" + id + "'";
             //2. make the motor available in the database
-            String actUpd = "UPDATE MOTORBIKE SET isAvail = true WHERE idMotorbike = '" + id + "'";
+            String actUpd = "UPDATE MOTORBIKE SET status = 1 WHERE idMotorbike = '" + id + "'";
             if (databseHandler.excAction(actDel) && databseHandler.excAction(actUpd)) {//success
                 JFXButton btn = new JFXButton("OK");
                 AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn),"Success!", "Motorbike has been submitted.");

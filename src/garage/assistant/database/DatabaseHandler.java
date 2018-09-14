@@ -2,10 +2,6 @@ package garage.assistant.database;
 
 import garage.assistant.ui.listmember.MemberListController;
 import garage.assistant.ui.listmotorbike.MotorbikeListController.Motorbike;
-import garage.assistant.util.GarageAssistantUtil;
-import static garage.assistant.util.GarageAssistantUtil.VEHICLE_1;
-import static garage.assistant.util.GarageAssistantUtil.VEHICLE_2;
-import static garage.assistant.util.GarageAssistantUtil.VEHICLE_3;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -19,6 +15,13 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
+import static garage.assistant.util.GarageAssistantUtil.STATUS_0;
+import static garage.assistant.util.GarageAssistantUtil.STATUS_1;
+import static garage.assistant.util.GarageAssistantUtil.STATUS_2;
+import static garage.assistant.util.GarageAssistantUtil.STATUS_M1;
+import static garage.assistant.util.GarageAssistantUtil.VEHICLE_1;
+import static garage.assistant.util.GarageAssistantUtil.VEHICLE_2;
+import static garage.assistant.util.GarageAssistantUtil.VEHICLE_3;
 
 public final class DatabaseHandler {
     private static DatabaseHandler handler = null;
@@ -181,6 +184,22 @@ public final class DatabaseHandler {
         return false;  
     }
     
+        public boolean maintainMotorbike(Motorbike motorbike) {
+        PreparedStatement stmt = null;
+        try {                 
+            String delStmt = "UPDATE MOTORBIKE SET status = status*(-1) WHERE idMotorbike = ?";
+            stmt = conn.prepareStatement(delStmt);
+            stmt.setString(1, motorbike.getId());
+            int res = stmt.executeUpdate();//insert, update, delete
+            if (res == 1) {//no exception if res == 0
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;  
+    }
+    
     public boolean isMotorbikeAlreadyIssued(Motorbike motorbike) {
         try {
             String chkStmt = "SELECT COUNT(*) FROM ISSUE WHERE id_motorbike = ?";
@@ -267,27 +286,40 @@ public final class DatabaseHandler {
     
     public ObservableList<PieChart.Data> getMotorbikeStatistics() {
         ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
-        int remaining = 0;
-        int issued = 0;
         
         try {
             //fetch data
-            String strTotal = "SELECT COUNT(*) FROM MOTORBIKE";
-            String strIssued = "SELECT COUNT(*) FROM MOTORBIKE WHERE isAvail = FALSE";
+            String strMan = "SELECT COUNT(*) FROM MOTORBIKE WHERE status = -1";
+            String strNotAvail = "SELECT COUNT(*) FROM MOTORBIKE WHERE status = 0";
+            String strAvail = "SELECT COUNT(*) FROM MOTORBIKE WHERE status = 1";
+            String strBooked = "SELECT COUNT(*) FROM MOTORBIKE WHERE status = 2";
             
             //push to data ObservableList
-            ResultSet rs = excQuery(strIssued);
+            ResultSet rs = excQuery(strMan);
             if(rs.next()) {
-                issued = rs.getInt(1);
-                data.add(new PieChart.Data("Issued Motorbike (" + issued + ")", issued));
+                int uM = rs.getInt(1);
+                data.add(new PieChart.Data(STATUS_M1 + " (" + uM + ")", uM));
             }
             
-            rs = excQuery(strTotal);
-            if (rs.next()) {
-                int count = rs.getInt(1);
-                remaining = count - issued;
-                data.add(new PieChart.Data("Available (" + remaining + ")", remaining));
+            rs = excQuery(strNotAvail);
+            if(rs.next()) {
+                int notAvail = rs.getInt(1);
+                data.add(new PieChart.Data(STATUS_0 + " (" + notAvail + ")", notAvail));
             }
+            
+            rs = excQuery(strBooked);
+            if(rs.next()) {
+                int booked = rs.getInt(1);
+                data.add(new PieChart.Data(STATUS_2 + " (" + booked + ")", booked));
+            }
+            
+            rs = excQuery(strAvail);
+            if(rs.next()) {
+                int avail = rs.getInt(1);
+                data.add(new PieChart.Data(STATUS_1 + " (" + avail + ")", avail));
+            }
+            
+            
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }     
