@@ -2,11 +2,8 @@ package garage.assistant.ui.listmotorbike;
 
 import garage.assistant.alert.AlertMaker;
 import garage.assistant.database.DatabaseHandler;
-import garage.assistant.ui.addmotorbike.MotorbikeAddController;
 import garage.assistant.ui.listmotorbike.MotorbikeListController.Motorbike;
-import garage.assistant.ui.main.MainController;
 import garage.assistant.util.GarageAssistantUtil;
-import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,18 +17,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class MotorbikeListController implements Initializable {
 

@@ -106,11 +106,11 @@ public class MainController implements Initializable {
     PieChart motorbikeChart;
     PieChart motorbikeTypeChart;
     Boolean isReadyForSubmission = false;
-    DatabaseHandler databseHandler;
+    DatabaseHandler databaseHandler;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        databseHandler = DatabaseHandler.getInstance();
+        databaseHandler = DatabaseHandler.getInstance();
         initDrawer();
         initGraphs();
     }
@@ -125,10 +125,10 @@ public class MainController implements Initializable {
         String qr = "SELECT * FROM MOTORBIKE WHERE idMotorbike = '" + id + "'";
         Boolean flag = false;
 
-        ResultSet rs = databseHandler.excQuery(qr);
+        ResultSet rs = databaseHandler.excQuery(qr);
 
         try {
-            while (rs.next()) { //set info to textfield
+            while (rs.next()) { //set inf into textfield
                 String mbProducer = rs.getString("producer");
                 String mbName = rs.getString("name");
                 int mbType = rs.getInt("type");
@@ -139,7 +139,7 @@ public class MainController implements Initializable {
                 motorbikeName.setText(mbName);
                 motorbikeStatus.setText(GarageAssistantUtil.vehicleStatus(mbStatus));
             }
-            if (!flag) { //doesnt exist
+            if (!flag) { //does not exist
                 clrMotorbikeCached();
             }
         } catch (SQLException ex) {
@@ -149,7 +149,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void loadMemberInfo(ActionEvent event) {
-        //clear the pane to load infors
+        //clear the pane to load infs
         clrMemberCached();
         toggleGraphs(false);
         
@@ -157,7 +157,7 @@ public class MainController implements Initializable {
         String qr = "SELECT * FROM MEMBER WHERE idMember = '" + id + "'";
         Boolean flag = false;
 
-        ResultSet rs = databseHandler.excQuery(qr);
+        ResultSet rs = databaseHandler.excQuery(qr);
 
         try {
             while (rs.next()) { //set info to textfields
@@ -199,7 +199,7 @@ public class MainController implements Initializable {
 
         //check if motor is ready for issue operation
         String chkStt = "SELECT * FROM MOTORBIKE WHERE idMotorbike = '" + mtbID + "'";;
-        ResultSet rss = databseHandler.excQuery(chkStt);
+        ResultSet rss = databaseHandler.excQuery(chkStt);
         try {
             while (rss.next()) {
                 mtbStatus = rss.getInt("status");
@@ -224,7 +224,7 @@ public class MainController implements Initializable {
 
             String strUpdStt = "UPDATE MOTORBIKE SET status = 0 WHERE idMotorbike = '" + mtbID + "'";
 
-            if (databseHandler.excAction(strIssue) && databseHandler.excAction(strUpdStt)) {
+            if (databaseHandler.excAction(strIssue) && databaseHandler.excAction(strUpdStt)) {
                 JFXButton button = new JFXButton("Done");
                 AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(button), "Issuing completed!", null);
                 refreshGraphs();
@@ -266,7 +266,7 @@ public class MainController implements Initializable {
                         "LEFT JOIN MOTORBIKE\n" +
                         "ON ISSUE.id_motorbike = MOTORBIKE.idMotorbike\n" +
                         "WHERE ISSUE.id_motorbike = '" + id + "'";
-            ResultSet rs = databseHandler.excQuery(qr);
+            ResultSet rs = databaseHandler.excQuery(qr);
             System.out.println(qr);
             if(rs.next()) {//exist
                 //member inf
@@ -324,7 +324,7 @@ public class MainController implements Initializable {
             String actDel = "DELETE FROM ISSUE WHERE id_motorbike = '" + id + "'";
             //2. make the motor available in the database
             String actUpd = "UPDATE MOTORBIKE SET status = 1 WHERE idMotorbike = '" + id + "'";
-            if (databseHandler.excAction(actDel) && databseHandler.excAction(actUpd)) {//success
+            if (databaseHandler.excAction(actDel) && databaseHandler.excAction(actUpd)) {//success
                 JFXButton btn = new JFXButton("OK");
                 AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn),"Success!", "Motorbike has been submitted.");
                 loadIssueInfo(null); //refresh
@@ -359,7 +359,7 @@ public class MainController implements Initializable {
         yesButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1)->{
             //change issueTime & renew_count
             String actUpd = "UPDATE ISSUE SET issueTime = CURRENT_TIMESTAMP, renew_count = renew_count+1 WHERE id_motorbike = '" + id + "'";
-            if (databseHandler.excAction(actUpd)) {//success
+            if (databaseHandler.excAction(actUpd)) {//success
                 JFXButton btn = new JFXButton("OK");
                 AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn), "Success!", "Motorbike has been renewed.");
                 loadIssueInfo(null); //refresh
@@ -508,8 +508,8 @@ public class MainController implements Initializable {
     }
 
     private void initGraphs() {
-        motorbikeChart = new PieChart(databseHandler.getMotorbikeStatistics());
-        motorbikeTypeChart = new PieChart(databseHandler.getMotorbikeTypes());
+        motorbikeChart = new PieChart(databaseHandler.getMotorbikeStatistics());
+        motorbikeTypeChart = new PieChart(databaseHandler.getMotorbikeTypes());
         
         motorbikeInfoContainer.getChildren().add(motorbikeChart);
         motorbikeTypeContainer.getChildren().add(motorbikeTypeChart);
@@ -526,8 +526,8 @@ public class MainController implements Initializable {
     }
     
     private void refreshGraphs() {
-        motorbikeChart.setData(databseHandler.getMotorbikeStatistics());
-        motorbikeTypeChart.setData(databseHandler.getMotorbikeTypes());
+        motorbikeChart.setData(databaseHandler.getMotorbikeStatistics());
+        motorbikeTypeChart.setData(databaseHandler.getMotorbikeTypes());
     }
     
     private void toggleGraphs(Boolean status) {

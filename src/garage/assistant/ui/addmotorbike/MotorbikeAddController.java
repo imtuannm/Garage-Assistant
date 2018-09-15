@@ -38,9 +38,10 @@ public class MotorbikeAddController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        databaseHandler = DatabaseHandler.getInstance();
 //        checkData();
+        new Thread(() -> {
+            databaseHandler = DatabaseHandler.getInstance(); // <- caused the delay while opening the app
+        }).start();
     }    
 
     //push the data to the db

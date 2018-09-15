@@ -147,7 +147,7 @@ public final class DatabaseHandler {
             stmt = conn.createStatement();
             result = stmt.executeQuery(query);
         } catch (SQLException ex) {
-            System.out.println("Exception at execute Query: dataHandler" + ex.getLocalizedMessage());
+            System.out.println("Exception at execute Query: databaseHandler" + ex.getLocalizedMessage());
             return null;
         } finally {
         }
@@ -163,7 +163,7 @@ public final class DatabaseHandler {
             return true;
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage(), "Error Occured", JOptionPane.ERROR_MESSAGE);
-            System.out.println("Exception at execQuery: dataHandler" + ex.getLocalizedMessage());
+            System.out.println("Exception at execQuery: databaseHandler" + ex.getLocalizedMessage());
             return false;
         } finally {
         }
