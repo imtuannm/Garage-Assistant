@@ -65,7 +65,7 @@ public class GarageAssistantUtil {
     }
     
     public static boolean validateEmailAddress(String emailID) {
-        //string@domain.xxx(.xx)
+        //john.smith@example.com(.us)
         String regex = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         Pattern pattern = Pattern.compile(regex);

@@ -75,9 +75,10 @@ public class MotorbikeListController implements Initializable {
                 String mbNname = rs.getString("name");
                 String mbColor = rs.getString("color");
                 String mbType = GarageAssistantUtil.categorizeVehicle(rs.getInt("type"));//shorted
-                String status = GarageAssistantUtil.vehicleStatus(rs.getInt("status"));
+                String mbStatus = GarageAssistantUtil.vehicleStatus(rs.getInt("status"));
                 
-                list.add(new Motorbike(mbId, mbProducer, mbNname, mbType, mbColor, status));
+                //create new motorbike object & add to list
+                list.add(new Motorbike(mbId, mbProducer, mbNname, mbType, mbColor, mbStatus));
             }
         } catch (SQLException ex) {
             Logger.getLogger(MotorbikeListController.class.getName()).log(Level.SEVERE, null, ex);
@@ -161,12 +162,12 @@ public class MotorbikeListController implements Initializable {
     @FXML
     private void handleMotorbikeMaintainOption(ActionEvent event) {
         //fetch the selected motorbike
-        Motorbike selectedForMaintain = tblView.getSelectionModel().getSelectedItem();
+        Motorbike selectedForMaintenance = tblView.getSelectionModel().getSelectedItem();
         
-        if (selectedForMaintain == null) {//invalid row
+        if (selectedForMaintenance == null) {//invalid row
             AlertMaker.showSimpleErrorMessage("No Motorbike selected", "Pls select a motor for Maintain.");
             return;
-        } else if ( DatabaseHandler.getInstance().isMotorbikeAlreadyIssued(selectedForMaintain) ) {//in use
+        } else if ( DatabaseHandler.getInstance().isMotorbikeAlreadyIssued(selectedForMaintenance) ) {//in use
             AlertMaker.showSimpleErrorMessage("Cant set", "This Motorbike is already in use!");
             return;
         }
@@ -174,15 +175,15 @@ public class MotorbikeListController implements Initializable {
         Alert altCfm = new Alert(Alert.AlertType.CONFIRMATION);
         altCfm.setTitle("Motorbike Maintenance");
         altCfm.setHeaderText(null);
-        altCfm.setContentText("Are you sure want to set status for " + selectedForMaintain.getName() + "?");
+        altCfm.setContentText("Are you sure want to set status for " + selectedForMaintenance.getName() + "?");
         Optional<ButtonType> answer = altCfm.showAndWait();
         if (answer.get() == ButtonType.OK) {//OK
-            Boolean res = DatabaseHandler.getInstance().maintainMotorbike(selectedForMaintain);
+            Boolean res = DatabaseHandler.getInstance().maintainMotorbike(selectedForMaintenance);
             if (res) {//success
-                AlertMaker.showSimpleInforAlert("Success", selectedForMaintain.getName() + " is set!");
+                AlertMaker.showSimpleInforAlert("Success", selectedForMaintenance.getName() + " is set!");
                 handleRefresh(new ActionEvent());
             } else {//fail
-                AlertMaker.showSimpleErrorMessage("Failed", selectedForMaintain.getName() + " could not be set!");
+                AlertMaker.showSimpleErrorMessage("Failed", selectedForMaintenance.getName() + " could not be set!");
             }
         } else {//cancel
             AlertMaker.showSimpleInforAlert("Cancelled", "Motorbike is not set!");

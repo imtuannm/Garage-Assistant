@@ -184,7 +184,7 @@ public final class DatabaseHandler {
         return false;  
     }
     
-        public boolean maintainMotorbike(Motorbike motorbike) {
+    public boolean maintainMotorbike(Motorbike motorbike) {
         PreparedStatement stmt = null;
         try {                 
             String delStmt = "UPDATE MOTORBIKE SET status = status*(-1) WHERE idMotorbike = ?";
@@ -318,8 +318,6 @@ public final class DatabaseHandler {
                 int avail = rs.getInt(1);
                 data.add(new PieChart.Data(STATUS_1 + " (" + avail + ")", avail));
             }
-            
-            
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }     

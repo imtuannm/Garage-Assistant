@@ -25,9 +25,9 @@ public class AboutController implements Initializable {
         // TODO
     }
     
-        private void loadWebpage(String url) {
+    private void loadWebpage(String url) {
         try {
-            Desktop.getDesktop().browse(new URI(url));
+            Desktop.getDesktop().browse(new URI(url)); //get the default browser
         } catch (IOException | URISyntaxException ex) {
             ex.printStackTrace();
             handleWebpageLoadException(url);

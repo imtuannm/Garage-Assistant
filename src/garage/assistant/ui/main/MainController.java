@@ -123,12 +123,14 @@ public class MainController implements Initializable {
         
         String id = motorbikeIdInput.getText().replaceAll("[^\\w\\s]","");
         String qr = "SELECT * FROM MOTORBIKE WHERE idMotorbike = '" + id + "'";
-        Boolean flag = false;
-
+        Boolean isExist = false;
+        System.out.println(qr);//debug
         ResultSet rs = databaseHandler.excQuery(qr);
 
         try {
             while (rs.next()) { //set inf into textfield
+                isExist = true;
+                
                 String mbProducer = rs.getString("producer");
                 String mbName = rs.getString("name");
                 int mbType = rs.getInt("type");
@@ -139,7 +141,7 @@ public class MainController implements Initializable {
                 motorbikeName.setText(mbName);
                 motorbikeStatus.setText(GarageAssistantUtil.vehicleStatus(mbStatus));
             }
-            if (!flag) { //does not exist
+            if (!isExist) { //does not exist
                 clrMotorbikeCached();
             }
         } catch (SQLException ex) {
@@ -195,7 +197,7 @@ public class MainController implements Initializable {
     private void loadIssueOperation(ActionEvent event) {
         String memID = memberIdInput.getText().replaceAll("[^\\w\\s]","");
         String mtbID = motorbikeIdInput.getText().replaceAll("[^\\w\\s]","");
-        int mtbStatus = 0;
+        int mtbStatus = 0; //for secure
 
         //check if motor is ready for issue operation
         String chkStt = "SELECT * FROM MOTORBIKE WHERE idMotorbike = '" + mtbID + "'";;
