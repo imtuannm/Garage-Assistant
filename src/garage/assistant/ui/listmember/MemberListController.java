@@ -45,6 +45,8 @@ public class MemberListController implements Initializable {
     private TableColumn<Member, String> mobileCol;
     @FXML
     private TableColumn<Member, String> emailCol;
+    @FXML
+    private TableColumn<Member, String> passwordCol;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -57,6 +59,7 @@ public class MemberListController implements Initializable {
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         mobileCol.setCellValueFactory(new PropertyValueFactory<>("mobile"));
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
+        passwordCol.setCellValueFactory(new PropertyValueFactory<>("password"));
     }
     
     private void loadData() { //load data from database
@@ -69,12 +72,13 @@ public class MemberListController implements Initializable {
         
         try {
             while(rs.next()) { //retrieve data
-                String mId = rs.getString("idMember");
-                String mName = rs.getString("name");
-                String mMobile = rs.getString("mobile");
-                String mEmail = rs.getString("email");
+                String mbId = rs.getString("idMember");
+                String mbName = rs.getString("name");
+                String mbMobile = rs.getString("mobile");
+                String mbEmail = rs.getString("email");
+                String mbPassword = rs.getString("password");
                 
-                list.add(new Member(mId, mName, mMobile, mEmail)); //push to list
+                list.add(new Member(mbId, mbName, mbMobile, mbEmail, mbPassword)); //push to list
             }
         } catch (SQLException ex) {
             Logger.getLogger(MotorbikeListController.class.getName()).log(Level.SEVERE, null, ex);
@@ -154,19 +158,22 @@ public class MemberListController implements Initializable {
     private void handleRefresh(ActionEvent event) {
         loadData();
     }
-
+    
+    //specific for list view
     public static class Member {
         private final SimpleStringProperty id;
         private final SimpleStringProperty name;
         private final SimpleStringProperty mobile;
         private final SimpleStringProperty email;
+        private final SimpleStringProperty password;
         
         //constructor
-        public Member(String id, String name, String mobile, String email) {
+        public Member(String id, String name, String mobile, String email, String password) {
             this.id = new SimpleStringProperty(id);
             this.name = new SimpleStringProperty(name);
             this.mobile = new SimpleStringProperty(mobile);
             this.email = new SimpleStringProperty(email);
+            this.password = new SimpleStringProperty(password);
         }
 
         public String getId() {
@@ -183,6 +190,10 @@ public class MemberListController implements Initializable {
 
         public String getEmail() {
             return email.get();
+        }
+        
+        public String getPassword() {
+            return password.get();
         }
     }    
     

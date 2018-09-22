@@ -31,6 +31,8 @@ public class MemberAddController implements Initializable {
     private JFXButton btnCancel;
     @FXML
     private AnchorPane rootPanez;
+    @FXML
+    private JFXTextField txtPassword;
     
     private boolean isInEditMode = Boolean.FALSE;
 
@@ -45,8 +47,9 @@ public class MemberAddController implements Initializable {
         String name = txtName.getText().replaceAll("[^\\w\\s]","");
         String mobile = txtMobile.getText().replaceAll("[^\\w\\s]","");
         String email = txtEmail.getText();
+        String password = txtPassword.getText();
         
-        Boolean flag = id.isEmpty() || name.isEmpty() || mobile.isEmpty() || email.isEmpty();
+        Boolean flag = id.isEmpty() || name.isEmpty() || mobile.isEmpty() || email.isEmpty() || password.isEmpty();
         
         if ( flag ) {
             AlertMaker.showSimpleErrorMessage("Something is missed", "Pls fill in all fields");
@@ -63,7 +66,7 @@ public class MemberAddController implements Initializable {
                 + "'" + name + "',"
                 + "'" + mobile + "',"
                 + "'" + email + "',"
-                + "'" + mobile + "'"//password, default equal to mobile
+                + "'" + password + "'"//password, default equal to mobile
                 + ")";
         System.out.println(qu);//print debug
         
@@ -85,13 +88,14 @@ public class MemberAddController implements Initializable {
         txtName.setText(member.getName());
         txtMobile.setText(member.getMobile());
         txtEmail.setText(member.getEmail());
+        txtPassword.setText(member.getPassword());
         
         txtId.setEditable(Boolean.FALSE);//cant edit the primary key
         isInEditMode = Boolean.TRUE;
     }
 
     private void handleUpdateMember() {
-        MemberListController.Member member = new MemberListController.Member(txtId.getText(), txtName.getText(), txtMobile.getText(), txtEmail.getText());
+        MemberListController.Member member = new MemberListController.Member(txtId.getText(), txtName.getText(), txtMobile.getText(), txtEmail.getText(), txtPassword.getText());
         if ( handler.updateMember(member) ) {
             AlertMaker.showSimpleInforAlert("Success", "Member updated!");
         } else {

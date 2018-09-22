@@ -250,13 +250,14 @@ public final class DatabaseHandler {
     
     public boolean updateMember(MemberListController.Member member) {
         try {
-            String strUpd = "UPDATE MEMBER SET name = ?, mobile = ?, email = ? WHERE idMember = ?";
+            String strUpd = "UPDATE MEMBER SET name = ?, mobile = ?, email = ?, password = ? WHERE idMember = ?";
             PreparedStatement stmt = conn.prepareStatement(strUpd);
             
             stmt.setString(1, member.getName());
             stmt.setString(2, member.getMobile());
             stmt.setString(3, member.getEmail());
-            stmt.setString(4, member.getId());
+            stmt.setString(4, member.getPassword());
+            stmt.setString(5, member.getId());
             
             int res = stmt.executeUpdate();
             

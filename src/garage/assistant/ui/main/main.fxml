@@ -173,10 +173,10 @@
                                                    <children>
                                                       <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                                                          <VBox.margin>
-                                                            <Insets bottom="10.0" left="35.0" right="10.0" top="10.0" />
+                                                            <Insets bottom="10.0" left="60.0" right="50.0" top="10.0" />
                                                          </VBox.margin>
                                                          <image>
-                                                            <Image url="@../../resources/member_list.png" />
+                                                            <Image url="@../../resources/member_tab.png" />
                                                          </image>
                                                       </ImageView>
                                                       <Text fx:id="txtMemberName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Member Name" textAlignment="CENTER" wrappingWidth="262.0">
@@ -206,10 +206,10 @@
                                                    <children>
                                                       <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                                                          <VBox.margin>
-                                                            <Insets bottom="10.0" left="35.0" right="10.0" top="10.0" />
+                                                            <Insets bottom="10.0" left="60.0" right="50.0" top="10.0" />
                                                          </VBox.margin>
                                                          <image>
-                                                            <Image url="@../../resources/mobtorbike.png" />
+                                                            <Image url="@../../resources/vehicle.png" />
                                                          </image>
                                                       </ImageView>
                                                       <Text fx:id="txtMotorbikeProducer" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Producer" textAlignment="CENTER" wrappingWidth="262.0">
@@ -244,10 +244,10 @@
                                                    <children>
                                                       <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                                                          <VBox.margin>
-                                                            <Insets bottom="10.0" left="35.0" right="10.0" top="10.0" />
+                                                            <Insets bottom="10.0" left="60.0" right="50.0" top="10.0" />
                                                          </VBox.margin>
                                                          <image>
-                                                            <Image url="@../../resources/motorbile_list1.png" />
+                                                            <Image url="@../../resources/contract.png" />
                                                          </image>
                                                       </ImageView>
                                                       <Text fx:id="txtIssueDate" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Issue Date" textAlignment="CENTER" wrappingWidth="262.0">
