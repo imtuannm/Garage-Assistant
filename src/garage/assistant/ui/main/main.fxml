@@ -36,6 +36,11 @@
                         <MenuItem mnemonicParsing="false" onAction="#handleMenuFullScreen" text="Full Screen" />
                      </items>
                   </Menu>
+                  <Menu mnemonicParsing="false" text="Analyse">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Top Vehicle of Month" />
+                    </items>
+                  </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
                     <MenuItem mnemonicParsing="false" onAction="#handleMenuAbout" text="About" />

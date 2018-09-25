@@ -469,7 +469,6 @@ public class MainController implements Initializable {
         });
     }
 
-
     private void clearEntries() {
         //member inf
         txtMemberName.setText("");

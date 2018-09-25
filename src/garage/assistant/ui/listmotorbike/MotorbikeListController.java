@@ -205,10 +205,8 @@ public class MotorbikeListController implements Initializable {
             String searchQuery = "SELECT * FROM MOTORBIKE WHERE idMotorbike LIKE '%" + search + "%'"
                                 + " UNION SELECT * FROM MOTORBIKE WHERE producer LIKE '%" + search + "%'"
                                 + " UNION SELECT * FROM MOTORBIKE WHERE name LIKE '%" + search + "%'"
-                                + " UNION SELECT * FROM MOTORBIKE WHERE color LIKE '%" + search + "%'";
-                                
-            
-            
+                                + " UNION SELECT * FROM MOTORBIKE WHERE color LIKE '%" + search + "%'";                                
+       
             System.out.println(searchQuery);
 
             ResultSet rs = handler.excQuery(searchQuery);
