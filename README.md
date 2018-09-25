@@ -1,4 +1,4 @@
-# Garage Assistant project
+# Garage Assistant Project
 
 ## About the project
 - MVC Architecture
