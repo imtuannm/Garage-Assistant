@@ -202,7 +202,13 @@ public class MotorbikeListController implements Initializable {
         if (search == null) {
             handleRefresh(new ActionEvent());
         } else {
-            String searchQuery = "SELECT * FROM MOTORBIKE WHERE idMotorbike LIKE '%" + search + "%' OR producer LIKE '&" + search + "&' OR name LIKE '&" + search + "&' OR color LIKE '&" + search + "&'";
+            String searchQuery = "SELECT * FROM MOTORBIKE WHERE idMotorbike LIKE '%" + search + "%'"
+                                + " UNION SELECT * FROM MOTORBIKE WHERE producer LIKE '%" + search + "%'"
+                                + " UNION SELECT * FROM MOTORBIKE WHERE name LIKE '%" + search + "%'"
+                                + " UNION SELECT * FROM MOTORBIKE WHERE color LIKE '%" + search + "%'";
+                                
+            
+            
             System.out.println(searchQuery);
 
             ResultSet rs = handler.excQuery(searchQuery);

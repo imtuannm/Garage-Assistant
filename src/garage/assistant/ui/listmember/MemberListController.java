@@ -171,7 +171,11 @@ public class MemberListController implements Initializable {
         if (search == null) {
             handleRefresh(new ActionEvent());
         } else{
-            String searchQuery = "SELECT * FROM MEMBER WHERE idMember LIKE '%" + search + "%'";
+            String searchQuery = "SELECT * FROM MEMBER WHERE idMember LIKE '%" + search + "%'"
+                                + " UNION SELECT * FROM MEMBER WHERE name LIKE '%" + search + "%'"
+                                + " UNION SELECT * FROM MEMBER WHERE mobile LIKE '%" + search + "%'"
+                                + " UNION SELECT * FROM MEMBER WHERE mobile LIKE '%" + search + "%'"
+                                + " UNION SELECT * FROM MEMBER WHERE password LIKE '%" + search + "%'";
             System.out.println(searchQuery);
             
             ResultSet rs = handler.excQuery(searchQuery);
@@ -180,7 +184,7 @@ public class MemberListController implements Initializable {
                 String mbId = rs.getString("idMember");
                 String mbName = rs.getString("name");
                 String mbMobile = rs.getString("mobile");
-                String mbEmail = rs.getString("email");
+                String mbEmail = rs.getString("mobile");
                 String mbPassword = rs.getString("password");
                 
                 list.add(new Member(mbId, mbName, mbMobile, mbEmail, mbPassword)); //push to list
