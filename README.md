@@ -1,3 +1,4 @@
 # Garage Assistant project
 
-MCV Architecture
+MVC Architecture
+JavaFX
