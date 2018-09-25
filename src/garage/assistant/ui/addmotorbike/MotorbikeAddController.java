@@ -47,11 +47,11 @@ public class MotorbikeAddController implements Initializable {
     //push the data to the db
     @FXML
     private void actSave(ActionEvent event) {
-        String id = txtId.getText().replaceAll("[^\\w\\s]","");
-        String producer = txtProducer.getText().replaceAll("[^\\w\\s]","");
-        String name = txtName.getText().replaceAll("[^\\w\\s]","");
-        int type = Integer.parseInt(txtType.getText().replaceAll("[^\\w\\s]",""));
-        String color = txtColor.getText().replaceAll("[^\\w\\s]","");
+        String id = txtId.getText();
+        String producer = txtProducer.getText();
+        String name = txtName.getText();
+        int type = Integer.parseInt(txtType.getText());
+        String color = txtColor.getText();
         
         if (id.isEmpty() || producer.isEmpty() || name.isEmpty()
                 || color.isEmpty() || (txtType.getText().length() == 0) ) {

@@ -20,12 +20,15 @@ import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -102,6 +105,10 @@ public class MainController implements Initializable {
     private Tab motorbikeIssueTab;
     @FXML
     private Tab renewSubmitTab;
+    @FXML
+    private ListView<String> lstOverdue;
+    @FXML
+    private Tab overdueTab;
     
     PieChart motorbikeChart;
     PieChart motorbikeTypeChart;
@@ -523,6 +530,12 @@ public class MainController implements Initializable {
             } else {
                 motorID.clear();
                 clearEntries();
+                
+                try {//overdue tab
+                    initOverdues();
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -542,4 +555,34 @@ public class MainController implements Initializable {
         }
     }
 
+    private void initOverdues() throws SQLException {
+        ObservableList<String> overdues = FXCollections.observableArrayList();
+        
+        String qr = "SELECT * FROM ISSUE";
+        ResultSet rs = databaseHandler.excQuery(qr);
+        
+        try {
+            while(rs.next()) {
+                Timestamp issueTime = rs.getTimestamp("issueTime");
+                Date dateOfIssue = new Date(issueTime.getTime());
+                txtIssueDate.setText(dateOfIssue.toString());
+                Long timeElapsed = System.currentTimeMillis() - issueTime.getTime();
+                Long days = TimeUnit.DAYS.convert(timeElapsed, TimeUnit.MILLISECONDS) + 1;
+                Float fine = GarageAssistantUtil.getFineAmount(days.intValue());//fine
+                if (fine > 0) {
+                    String mtbId = rs.getString("id_motorbike");
+                    String mbrId = rs.getString("id_member");
+                    DecimalFormat currencyFormatter = new DecimalFormat("####,###,###.#"); //formatting
+                    
+                    overdues.add("\nVehicle's ID: " + mtbId);
+                    overdues.add("Member's ID: " + mbrId);
+                    overdues.add("Fine: $" + currencyFormatter.format(fine));
+                }
+            }
+            lstOverdue.getItems().setAll(overdues);
+        } catch (SQLException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 }

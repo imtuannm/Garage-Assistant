@@ -21,7 +21,7 @@ public class Preferences {
     
     //constructor, set default values
     public Preferences() {
-        nDaysWithoutFine = 5;
+        nDaysWithoutFine = 2;
         finePerDay = 500000;
         username = "tuan";
         setPassword("root");//store after being hashed

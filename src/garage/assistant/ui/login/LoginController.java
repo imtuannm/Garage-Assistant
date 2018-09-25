@@ -41,9 +41,9 @@ public class LoginController implements Initializable {
         String usrName = username.getText().replaceAll("[^\\w\\s]","");
         String pass = DigestUtils.shaHex(password.getText());//compare with the stored password in config file
     
-        if(usrName.equals(preference.getUsername()) && pass.equals(preference.getPassword())) {
-            closeStage();
+        if(usrName.equals(preference.getUsername()) && pass.equals(preference.getPassword())) {//success
             loadMain();
+            closeStage();
         } else {//inform user that entered wrong credentials
             username.getStyleClass().add("wrong-credentials");
             password.getStyleClass().add("wrong-credentials");

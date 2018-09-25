@@ -36,11 +36,6 @@
                         <MenuItem mnemonicParsing="false" onAction="#handleMenuFullScreen" text="Full Screen" />
                      </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="Search">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Delete" />
-                     </items>
-                  </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
                     <MenuItem mnemonicParsing="false" onAction="#handleMenuAbout" text="About" />
@@ -277,6 +272,15 @@
                                           </HBox>
                                        </center>
                                     </BorderPane>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                        <Tab fx:id="overdueTab" text="Overdue">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <ListView fx:id="lstOverdue" prefHeight="523.0" prefWidth="836.0" />
                                  </children>
                               </AnchorPane>
                            </content>

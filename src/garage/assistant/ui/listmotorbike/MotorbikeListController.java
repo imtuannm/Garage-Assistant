@@ -1,5 +1,6 @@
 package garage.assistant.ui.listmotorbike;
 
+import com.jfoenix.controls.JFXTextField;
 import garage.assistant.alert.AlertMaker;
 import garage.assistant.database.DatabaseHandler;
 import garage.assistant.ui.listmotorbike.MotorbikeListController.Motorbike;
@@ -44,9 +45,14 @@ public class MotorbikeListController implements Initializable {
     private TableColumn<Motorbike, String> colorCol;
     @FXML
     private TableColumn<Motorbike, String> statusCol;
+    @FXML
+    private JFXTextField keyword;
+    
+    DatabaseHandler handler = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        handler = DatabaseHandler.getInstance();
         initCol();
         loadData();
     }    
@@ -62,8 +68,6 @@ public class MotorbikeListController implements Initializable {
 
     private void loadData() {//push data from db to app
         list.clear();
-        
-        DatabaseHandler handler = DatabaseHandler.getInstance();
         
         String qu = "SELECT * FROM MOTORBIKE";
         ResultSet rs = handler.excQuery(qu);
@@ -189,7 +193,38 @@ public class MotorbikeListController implements Initializable {
             AlertMaker.showSimpleInforAlert("Cancelled", "Motorbike is not set!");
         }
     }
-    
+
+    @FXML
+    private void handleSearchOperation(ActionEvent event) {
+        list.clear();
+        String search = keyword.getText();
+        
+        if (search == null) {
+            handleRefresh(new ActionEvent());
+        } else {
+            String searchQuery = "SELECT * FROM MOTORBIKE WHERE idMotorbike LIKE '%" + search + "%' OR producer LIKE '&" + search + "&' OR name LIKE '&" + search + "&' OR color LIKE '&" + search + "&'";
+            System.out.println(searchQuery);
+
+            ResultSet rs = handler.excQuery(searchQuery);
+            try {
+                while(rs.next()) {
+                    String mbId = rs.getString("idMotorbike");
+                    String mbProducer = rs.getString("producer");
+                    String mbNname = rs.getString("name");
+                    String mbColor = rs.getString("color");
+                    String mbType = GarageAssistantUtil.categorizeVehicle(rs.getInt("type"));//shorted
+                    String mbStatus = GarageAssistantUtil.vehicleStatus(rs.getInt("status"));
+
+                    //create a new motorbike object then add to list
+                    list.add(new Motorbike(mbId, mbProducer, mbNname, mbType, mbColor, mbStatus));
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(MotorbikeListController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            tblView.setItems(list); //refresh right after delete
+        }        
+    }
+
     //list specific
     public static class Motorbike {
         private final SimpleStringProperty id;

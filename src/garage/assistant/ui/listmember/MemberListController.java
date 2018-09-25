@@ -1,5 +1,6 @@
 package garage.assistant.ui.listmember;
 
+import com.jfoenix.controls.JFXTextField;
 import garage.assistant.alert.AlertMaker;
 import garage.assistant.database.DatabaseHandler;
 import garage.assistant.ui.addmember.MemberAddController;
@@ -47,9 +48,14 @@ public class MemberListController implements Initializable {
     private TableColumn<Member, String> emailCol;
     @FXML
     private TableColumn<Member, String> passwordCol;
+    
+    DatabaseHandler handler = null;
+    @FXML
+    private JFXTextField keyword;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        handler = DatabaseHandler.getInstance();
         initCol();
         loadData();
     }
@@ -64,9 +70,7 @@ public class MemberListController implements Initializable {
     
     private void loadData() { //load data from database
         list.clear();
-        
-        DatabaseHandler handler = DatabaseHandler.getInstance();
-        
+
         String qu = "SELECT * FROM MEMBER";
         ResultSet rs = handler.excQuery(qu);
         
@@ -157,6 +161,35 @@ public class MemberListController implements Initializable {
     @FXML
     private void handleRefresh(ActionEvent event) {
         loadData();
+    }
+
+    @FXML
+    private void handleSearchOperation(ActionEvent event) {
+        list.clear();
+        String search = keyword.getText();
+
+        if (search == null) {
+            handleRefresh(new ActionEvent());
+        } else{
+            String searchQuery = "SELECT * FROM MEMBER WHERE idMember LIKE '%" + search + "%'";
+            System.out.println(searchQuery);
+            
+            ResultSet rs = handler.excQuery(searchQuery);
+            try {
+                while(rs.next()) {
+                String mbId = rs.getString("idMember");
+                String mbName = rs.getString("name");
+                String mbMobile = rs.getString("mobile");
+                String mbEmail = rs.getString("email");
+                String mbPassword = rs.getString("password");
+                
+                list.add(new Member(mbId, mbName, mbMobile, mbEmail, mbPassword)); //push to list
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Member.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            tblView.setItems(list); //refresh right after delete
+        }
     }
     
     //specific for list view

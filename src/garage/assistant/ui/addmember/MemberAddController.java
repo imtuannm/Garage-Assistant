@@ -66,7 +66,7 @@ public class MemberAddController implements Initializable {
                 + "'" + name + "',"
                 + "'" + mobile + "',"
                 + "'" + email + "',"
-                + "'" + password + "'"//password, default equal to mobile
+                + "'" + password + "'"
                 + ")";
         System.out.println(qu);//print debug
         
