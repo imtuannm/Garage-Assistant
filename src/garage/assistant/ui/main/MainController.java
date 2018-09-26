@@ -111,6 +111,10 @@ public class MainController implements Initializable {
     private Tab overdueTab;
     @FXML
     private JFXTextField noDays;
+    @FXML
+    private JFXTextField daysAdded;
+    @FXML
+    private JFXButton btnIssue;
     
     PieChart motorbikeChart;
     PieChart motorbikeTypeChart;
@@ -121,16 +125,18 @@ public class MainController implements Initializable {
     int returnDate = 0;
     double finePerDay = 0;
     boolean isReadyForRenew = false;
-    @FXML
-    private JFXTextField daysAdded;
-    @FXML
-    private JFXButton btnIssue;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         databaseHandler = DatabaseHandler.getInstance();
         initDrawer();
         initGraphs();
+        
+        try {
+            initOverdues();
+        } catch (SQLException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
@@ -386,11 +392,11 @@ public class MainController implements Initializable {
         AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(yesButton, noButton), "Confirm", "Are you sure want to return the motorbike?");
     }
     
-    //renew the issue time into current time
+    //renew Expected Return Day
     @FXML
     private void loadRenewOperation(ActionEvent event) {
         if (!isReadyForSubmission) { //not ready 
-            JFXButton btn = new JFXButton("Lemme check again");
+            JFXButton btn = new JFXButton("Let me check again");
             AlertMaker.showMaterialDialog(rootPane, rootBorderPane,Arrays.asList(btn), "Failed!", "Invalid Motorbike to renew.");
             return;
         }
@@ -398,12 +404,23 @@ public class MainController implements Initializable {
         String id = motorID.getText().replaceAll("[^\\w\\s]","");
         int added = Integer.parseInt(daysAdded.getText());
         
+        String chkStt = "SELECT * FROM MOTORBIKE WHERE idMotorbike = '" + id + "'";;
+        ResultSet rs = databaseHandler.excQuery(chkStt);
+        try {
+            while (rs.next()) {
+                fee = rs.getInt("baseFee");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         if (added <= 0) {//invalid day
-            JFXButton btn = new JFXButton("Lemme check again");
+            JFXButton btn = new JFXButton("Let me check again");
             AlertMaker.showMaterialDialog(rootPane, rootBorderPane,Arrays.asList(btn), "Failed!", "Invalid Day");
             return;
         }
 
+        //confirm
         JFXButton yesButton = new JFXButton("YES");
         yesButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1)->{
             String actUpd = "UPDATE ISSUE SET expectedReturnDay = expectedReturnDay + " + added + " WHERE id_motorbike = '" + id + "'";
@@ -420,14 +437,17 @@ public class MainController implements Initializable {
             }
         });
         
+        //cancel
         JFXButton noButton = new JFXButton("NO");
         noButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1)->{
             JFXButton btn = new JFXButton("SURE");
             AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn),"Cancelled", "Renew Operation cancelled!");
         });
         
-        //confirm
-        AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(yesButton, noButton), "Confirm", "Are you sure want to renew the motorbike?");
+        int addedDep = added * fee;
+        
+        //show alert
+        AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(yesButton, noButton), "Confirm", "Are you sure want to renew the motorbike?\nFee: $" + addedDep);
     }
 
     @FXML
@@ -604,6 +624,7 @@ public class MainController implements Initializable {
 
     private void initOverdues() throws SQLException {
         ObservableList<String> overdues = FXCollections.observableArrayList();
+        int noOverdueVehicles = 0;
         
         String qr = "SELECT ISSUE.id_motorbike, ISSUE.id_member, ISSUE.issueTime, ISSUE.expectedReturnDay, \n" +
                     "MEMBER.name AS mbName, MEMBER.mobile, MEMBER.email,\n" +
@@ -615,48 +636,55 @@ public class MainController implements Initializable {
                     "ON ISSUE.id_motorbike = MOTORBIKE.idMotorbike\n"+
                     "WHERE ISSUE.isSubmitted = '0'";
         
-        //String qr = "SELECT * FROM ISSUE";
         ResultSet rs = databaseHandler.excQuery(qr);
         
         try {
             while(rs.next()) {
                 
                 if (rs.getInt("status") == 0) {
+                    noOverdueVehicles++;
                     int expectedReturnDay = rs.getInt("expectedReturnDay");
                     int fee = rs.getInt("baseFee");
                     int finePer = rs.getInt("finePercent");
+                    
+                    //calculate fine amount
                     Timestamp issueTime = rs.getTimestamp("issueTime");
                     Date dateOfIssue = new Date(issueTime.getTime());
                     txtIssueDate.setText(dateOfIssue.toString());
                     Long timeElapsed = System.currentTimeMillis() - issueTime.getTime();
-                    Long days = TimeUnit.DAYS.convert(timeElapsed, TimeUnit.MILLISECONDS) + 1;
-                    String daysElapsed = String.format("Used for %d day(s)", days);//used days
-                    txtIssueNoDays.setText(daysElapsed);
+                    Long days = TimeUnit.DAYS.convert(timeElapsed, TimeUnit.MILLISECONDS) + 1;//used days
+                    int fineDays = days.intValue() - expectedReturnDay;
                     double fine = GarageAssistantUtil.getFineAmount(days.intValue(), expectedReturnDay, fee, finePer);
                     if (fine >= 0) {
+                        //motorbike inf
                         String mtbId = rs.getString("id_motorbike");
                         String mtbProc = rs.getString("producer");
                         String mtbName = rs.getString("mtName");
                         String mtbColor = rs.getString("color");
+                        
+                        //member inf
                         String mbrId = rs.getString("id_member");
                         String mbrName = rs.getString("mbName");
                         String mbrMobile = rs.getString("mobile");
                         String mbrEmail = rs.getString("email");
                         DecimalFormat currencyFormatter = new DecimalFormat("####,###,###.#"); //formatting
 
-                        overdues.add("\nVehicle:");
-                        overdues.add("\tID: " + mtbId);
-                        overdues.add("\t" + mtbProc + ", " + mtbName + " (" + mtbColor + ")");
+                        overdues.add("");
+                        overdues.add("[" + noOverdueVehicles + "] "+ mtbId + " | " + mtbProc + ", " + mtbName + " (" + mtbColor + ")");
+                        overdues.add("\tFINE: $" + currencyFormatter.format(fine) + " | " + days + " day(s) issued in total:" + " | " + fineDays + " fine day(s)");
 
                         overdues.add("Member:");
-                        overdues.add("\t" + mbrName + " (" + mbrId + ")");
-                        overdues.add("\tMobile: " + mbrMobile);
-                        overdues.add("\tEmail: " + mbrEmail);
-                        overdues.add("\tFINE: $" + currencyFormatter.format(fine));
+                        overdues.add("\t" + mbrName + " | ID: " + mbrId);
+                        overdues.add("\tMobile: " + mbrMobile + " | Email: " + mbrEmail);
+                        
                     }
                 }
             }
             lstOverdue.getItems().setAll(overdues);
+            if (noOverdueVehicles > 0)
+                overdueTab.setText("Overdue(" + noOverdueVehicles + ")");
+            else
+                overdueTab.setText("Overdue");
         } catch (SQLException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
