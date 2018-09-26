@@ -120,6 +120,8 @@ public class MotorbikeAddController implements Initializable {
         txtName.setText(motorbike.getName());
         txtType.setText(motorbike.getType());
         txtColor.setText(motorbike.getColor());
+        txtBaseFee.setText(motorbike.getFee());
+        txtFinePercent.setText(motorbike.getFine());
         
         txtId.setEditable(false);//cant edit the primary key
         isInEditMode = Boolean.TRUE;

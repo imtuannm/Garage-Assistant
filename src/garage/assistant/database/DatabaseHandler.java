@@ -127,7 +127,6 @@ public final class DatabaseHandler {
                         + "id_motorbike VARCHAR(9) primary key,\n"
                         + "id_member VARCHAR(9) primary key,\n"
                         + "issueTime timestamp default CURRENT_TIMESTAMP primary key,\n"
-                        + "renew_count integer (11) default 0,\n"
                         + "deposit DOUBLE default 500000,\n"
                         + "FOREIGN KEY (id_Motorbike) REFERENCES MOTORBIKE (idMotorbike),\n"
                         + "FOREIGN KEY (id_Member) REFERENCES MEMBER (idMember)"

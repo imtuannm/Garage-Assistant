@@ -263,7 +263,7 @@ public class MotorbikeListController implements Initializable {
             this.fine = new SimpleStringProperty(fine);
             this.status = new SimpleStringProperty(status);
         }
-
+        
         public String getId() {
             return id.get();
         }

@@ -109,11 +109,22 @@ public class MainController implements Initializable {
     private ListView<String> lstOverdue;
     @FXML
     private Tab overdueTab;
+    @FXML
+    private JFXTextField noDays;
     
     PieChart motorbikeChart;
     PieChart motorbikeTypeChart;
     Boolean isReadyForSubmission = false;
     DatabaseHandler databaseHandler;
+    int fee = 0;
+    int deposit = 0;
+    int returnDate = 0;
+    double finePerDay = 0;
+    boolean isReadyForRenew = false;
+    @FXML
+    private JFXTextField daysAdded;
+    @FXML
+    private JFXButton btnIssue;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -208,10 +219,12 @@ public class MainController implements Initializable {
 
         //check if motor is ready for issue operation
         String chkStt = "SELECT * FROM MOTORBIKE WHERE idMotorbike = '" + mtbID + "'";;
-        ResultSet rss = databaseHandler.excQuery(chkStt);
+        ResultSet rs = databaseHandler.excQuery(chkStt);
         try {
-            while (rss.next()) {
-                mtbStatus = rss.getInt("status");
+            while (rs.next()) {
+                mtbStatus = rs.getInt("status");
+                fee = rs.getInt("baseFee");
+                finePerDay = rs.getInt("finePercent");
             }
         } catch (SQLException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
@@ -223,13 +236,24 @@ public class MainController implements Initializable {
             return;
         }
         
+        //get days member want to rent the vehicle
+        returnDate = Integer.parseInt(noDays.getText());
+        
         //YES
         JFXButton yesButton = new JFXButton("YES");
         yesButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1)->{
-            String strIssue = "INSERT INTO ISSUE(id_motorbike,id_member, renew_count) VALUES (+"
+            String strIssue = "INSERT INTO ISSUE(id_motorbike,id_member, expectedReturnDay, isSubmitted) VALUES ("
                     + "'" + mtbID + "',"
                     + "'" + memID + "',"
-                    + "'" + 0 + "')";
+                    + "'" + returnDate + "',"
+                    + "'0')";
+            
+            if (returnDate <=0) {
+                JFXButton btt = new JFXButton("OK, Lemme check");
+                AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btt), "Failed", "Invalid Expected Return Day: " + returnDate);
+                return;
+            }
+            System.out.println(strIssue);
 
             String strUpdStt = "UPDATE MOTORBIKE SET status = 0 WHERE idMotorbike = '" + mtbID + "'";
 
@@ -253,9 +277,12 @@ public class MainController implements Initializable {
             clearIssueEntries();
         });
         
+        deposit = fee * returnDate;
+        finePerDay = fee * finePerDay / 100;
+        
         //confirm
-        AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(yesButton, noButton), "Confirm" , "Are you sure to issue " + motorbikeName.getText()
-                + " to " + memberName.getText() + "?");
+        AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(yesButton, noButton), "Confirm" , "Vehicle: " + motorbikeName.getText()
+                + "\nMember: " + memberName.getText() + "\nDeposit: $" + deposit + "\nFine/day: $" + finePerDay);
     }
 
     @FXML
@@ -266,15 +293,15 @@ public class MainController implements Initializable {
         try{
             String id = motorID.getText().replaceAll("[^\\w\\s]",""); //avoid SQLi
             //use a single query for better performance
-            String qr = "SELECT ISSUE.id_motorbike, ISSUE.id_member, ISSUE.issueTime, ISSUE.renew_count,\n" +
+            String qr = "SELECT ISSUE.id_motorbike, ISSUE.id_member, ISSUE.issueTime, ISSUE.expectedReturnDay, \n" +
                         "MEMBER.name AS mbName, MEMBER.mobile, MEMBER.email,\n" +
-                        "MOTORBIKE.producer, MOTORBIKE.name AS mtName, MOTORBIKE.type, MOTORBIKE.color\n" +
+                        "MOTORBIKE.producer, MOTORBIKE.name AS mtName, MOTORBIKE.type, MOTORBIKE.color, MOTORBIKE.baseFee, MOTORBIKE.finePercent\n" +
                         "FROM ISSUE\n" +
                         "LEFT JOIN MEMBER\n" +
                         "ON ISSUE.id_member = MEMBER.idMember\n" +
                         "LEFT JOIN MOTORBIKE\n" +
                         "ON ISSUE.id_motorbike = MOTORBIKE.idMotorbike\n" +
-                        "WHERE ISSUE.id_motorbike = '" + id + "'";
+                        "WHERE ISSUE.id_motorbike = '" + id + "' AND isSubmitted = 0";
             ResultSet rs = databaseHandler.excQuery(qr);
             System.out.println(qr);
             if(rs.next()) {//exist
@@ -289,6 +316,10 @@ public class MainController implements Initializable {
                 txtMotorbikeType.setText(GarageAssistantUtil.categorizeVehicle(rs.getInt("type")));//shorted
                 txtMotorbikeColor.setText(rs.getString("color"));
                 
+                int expectedReturnDay = rs.getInt("expectedReturnDay");
+                int fee = rs.getInt("baseFee");
+                int finePer = rs.getInt("finePercent");
+                
                 //issue inf
                 Timestamp issueTime = rs.getTimestamp("issueTime");
                 Date dateOfIssue = new Date(issueTime.getTime());
@@ -297,13 +328,14 @@ public class MainController implements Initializable {
                 Long days = TimeUnit.DAYS.convert(timeElapsed, TimeUnit.MILLISECONDS) + 1;
                 String daysElapsed = String.format("Used for %d day(s)", days);//used days
                 txtIssueNoDays.setText(daysElapsed);
-                Float fine = GarageAssistantUtil.getFineAmount(days.intValue());//fine
+                double fine = GarageAssistantUtil.getFineAmount(days.intValue(), expectedReturnDay, fee, finePer);
                 if (fine > 0) {
                     DecimalFormat currencyFormatter = new DecimalFormat("####,###,###.#"); //formatting
                     txtIssueFine.setText("Fine: $" + currencyFormatter.format(fine));
                     txtIssueFine.setFill(Color.web("#E452E4")); //easier to see
                 } else {
-                    txtIssueFine.setText(""); //allowed days
+                    int remainDays = expectedReturnDay - days.intValue();
+                    txtIssueFine.setText(remainDays + " day(s) remaning!"); //allowed days
                 }
                 isReadyForSubmission = true; //everything is set
                 toggleControls(true); //enable controls
@@ -330,13 +362,14 @@ public class MainController implements Initializable {
         yesButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1)->{
             String id = motorID.getText().replaceAll("[^\\w\\s]","");
             //1. remove the entry from the Issue table
-            String actDel = "DELETE FROM ISSUE WHERE id_motorbike = '" + id + "'";
+            String actDel = "UPDATE ISSUE SET isSubmitted = 1 WHERE id_motorbike = '" + id + "' AND isSubmitted = 0";
             //2. make the motor available in the database
             String actUpd = "UPDATE MOTORBIKE SET status = 1 WHERE idMotorbike = '" + id + "'";
             if (databaseHandler.excAction(actDel) && databaseHandler.excAction(actUpd)) {//success
                 JFXButton btn = new JFXButton("OK");
                 AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn),"Success!", "Motorbike has been submitted.");
-                loadIssueInfo(null); //refresh
+                motorID.clear();//refresh
+                loadIssueInfo(null); 
             } else {//error
                 JFXButton btn = new JFXButton("Lemme check again");
                 AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn),"Failed!", "Submission has been failed.");
@@ -363,15 +396,24 @@ public class MainController implements Initializable {
         }
 
         String id = motorID.getText().replaceAll("[^\\w\\s]","");
+        int added = Integer.parseInt(daysAdded.getText());
+        
+        if (added <= 0) {//invalid day
+            JFXButton btn = new JFXButton("Lemme check again");
+            AlertMaker.showMaterialDialog(rootPane, rootBorderPane,Arrays.asList(btn), "Failed!", "Invalid Day");
+            return;
+        }
 
         JFXButton yesButton = new JFXButton("YES");
         yesButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1)->{
-            //change issueTime & renew_count
-            String actUpd = "UPDATE ISSUE SET issueTime = CURRENT_TIMESTAMP, renew_count = renew_count+1 WHERE id_motorbike = '" + id + "'";
+            String actUpd = "UPDATE ISSUE SET expectedReturnDay = expectedReturnDay + " + added + " WHERE id_motorbike = '" + id + "'";
+            
             if (databaseHandler.excAction(actUpd)) {//success
                 JFXButton btn = new JFXButton("OK");
-                AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn), "Success!", "Motorbike has been renewed.");
+                AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn), "Success!", "Motorbike has been renewed.\n" + added + " day(s) added!");
                 loadIssueInfo(null); //refresh
+                System.out.println(actUpd);
+                daysAdded.clear();
             } else {//error
                 JFXButton btn = new JFXButton("Lemme check again");
                 AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn),"Failed!", "Renewal has been failed.");
@@ -496,17 +538,18 @@ public class MainController implements Initializable {
     
     private void toggleControls(Boolean enableFlag) { //control buttons
         if (enableFlag) {
-            btnRenew.setDisable(false);
             btnSubmission.setDisable(false);
         } else {
             btnRenew.setDisable(true);
             btnSubmission.setDisable(true);
+            btnIssue.setDisable(true);
         }
     }
 
     private void clearIssueEntries() { //remove texts from the UI
         motorbikeIdInput.clear();
         memberIdInput.clear();
+        noDays.clear();
         
         motorbikeType.setText("");
         motorbikeProducer.setText("");
@@ -533,6 +576,7 @@ public class MainController implements Initializable {
             } else {
                 motorID.clear();
                 clearEntries();
+                daysAdded.clear();
                 
                 try {//overdue tab
                     initOverdues();
@@ -561,40 +605,55 @@ public class MainController implements Initializable {
     private void initOverdues() throws SQLException {
         ObservableList<String> overdues = FXCollections.observableArrayList();
         
-        String qr = "SELECT ISSUE.id_motorbike, ISSUE.id_member, ISSUE.issueTime, ISSUE.renew_count,\n" +
-            "MEMBER.name AS mbName, MEMBER.mobile, MEMBER.email,\n" +
-            "MOTORBIKE.producer, MOTORBIKE.name AS mtName, MOTORBIKE.type, MOTORBIKE.color\n" +
-            "FROM ISSUE\n" +
-            "LEFT JOIN MEMBER\n" +
-            "ON ISSUE.id_member = MEMBER.idMember\n" +
-            "LEFT JOIN MOTORBIKE\n" +
-            "ON ISSUE.id_motorbike = MOTORBIKE.idMotorbike\n";// +
-//            "WHERE ISSUE.id_motorbike = '" + id + "'";
+        String qr = "SELECT ISSUE.id_motorbike, ISSUE.id_member, ISSUE.issueTime, ISSUE.expectedReturnDay, \n" +
+                    "MEMBER.name AS mbName, MEMBER.mobile, MEMBER.email,\n" +
+                    "MOTORBIKE.producer, MOTORBIKE.name AS mtName, MOTORBIKE.type, MOTORBIKE.color, MOTORBIKE.status, MOTORBIKE.baseFee, MOTORBIKE.finePercent\n" +
+                    "FROM ISSUE\n" +
+                    "LEFT JOIN MEMBER\n" +
+                    "ON ISSUE.id_member = MEMBER.idMember\n" +
+                    "LEFT JOIN MOTORBIKE\n" +
+                    "ON ISSUE.id_motorbike = MOTORBIKE.idMotorbike\n"+
+                    "WHERE ISSUE.isSubmitted = '0'";
         
         //String qr = "SELECT * FROM ISSUE";
         ResultSet rs = databaseHandler.excQuery(qr);
         
         try {
             while(rs.next()) {
-                Timestamp issueTime = rs.getTimestamp("issueTime");
-                Date dateOfIssue = new Date(issueTime.getTime());
-                txtIssueDate.setText(dateOfIssue.toString());
-                Long timeElapsed = System.currentTimeMillis() - issueTime.getTime();
-                Long days = TimeUnit.DAYS.convert(timeElapsed, TimeUnit.MILLISECONDS) + 1;
-                Float fine = GarageAssistantUtil.getFineAmount(days.intValue());//fine
-                if (fine > 0) {
-                    String mtbId = rs.getString("id_motorbike");
-                    String mtbName = rs.getString("mbName");
-                    String mbrId = rs.getString("id_member");
-                    String mbrMobile = rs.getString("mobile");
-                    String mbrEmail = rs.getString("email");
-                    DecimalFormat currencyFormatter = new DecimalFormat("####,###,###.#"); //formatting
-                    
-                    overdues.add("\nVehicle's ID: " + mtbId + ", " + mtbName);
-                    overdues.add("Member's ID: " + mbrId);
-                    overdues.add("Mobile: " + mbrMobile);
-                    overdues.add("Email: " + mbrEmail);
-                    overdues.add("\tFine: $" + currencyFormatter.format(fine));
+                
+                if (rs.getInt("status") == 0) {
+                    int expectedReturnDay = rs.getInt("expectedReturnDay");
+                    int fee = rs.getInt("baseFee");
+                    int finePer = rs.getInt("finePercent");
+                    Timestamp issueTime = rs.getTimestamp("issueTime");
+                    Date dateOfIssue = new Date(issueTime.getTime());
+                    txtIssueDate.setText(dateOfIssue.toString());
+                    Long timeElapsed = System.currentTimeMillis() - issueTime.getTime();
+                    Long days = TimeUnit.DAYS.convert(timeElapsed, TimeUnit.MILLISECONDS) + 1;
+                    String daysElapsed = String.format("Used for %d day(s)", days);//used days
+                    txtIssueNoDays.setText(daysElapsed);
+                    double fine = GarageAssistantUtil.getFineAmount(days.intValue(), expectedReturnDay, fee, finePer);
+                    if (fine >= 0) {
+                        String mtbId = rs.getString("id_motorbike");
+                        String mtbProc = rs.getString("producer");
+                        String mtbName = rs.getString("mtName");
+                        String mtbColor = rs.getString("color");
+                        String mbrId = rs.getString("id_member");
+                        String mbrName = rs.getString("mbName");
+                        String mbrMobile = rs.getString("mobile");
+                        String mbrEmail = rs.getString("email");
+                        DecimalFormat currencyFormatter = new DecimalFormat("####,###,###.#"); //formatting
+
+                        overdues.add("\nVehicle:");
+                        overdues.add("\tID: " + mtbId);
+                        overdues.add("\t" + mtbProc + ", " + mtbName + " (" + mtbColor + ")");
+
+                        overdues.add("Member:");
+                        overdues.add("\t" + mbrName + " (" + mbrId + ")");
+                        overdues.add("\tMobile: " + mbrMobile);
+                        overdues.add("\tEmail: " + mbrEmail);
+                        overdues.add("\tFINE: $" + currencyFormatter.format(fine));
+                    }
                 }
             }
             lstOverdue.getItems().setAll(overdues);
@@ -603,5 +662,17 @@ public class MainController implements Initializable {
         }
 
     }
+
+    @FXML
+    private void enableRenewBtn(ActionEvent event) {
+        btnRenew.setDisable(false);
+    }
+
+    @FXML
+    private void enableIssueBtn(ActionEvent event) {
+        btnIssue.setDisable(false);
+    }
+    
+    
 
 }

@@ -43,13 +43,12 @@ public class GarageAssistantUtil {
         return fine;
     }
     
-    public static int getFineAmount(int fineDays, MotorbikeListController.Motorbike motor) {
-        int fine = 0;
-        int fee = Integer.parseInt(motor.getFee());
-        int finePerDay = Integer.parseInt(motor.getFine());
+    public static double getFineAmount(int totalDays, int expectedReturnDay , int baseFee, int finePercent) {
+        double fine = 0;
+        int fineDays = totalDays - expectedReturnDay;
         
         if (fineDays > 0) {
-            fine = fineDays * fee * finePerDay;
+            fine = fineDays * baseFee * finePercent / 100;
         }
         
         return fine;
