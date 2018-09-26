@@ -1,5 +1,8 @@
 # Garage Assistant Project
 
+This is a Garage management software developed using JavaFX programming language.
+Feel free to contact me at: https://www.facebook.com/itsTrada
+
 ## About the project
 - MVC Architecture
 - UI Designer Tool: JavaFX Scence Builder 2.0
