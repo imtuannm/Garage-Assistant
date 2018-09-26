@@ -47,6 +47,10 @@ public class MotorbikeListController implements Initializable {
     private TableColumn<Motorbike, String> statusCol;
     @FXML
     private JFXTextField keyword;
+    @FXML
+    private TableColumn<Motorbike, String> feeCol;
+    @FXML
+    private TableColumn<Motorbike, String> fineCol;
     
     DatabaseHandler handler = null;
 
@@ -63,6 +67,8 @@ public class MotorbikeListController implements Initializable {
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
         colorCol.setCellValueFactory(new PropertyValueFactory<>("color"));
+        feeCol.setCellValueFactory(new PropertyValueFactory<>("fee"));
+        fineCol.setCellValueFactory(new PropertyValueFactory<>("fine"));
         statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
     }
 
@@ -74,15 +80,17 @@ public class MotorbikeListController implements Initializable {
         
         try {
             while(rs.next()) {
-                String mbId = rs.getString("idMotorbike");
-                String mbProducer = rs.getString("producer");
-                String mbNname = rs.getString("name");
-                String mbColor = rs.getString("color");
-                String mbType = GarageAssistantUtil.categorizeVehicle(rs.getInt("type"));//shorted
-                String mbStatus = GarageAssistantUtil.vehicleStatus(rs.getInt("status"));
+                String id = rs.getString("idMotorbike");
+                String producer = rs.getString("producer");
+                String name = rs.getString("name");
+                String color = rs.getString("color");
+                String fee = String.valueOf(rs.getInt("baseFee"));
+                String fine = String.valueOf(rs.getInt("finePercent"));
+                String type = GarageAssistantUtil.categorizeVehicle(rs.getInt("type"));//shorted
+                String status = GarageAssistantUtil.vehicleStatus(rs.getInt("status"));
                 
                 //create new motorbike object & add to list
-                list.add(new Motorbike(mbId, mbProducer, mbNname, mbType, mbColor, mbStatus));
+                list.add(new Motorbike(id, producer, name, type, color, fee, fine, status));
             }
         } catch (SQLException ex) {
             Logger.getLogger(MotorbikeListController.class.getName()).log(Level.SEVERE, null, ex);
@@ -214,15 +222,17 @@ public class MotorbikeListController implements Initializable {
             ResultSet rs = handler.excQuery(searchQuery);
             try {
                 while(rs.next()) {//get inf
-                    String mbId = rs.getString("idMotorbike");
-                    String mbProducer = rs.getString("producer");
-                    String mbNname = rs.getString("name");
-                    String mbColor = rs.getString("color");
-                    String mbType = GarageAssistantUtil.categorizeVehicle(rs.getInt("type"));//shorted
-                    String mbStatus = GarageAssistantUtil.vehicleStatus(rs.getInt("status"));
+                    String id = rs.getString("idMotorbike");
+                    String producer = rs.getString("producer");
+                    String name = rs.getString("name");
+                    String color = rs.getString("color");
+                    String fee = String.valueOf(rs.getInt("baseFee"));
+                    String fine = String.valueOf(rs.getInt("finePercent"));
+                    String type = GarageAssistantUtil.categorizeVehicle(rs.getInt("type"));//shorted
+                    String status = GarageAssistantUtil.vehicleStatus(rs.getInt("status"));
 
                     //create a new object then add to list
-                    list.add(new Motorbike(mbId, mbProducer, mbNname, mbType, mbColor, mbStatus));
+                    list.add(new Motorbike(id, producer, name, type, color, fee, fine, status));
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(MotorbikeListController.class.getName()).log(Level.SEVERE, null, ex);
@@ -238,15 +248,19 @@ public class MotorbikeListController implements Initializable {
         private final SimpleStringProperty name;
         private final SimpleStringProperty type;
         private final SimpleStringProperty color;
+        private final SimpleStringProperty fee;
+        private final SimpleStringProperty fine;
         private final SimpleStringProperty status;
         
         //constructor
-        Motorbike(String id, String producer, String name, String type, String color, String status) {
+        Motorbike(String id, String producer, String name, String type, String color, String fee, String fine, String status) {
             this.id = new SimpleStringProperty(id);
             this.producer = new SimpleStringProperty(producer);
             this.name = new SimpleStringProperty(name);
             this.type = new SimpleStringProperty(type);
             this.color = new SimpleStringProperty(color);
+            this.fee = new SimpleStringProperty(fee);
+            this.fine = new SimpleStringProperty(fine);
             this.status = new SimpleStringProperty(status);
         }
 
@@ -264,6 +278,14 @@ public class MotorbikeListController implements Initializable {
 
         public String getColor() {
             return color.get();
+        }
+        
+        public String getFee() {
+            return fee.get();
+        }
+        
+        public String getFine() {
+            return fine.get();
         }
         
         public String getType() {

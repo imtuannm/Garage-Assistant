@@ -32,9 +32,13 @@ public class MotorbikeAddController implements Initializable {
     private JFXButton btnCancel;
     @FXML
     private AnchorPane rootPane;
-
+    @FXML
+    private JFXTextField txtBaseFee;
+    @FXML
+    private JFXTextField txtFinePercent;
+    
     private boolean isInEditMode = Boolean.FALSE;
-    DatabaseHandler databaseHandler;
+    DatabaseHandler databaseHandler = null;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -52,9 +56,11 @@ public class MotorbikeAddController implements Initializable {
         String name = txtName.getText();
         int type = Integer.parseInt(txtType.getText());
         String color = txtColor.getText();
+        int baseFee = Integer.parseInt(txtBaseFee.getText());
+        int finePercent = Integer.parseInt(txtFinePercent.getText());
         
         if (id.isEmpty() || producer.isEmpty() || name.isEmpty()
-                || color.isEmpty() || (txtType.getText().length() == 0) ) {
+                || color.isEmpty() || baseFee < 0 || finePercent < 0 || (txtType.getText().length() == 0) ) {
             
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setHeaderText(null);
@@ -74,6 +80,8 @@ public class MotorbikeAddController implements Initializable {
                 + "'" + producer + "',"
                 + "'" + name + "',"
                 + "'" + color + "',"
+                + "'" + baseFee + "',"
+                + "'" + finePercent + "',"
                 + "" + "1" + "" //available whenever added
                 + ")";
         

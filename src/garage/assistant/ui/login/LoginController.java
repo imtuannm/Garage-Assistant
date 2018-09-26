@@ -51,7 +51,8 @@ public class LoginController implements Initializable {
         } else {//warns user that entered wrong credentials
             username.getStyleClass().add("wrong-credentials");
             password.getStyleClass().add("wrong-credentials");
-            warnHolder.setText("Wrong credential(s)!");
+            
+            warnHolder.setText("Wrong credential(s)!");//change the text from LOGIN
             warnHolder.setFill(Color.web("#E452E4"));
         }
     }

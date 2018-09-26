@@ -1,6 +1,7 @@
 package garage.assistant.util;
 
 import garage.assistant.settings.Preferences;
+import garage.assistant.ui.listmotorbike.MotorbikeListController;
 import garage.assistant.ui.main.MainController;
 import java.io.IOException;
 import java.net.URL;
@@ -39,6 +40,18 @@ public class GarageAssistantUtil {
         if (fineDays > 0) {
             fine = fineDays * pref.getFinePerDay();
         }
+        return fine;
+    }
+    
+    public static int getFineAmount(int fineDays, MotorbikeListController.Motorbike motor) {
+        int fine = 0;
+        int fee = Integer.parseInt(motor.getFee());
+        int finePerDay = Integer.parseInt(motor.getFine());
+        
+        if (fineDays > 0) {
+            fine = fineDays * fee * finePerDay;
+        }
+        
         return fine;
     }
     

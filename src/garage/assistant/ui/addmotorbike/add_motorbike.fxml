@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="280.0" prefWidth="400.0" stylesheets="@../../resources/dark_theme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.ui.addmotorbike.MotorbikeAddController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="359.0" prefWidth="400.0" stylesheets="@../../resources/dark_theme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.ui.addmotorbike.MotorbikeAddController">
    <children>
       <VBox prefHeight="300.0" prefWidth="400.0" stylesheets="@../../resources/dark_theme.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -36,6 +36,16 @@
                </VBox.margin>
             </JFXTextField>
             <JFXTextField fx:id="txtColor" labelFloat="true" layoutX="20.0" layoutY="30.0" promptText="Color" stylesheets="@../../resources/dark_theme.css">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </JFXTextField>
+            <JFXTextField fx:id="txtBaseFee" labelFloat="true" promptText="Base Fee" stylesheets="@../../resources/dark_theme.css">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </JFXTextField>
+            <JFXTextField fx:id="txtFinePercent" labelFloat="true" promptText="Fine Percent" stylesheets="@../../resources/dark_theme.css">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
