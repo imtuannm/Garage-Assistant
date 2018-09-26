@@ -11,6 +11,11 @@
 
 <AnchorPane id="AnchorPane" prefHeight="254.0" prefWidth="309.0" stylesheets="@../../resources/dark_theme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.ui.login.LoginController">
    <children>
+      <Text fx:id="warnHolder" fill="#c8d0dc" layoutX="42.0" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LOGIN" textAlignment="CENTER" wrappingWidth="222.0" AnchorPane.topAnchor="15.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
       <JFXTextField fx:id="username" labelFloat="true" layoutX="44.0" layoutY="79.0" prefHeight="25.0" prefWidth="222.0" promptText="Username" stylesheets="@../../resources/dark_theme.css" unFocusColor="#757272">
          <font>
             <Font size="15.0" />

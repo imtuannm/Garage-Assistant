@@ -176,6 +176,8 @@ public class MotorbikeListController implements Initializable {
             return;
         }
         
+        
+        //confirmed
         Alert altCfm = new Alert(Alert.AlertType.CONFIRMATION);
         altCfm.setTitle("Motorbike Maintenance");
         altCfm.setHeaderText(null);
@@ -199,7 +201,7 @@ public class MotorbikeListController implements Initializable {
         list.clear();
         String search = keyword.getText();
         
-        if (search == null) {
+        if (search == null) {//load all vehicle if user dont search
             handleRefresh(new ActionEvent());
         } else {
             String searchQuery = "SELECT * FROM MOTORBIKE WHERE idMotorbike LIKE '%" + search + "%'"
@@ -207,11 +209,11 @@ public class MotorbikeListController implements Initializable {
                                 + " UNION SELECT * FROM MOTORBIKE WHERE name LIKE '%" + search + "%'"
                                 + " UNION SELECT * FROM MOTORBIKE WHERE color LIKE '%" + search + "%'";                                
        
-            System.out.println(searchQuery);
+            System.out.println(searchQuery);//print debug
 
             ResultSet rs = handler.excQuery(searchQuery);
             try {
-                while(rs.next()) {
+                while(rs.next()) {//get inf
                     String mbId = rs.getString("idMotorbike");
                     String mbProducer = rs.getString("producer");
                     String mbNname = rs.getString("name");
@@ -219,13 +221,13 @@ public class MotorbikeListController implements Initializable {
                     String mbType = GarageAssistantUtil.categorizeVehicle(rs.getInt("type"));//shorted
                     String mbStatus = GarageAssistantUtil.vehicleStatus(rs.getInt("status"));
 
-                    //create a new motorbike object then add to list
+                    //create a new object then add to list
                     list.add(new Motorbike(mbId, mbProducer, mbNname, mbType, mbColor, mbStatus));
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(MotorbikeListController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            tblView.setItems(list); //refresh right after delete
+            tblView.setItems(list); //set items to listview
         }        
     }
 

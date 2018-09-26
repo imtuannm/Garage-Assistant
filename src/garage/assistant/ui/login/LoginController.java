@@ -16,9 +16,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.commons.codec.digest.DigestUtils;
+import javafx.scene.paint.Color;
 
 public class LoginController implements Initializable {
 
@@ -26,6 +28,8 @@ public class LoginController implements Initializable {
     private JFXTextField username;
     @FXML
     private JFXPasswordField password;
+    @FXML
+    private Text warnHolder;
     
     Preferences preference; //to get the stored the username & pass
     
@@ -44,9 +48,11 @@ public class LoginController implements Initializable {
         if(usrName.equals(preference.getUsername()) && pass.equals(preference.getPassword())) {//success
             loadMain();
             closeStage();
-        } else {//inform user that entered wrong credentials
+        } else {//warns user that entered wrong credentials
             username.getStyleClass().add("wrong-credentials");
             password.getStyleClass().add("wrong-credentials");
+            warnHolder.setText("Wrong credential(s)!");
+            warnHolder.setFill(Color.web("#E452E4"));
         }
     }
 

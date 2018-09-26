@@ -128,7 +128,7 @@ public class MainController implements Initializable {
         clrMotorbikeCached();
         toggleGraphs(false);
         
-        String id = motorbikeIdInput.getText().replaceAll("[^\\w\\s]","");
+        String id = motorbikeIdInput.getText();
         String qr = "SELECT * FROM MOTORBIKE WHERE idMotorbike = '" + id + "'";
         Boolean isExist = false;
         System.out.println(qr);//debug
@@ -423,6 +423,10 @@ public class MainController implements Initializable {
     private void handleMenuAbout(ActionEvent event) {
         GarageAssistantUtil.loadWindow(getClass().getResource("/garage/assistant/ui/about/about.fxml"), "About", null);
     }
+    
+    @FXML
+    private void handleMenuAnalyseVehicleOfMonth(ActionEvent event) {
+    }
 
 //    private void initDrawer() {
 //        try {
@@ -557,7 +561,17 @@ public class MainController implements Initializable {
     private void initOverdues() throws SQLException {
         ObservableList<String> overdues = FXCollections.observableArrayList();
         
-        String qr = "SELECT * FROM ISSUE";
+        String qr = "SELECT ISSUE.id_motorbike, ISSUE.id_member, ISSUE.issueTime, ISSUE.renew_count,\n" +
+            "MEMBER.name AS mbName, MEMBER.mobile, MEMBER.email,\n" +
+            "MOTORBIKE.producer, MOTORBIKE.name AS mtName, MOTORBIKE.type, MOTORBIKE.color\n" +
+            "FROM ISSUE\n" +
+            "LEFT JOIN MEMBER\n" +
+            "ON ISSUE.id_member = MEMBER.idMember\n" +
+            "LEFT JOIN MOTORBIKE\n" +
+            "ON ISSUE.id_motorbike = MOTORBIKE.idMotorbike\n";// +
+//            "WHERE ISSUE.id_motorbike = '" + id + "'";
+        
+        //String qr = "SELECT * FROM ISSUE";
         ResultSet rs = databaseHandler.excQuery(qr);
         
         try {
@@ -570,12 +584,17 @@ public class MainController implements Initializable {
                 Float fine = GarageAssistantUtil.getFineAmount(days.intValue());//fine
                 if (fine > 0) {
                     String mtbId = rs.getString("id_motorbike");
+                    String mtbName = rs.getString("mbName");
                     String mbrId = rs.getString("id_member");
+                    String mbrMobile = rs.getString("mobile");
+                    String mbrEmail = rs.getString("email");
                     DecimalFormat currencyFormatter = new DecimalFormat("####,###,###.#"); //formatting
                     
-                    overdues.add("\nVehicle's ID: " + mtbId);
+                    overdues.add("\nVehicle's ID: " + mtbId + ", " + mtbName);
                     overdues.add("Member's ID: " + mbrId);
-                    overdues.add("Fine: $" + currencyFormatter.format(fine));
+                    overdues.add("Mobile: " + mbrMobile);
+                    overdues.add("Email: " + mbrEmail);
+                    overdues.add("\tFine: $" + currencyFormatter.format(fine));
                 }
             }
             lstOverdue.getItems().setAll(overdues);
@@ -584,4 +603,5 @@ public class MainController implements Initializable {
         }
 
     }
+
 }

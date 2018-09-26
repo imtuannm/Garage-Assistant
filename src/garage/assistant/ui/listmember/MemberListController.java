@@ -48,10 +48,10 @@ public class MemberListController implements Initializable {
     private TableColumn<Member, String> emailCol;
     @FXML
     private TableColumn<Member, String> passwordCol;
-    
-    DatabaseHandler handler = null;
     @FXML
     private JFXTextField keyword;
+    
+    DatabaseHandler handler = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -76,13 +76,13 @@ public class MemberListController implements Initializable {
         
         try {
             while(rs.next()) { //retrieve data
-                String mbId = rs.getString("idMember");
-                String mbName = rs.getString("name");
-                String mbMobile = rs.getString("mobile");
-                String mbEmail = rs.getString("email");
-                String mbPassword = rs.getString("password");
+                String mbrId = rs.getString("idMember");
+                String mbrName = rs.getString("name");
+                String mbrMobile = rs.getString("mobile");
+                String mbrEmail = rs.getString("email");
+                String mbrPassword = rs.getString("password");
                 
-                list.add(new Member(mbId, mbName, mbMobile, mbEmail, mbPassword)); //push to list
+                list.add(new Member(mbrId, mbrName, mbrMobile, mbrEmail, mbrPassword)); //push to list
             }
         } catch (SQLException ex) {
             Logger.getLogger(MotorbikeListController.class.getName()).log(Level.SEVERE, null, ex);
@@ -131,9 +131,7 @@ public class MemberListController implements Initializable {
         if ( selectedForDeletion == null ) {//invalid row
             AlertMaker.showSimpleErrorMessage("No Member selected", "Pls select a member for deletion.");
             return;
-        }
-        
-        if ( DatabaseHandler.getInstance().isMemberHasAnyMotorbikes(selectedForDeletion) ) {//in use
+        } else if ( DatabaseHandler.getInstance().isMemberHasAnyMotorbikes(selectedForDeletion) ) {//in use
             AlertMaker.showSimpleErrorMessage("Cant delete", "This Member is issuing a motorbike!");
             return;
         }
@@ -168,31 +166,32 @@ public class MemberListController implements Initializable {
         list.clear();
         String search = keyword.getText();
 
-        if (search == null) {
+        if (search == null) {//load all member if user dont search
             handleRefresh(new ActionEvent());
-        } else{
+        } else {//search for specific keyword
             String searchQuery = "SELECT * FROM MEMBER WHERE idMember LIKE '%" + search + "%'"
                                 + " UNION SELECT * FROM MEMBER WHERE name LIKE '%" + search + "%'"
                                 + " UNION SELECT * FROM MEMBER WHERE mobile LIKE '%" + search + "%'"
-                                + " UNION SELECT * FROM MEMBER WHERE mobile LIKE '%" + search + "%'"
+                                + " UNION SELECT * FROM MEMBER WHERE email LIKE '%" + search + "%'"
                                 + " UNION SELECT * FROM MEMBER WHERE password LIKE '%" + search + "%'";
             System.out.println(searchQuery);
             
             ResultSet rs = handler.excQuery(searchQuery);
             try {
-                while(rs.next()) {
-                String mbId = rs.getString("idMember");
-                String mbName = rs.getString("name");
-                String mbMobile = rs.getString("mobile");
-                String mbEmail = rs.getString("mobile");
-                String mbPassword = rs.getString("password");
-                
-                list.add(new Member(mbId, mbName, mbMobile, mbEmail, mbPassword)); //push to list
+                while(rs.next()) {//get inf
+                    String mbId = rs.getString("idMember");
+                    String mbName = rs.getString("name");
+                    String mbMobile = rs.getString("mobile");
+                    String mbEmail = rs.getString("email");
+                    String mbPassword = rs.getString("password");
+                    
+                    //create new objects then add to list
+                    list.add(new Member(mbId, mbName, mbMobile, mbEmail, mbPassword)); //push to list
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(Member.class.getName()).log(Level.SEVERE, null, ex);
             }
-            tblView.setItems(list); //refresh right after delete
+            tblView.setItems(list); //set items to listview
         }
     }
     

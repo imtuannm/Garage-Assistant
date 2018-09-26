@@ -20,7 +20,7 @@ public class GarageAssistantUtil {
     //Category
     public static final String VEHICLE_1 = "Motorbike";
     public static final String VEHICLE_2 = "Car";
-    public static final String VEHICLE_3 = "Ship";
+    public static final String VEHICLE_3 = "Container";
     
     //status
     public static final String STATUS_M1 = "Under Maintenance";
