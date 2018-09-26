@@ -2,6 +2,9 @@
 
 ## About the project
 - MVC Architecture
-- User interface: JavaFX Scence Builder 2.0
+- UI Designer Tool: JavaFX Scence Builder 2.0
 - IDE: NetBeans 8.2
 - Database: MySQL Workbench 
+
+## Libraries Used
+- [JFoenix](https://github.com/jfoenixadmin/JFoenix) - JavaFX Material Design Library
