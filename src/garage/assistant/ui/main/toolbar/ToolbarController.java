@@ -34,7 +34,7 @@ public class ToolbarController implements Initializable {
 
     @FXML
     private void loadAddMotorbike(ActionEvent event) {
-        GarageAssistantUtil.loadWindow(getClass().getResource("/garage/assistant/ui/addmotorbike/add_motorbike.fxml"), "Add new Motorbike", null);
+        GarageAssistantUtil.loadWindow(getClass().getResource("/garage/assistant/ui/addmotorbike/add_motorbike.fxml"), "Add new Vehicle", null);
     }
 
     @FXML
@@ -44,7 +44,7 @@ public class ToolbarController implements Initializable {
     
     @FXML
     private void loadMotorbikeTable(ActionEvent event) {
-        GarageAssistantUtil.loadWindow(getClass().getResource("/garage/assistant/ui/listmotorbike/motorbike_list.fxml"), "All Motorbike", null);
+        GarageAssistantUtil.loadWindow(getClass().getResource("/garage/assistant/ui/listmotorbike/motorbike_list.fxml"), "All Vehicle", null);
     }
 
     @FXML

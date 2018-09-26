@@ -26,13 +26,13 @@
                 <Menu mnemonicParsing="false" text="Add">
                   <items>
                     <MenuItem mnemonicParsing="false" onAction="#handleMenuAddMember" text="Add Member" />
-                        <MenuItem mnemonicParsing="false" onAction="#handleMenuAddMotorbike" text="Add Motorbike" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleMenuAddMotorbike" text="Add Vehicle" />
                   </items>
                 </Menu>
                   <Menu mnemonicParsing="false" text="View">
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#handleMenuViewMembers" text="View Members" />
-                        <MenuItem mnemonicParsing="false" onAction="#handleMenuViewMotorbikes" text="View Motorbikes" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleMenuViewMotorbikes" text="View Vehicles" />
                         <MenuItem mnemonicParsing="false" onAction="#handleMenuFullScreen" text="Full Screen" />
                      </items>
                   </Menu>

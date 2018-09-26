@@ -20,7 +20,7 @@
             </ImageView>
          </graphic>
       </JFXButton>
-      <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadAddMotorbike" prefHeight="400.0" prefWidth="150.0" styleClass="toolbar-buttons" stylesheets="@../../../resources/dark_theme.css" text="Add Motorbike">
+      <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadAddMotorbike" prefHeight="400.0" prefWidth="150.0" styleClass="toolbar-buttons" stylesheets="@../../../resources/dark_theme.css" text="Add Vehicle">
          <graphic>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -38,7 +38,7 @@
             </ImageView>
          </graphic>
       </JFXButton>
-      <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadMotorbikeTable" prefHeight="400.0" prefWidth="150.0" styleClass="toolbar-buttons" stylesheets="@../../../resources/dark_theme.css" text="Motorbike List">
+      <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadMotorbikeTable" prefHeight="400.0" prefWidth="150.0" styleClass="toolbar-buttons" stylesheets="@../../../resources/dark_theme.css" text="Vehicle List">
          <graphic>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                <image>

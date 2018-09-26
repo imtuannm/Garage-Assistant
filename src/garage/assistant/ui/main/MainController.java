@@ -462,7 +462,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void handleMenuAddMotorbike(ActionEvent event) {
-        GarageAssistantUtil.loadWindow(getClass().getResource("/garage/assistant/ui/addmotorbike/add_motorbike.fxml"), "Add new Motorbike", null);
+        GarageAssistantUtil.loadWindow(getClass().getResource("/garage/assistant/ui/addmotorbike/add_motorbike.fxml"), "Add new Vehicle", null);
     }
 
     @FXML
@@ -472,7 +472,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void handleMenuViewMotorbikes(ActionEvent event) {
-        GarageAssistantUtil.loadWindow(getClass().getResource("/garage/assistant/ui/listmotorbike/motorbike_list.fxml"), "All Motorbike", null);
+        GarageAssistantUtil.loadWindow(getClass().getResource("/garage/assistant/ui/listmotorbike/motorbike_list.fxml"), "All Vehicle", null);
     }
 
     @FXML
@@ -642,7 +642,6 @@ public class MainController implements Initializable {
             while(rs.next()) {
                 
                 if (rs.getInt("status") == 0) {
-                    noOverdueVehicles++;
                     int expectedReturnDay = rs.getInt("expectedReturnDay");
                     int fee = rs.getInt("baseFee");
                     int finePer = rs.getInt("finePercent");
@@ -655,7 +654,8 @@ public class MainController implements Initializable {
                     Long days = TimeUnit.DAYS.convert(timeElapsed, TimeUnit.MILLISECONDS) + 1;//used days
                     int fineDays = days.intValue() - expectedReturnDay;
                     double fine = GarageAssistantUtil.getFineAmount(days.intValue(), expectedReturnDay, fee, finePer);
-                    if (fine >= 0) {
+                    if (fine > 0) {
+                        noOverdueVehicles++; //inscree the number of overdued Vehicles
                         //motorbike inf
                         String mtbId = rs.getString("id_motorbike");
                         String mtbProc = rs.getString("producer");
