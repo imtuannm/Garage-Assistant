@@ -89,7 +89,7 @@ public class MotorbikeListController implements Initializable {
                 String type = GarageAssistantUtil.categorizeVehicle(rs.getInt("type"));//shorted
                 String status = GarageAssistantUtil.vehicleStatus(rs.getInt("status"));
                 
-                //create new motorbike object & add to list
+                //create new object & add to list
                 list.add(new Motorbike(id, producer, name, type, color, fee, fine, status));
             }
         } catch (SQLException ex) {
@@ -104,31 +104,31 @@ public class MotorbikeListController implements Initializable {
         Motorbike selectedForDeletion = tblView.getSelectionModel().getSelectedItem();
         
         if ( selectedForDeletion == null ) {//invalid row
-            AlertMaker.showSimpleErrorMessage("No Motorbike selected", "Pls select a motor for deletion.");
+            AlertMaker.showSimpleErrorMessage("No Vehicle selected", "Pls select a Vehicle for deletion.");
             return;
         }
         
         if ( DatabaseHandler.getInstance().isMotorbikeAlreadyIssued(selectedForDeletion) ) {//in use
-            AlertMaker.showSimpleErrorMessage("Cant delete", "This Motorbike is already in use!");
+            AlertMaker.showSimpleErrorMessage("Cant delete", "This Vehicle is already in use!");
             return;
         }
         
         //confirmation
         Alert altCfm = new Alert(Alert.AlertType.CONFIRMATION);
-        altCfm.setTitle("Deleting Motorbike");
+        altCfm.setTitle("Deleting Vehicle");
         altCfm.setHeaderText(null);
         altCfm.setContentText("Are you sure want to delete " + selectedForDeletion.getName() + "?");
         Optional<ButtonType> answer = altCfm.showAndWait();
         if (answer.get() == ButtonType.OK) {//OK
             Boolean res = DatabaseHandler.getInstance().deleteMotorbike(selectedForDeletion);
             if (res) {//success
-                AlertMaker.showSimpleInforAlert("Motorbike deleted", selectedForDeletion.getName() + " was deleted!");
+                AlertMaker.showSimpleInforAlert("Vehicle deleted", selectedForDeletion.getName() + " was deleted!");
                 list.remove(selectedForDeletion);//remove selected one from the memory
             } else {//fail
                 AlertMaker.showSimpleErrorMessage("Failed", selectedForDeletion.getName() + " could not be deleted!");
             }
         } else {//cancel
-            AlertMaker.showSimpleInforAlert("Cancelled", "Motorbike is not deleted");
+            AlertMaker.showSimpleInforAlert("Cancelled", "Vehicle is not deleted");
         }
     }
 
@@ -177,17 +177,17 @@ public class MotorbikeListController implements Initializable {
         Motorbike selectedForMaintenance = tblView.getSelectionModel().getSelectedItem();
         
         if (selectedForMaintenance == null) {//invalid row
-            AlertMaker.showSimpleErrorMessage("No Motorbike selected", "Pls select a motor for Maintain.");
+            AlertMaker.showSimpleErrorMessage("No Vehicle selected", "Pls select a Vehicle for Maintain.");
             return;
         } else if ( DatabaseHandler.getInstance().isMotorbikeAlreadyIssued(selectedForMaintenance) ) {//in use
-            AlertMaker.showSimpleErrorMessage("Cant set", "This Motorbike is already in use!");
+            AlertMaker.showSimpleErrorMessage("Cant set", "This Vehicle is already in use!");
             return;
         }
         
         
         //confirmed
         Alert altCfm = new Alert(Alert.AlertType.CONFIRMATION);
-        altCfm.setTitle("Motorbike Maintenance");
+        altCfm.setTitle("Vehicle Maintenance");
         altCfm.setHeaderText(null);
         altCfm.setContentText("Are you sure want to set status for " + selectedForMaintenance.getName() + "?");
         Optional<ButtonType> answer = altCfm.showAndWait();
@@ -200,7 +200,7 @@ public class MotorbikeListController implements Initializable {
                 AlertMaker.showSimpleErrorMessage("Failed", selectedForMaintenance.getName() + " could not be set!");
             }
         } else {//cancel
-            AlertMaker.showSimpleInforAlert("Cancelled", "Motorbike is not set!");
+            AlertMaker.showSimpleInforAlert("Cancelled", "Vehicle's status is not set!");
         }
     }
 
