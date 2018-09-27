@@ -33,16 +33,6 @@ public class GarageAssistantUtil {
         stage.getIcons().add(new Image(IMG));
     }
     
-    public static Float getFineAmount(int totalDays) {
-        Preferences pref = Preferences.getPreferences();
-        Integer fineDays = totalDays - pref.getnDaysWithoutFine();
-        Float fine = 0f;
-        if (fineDays > 0) {
-            fine = fineDays * pref.getFinePerDay();
-        }
-        return fine;
-    }
-    
     public static double getFineAmount(int totalDays, int expectedReturnDay , int baseFee, int finePercent) {
         double fine = 0;
         int fineDays = totalDays - expectedReturnDay;

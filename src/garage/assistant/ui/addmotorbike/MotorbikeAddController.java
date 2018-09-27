@@ -105,9 +105,9 @@ public class MotorbikeAddController implements Initializable {
         System.out.println(qu); //print debug
         
         if( databaseHandler.excAction(qu) ) {
-            AlertMaker.showSimpleInforAlert("Success", "New Motorbike added!");
+            AlertMaker.showSimpleInforAlert("Success", "New Vehicle added!");
         } else {
-            AlertMaker.showSimpleErrorMessage("Failed", "Can not add Motorbike!");
+            AlertMaker.showSimpleErrorMessage("Failed", "Can not add Vehicle!");
         }
     }
 
@@ -116,19 +116,6 @@ public class MotorbikeAddController implements Initializable {
         Stage stage = (Stage) rootPane.getScene().getWindow();
         stage.close();
     }
-
-//    private void checkData() {
-//        String qu = "SELECT name FROM MOTORBIKE";
-//        ResultSet rs = databaseHandler.excQuery(qu);
-//        try {
-//            while( rs.next() ) {
-//                String mbName = rs.getString("name");
-//                System.out.println(mbName);
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(MotorbikeAddController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
     
     //reuse in MotorbikeListController
     public void inflateUI(MotorbikeListController.Motorbike motorbike) {

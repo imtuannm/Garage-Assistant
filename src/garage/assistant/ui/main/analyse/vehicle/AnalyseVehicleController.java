@@ -58,7 +58,7 @@ public class AnalyseVehicleController implements Initializable {
 
     @FXML
     private void handleAnalyseVehicles(ActionEvent event) {
-        list.clear();
+        list.clear();//empty the list if exsited
         String sw = cbbVehicleAnalyzeFunctions.getSelectionModel().getSelectedItem().toString(); 
         noTop = Integer.parseInt(txtNoTop.getText());
         int count = 0;
@@ -81,7 +81,7 @@ public class AnalyseVehicleController implements Initializable {
             try {
                 while(rs.next()) {
                     count++;
-                    //vehicle inf
+                    //fetch vehicle inf
                     String mtbId = rs.getString("idMotorbike");
                     String mtbProducer = rs.getString("producer");
                     String mtbName = rs.getString("name");
@@ -119,7 +119,7 @@ public class AnalyseVehicleController implements Initializable {
             try {
                 while(rs.next()) {
                     count++;
-                    //vehicle inf
+                    //fetch vehicle inf
                     String mtbId = rs.getString("idMotorbike");
                     String mtbProducer = rs.getString("producer");
                     String mtbName = rs.getString("name");

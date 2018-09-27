@@ -10,11 +10,6 @@ import javafx.fxml.Initializable;
 import javafx.stage.Stage;
 
 public class SettingsController implements Initializable {
-
-    @FXML
-    private JFXTextField nDaysWithoutFine;
-    @FXML
-    private JFXTextField finePerDay;
     @FXML
     private JFXTextField username;
     @FXML
@@ -28,15 +23,11 @@ public class SettingsController implements Initializable {
 
     @FXML
     private void handleSaveButtonAction(ActionEvent event) {
-        int nDays = Integer.parseInt(nDaysWithoutFine.getText().replaceAll("[^\\w\\s]",""));
-        float fine = Float.parseFloat(finePerDay.getText().replaceAll("[^\\w\\s]",""));
         String urn = username.getText().replaceAll("[^\\w\\s]","");
         String pass = password.getText();//hash & write to the preference file
         
         //set values
         Preferences preferences = Preferences.getPreferences();
-        preferences.setnDaysWithoutFine(nDays);
-        preferences.setFinePerDay(fine);
         preferences.setUsername(urn);
         preferences.setPassword(pass);
         
@@ -48,7 +39,7 @@ public class SettingsController implements Initializable {
 
     @FXML
     private void handleCancelButtonAction(ActionEvent event) {
-        ((Stage)nDaysWithoutFine.getScene().getWindow()).close();
+        ((Stage)username.getScene().getWindow()).close();
     }
 
     private void initDefaultValues() {
@@ -56,8 +47,6 @@ public class SettingsController implements Initializable {
         Preferences preferences = Preferences.getPreferences();
         
         //set into textfields
-        nDaysWithoutFine.setText(String.valueOf(preferences.getnDaysWithoutFine()));
-        finePerDay.setText(String.valueOf(preferences.getFinePerDay()));
         username.setText(String.valueOf(preferences.getUsername()));
         password.setText(String.valueOf(preferences.getPassword()));
     }

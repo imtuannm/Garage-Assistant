@@ -402,7 +402,7 @@ public class MainController implements Initializable {
         }
 
         String id = motorID.getText().replaceAll("[^\\w\\s]","");
-        int added = Integer.parseInt(daysAdded.getText());
+        int changes = Integer.parseInt(daysAdded.getText());
         
         String chkStt = "SELECT * FROM MOTORBIKE WHERE idMotorbike = '" + id + "'";;
         ResultSet rs = databaseHandler.excQuery(chkStt);
@@ -414,7 +414,7 @@ public class MainController implements Initializable {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        if (added <= 0) {//invalid day
+        if (changes == 0) {//invalid day
             JFXButton btn = new JFXButton("Let me check again");
             AlertMaker.showMaterialDialog(rootPane, rootBorderPane,Arrays.asList(btn), "Failed!", "Invalid Day");
             return;
@@ -423,11 +423,11 @@ public class MainController implements Initializable {
         //confirm
         JFXButton yesButton = new JFXButton("YES");
         yesButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1)->{
-            String actUpd = "UPDATE ISSUE SET expectedReturnDay = expectedReturnDay + " + added + " WHERE id_motorbike = '" + id + "'";
+            String actUpd = "UPDATE ISSUE SET expectedReturnDay = expectedReturnDay + " + changes + " WHERE id_motorbike = '" + id + "'";
             
             if (databaseHandler.excAction(actUpd)) {//success
                 JFXButton btn = new JFXButton("OK");
-                AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn), "Success!", "Motorbike has been renewed.\n" + added + " day(s) added!");
+                AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn), "Success!", "Vehicle has been renewed.\n" + changes + " day(s) changed!");
                 loadIssueInfo(null); //refresh
                 System.out.println(actUpd);
                 daysAdded.clear();
@@ -444,10 +444,10 @@ public class MainController implements Initializable {
             AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn),"Cancelled", "Renew Operation cancelled!");
         });
         
-        int addedDep = added * fee;
+        int changedDep = changes * fee;
         
         //show alert
-        AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(yesButton, noButton), "Confirm", "Are you sure want to renew the motorbike?\nFee: $" + addedDep);
+        AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(yesButton, noButton), "Confirm", "Are you sure want to renew the Vehecle?\nFee: $" + changedDep);
     }
 
     @FXML
@@ -477,7 +477,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void handleMenuFullScreen(ActionEvent event) {
-        Stage stage = ((Stage) rootPane.getScene().getWindow());
+        Stage stage = ((Stage)rootPane.getScene().getWindow());
         stage.setFullScreen(!stage.isFullScreen());//toggle full screen & windowed
     }
     
@@ -485,28 +485,6 @@ public class MainController implements Initializable {
     private void handleMenuAbout(ActionEvent event) {
         GarageAssistantUtil.loadWindow(getClass().getResource("/garage/assistant/ui/about/about.fxml"), "About", null);
     }
-    
-
-//    private void initDrawer() {
-//        try {
-//            VBox toolbar = FXMLLoader.load(getClass().getResource("/garage/assistant/ui/main/toolbar/toolbar.fxml"));
-//            drawer.setSidePane(toolbar); //call VBox toolbar
-//        } catch (IOException ex) {
-//            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        HamburgerSlideCloseTransition task =  new HamburgerSlideCloseTransition(hamburger);
-//        task.setRate(-1); //use for toggle icon
-//        hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, (Event event) -> {
-//            task.setRate(task.getRate() * -1); //toggle icon
-//            task.play(); //call the toolbar
-//            
-//            if(drawer.isClosed()) {
-//                drawer.open();
-//            } else {
-//                drawer.close();
-//            }
-//        });
-//    }
     
     private void initDrawer() {
         try {
@@ -653,7 +631,7 @@ public class MainController implements Initializable {
                     double fine = GarageAssistantUtil.getFineAmount(days.intValue(), expectedReturnDay, fee, finePer);
                     if (fine > 0) {
                         noOverdueVehicles++; //inscree the number of overdued Vehicles
-                        //motorbike inf
+                        //Vehicle inf
                         String mtbId = rs.getString("id_motorbike");
                         String mtbProc = rs.getString("producer");
                         String mtbName = rs.getString("mtName");

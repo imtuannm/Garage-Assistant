@@ -14,33 +14,13 @@ import org.apache.commons.codec.digest.DigestUtils;
 public class Preferences {
     //default values
     public static final String CONFIG_FILE = "config.txt";
-    int nDaysWithoutFine;
-    float finePerDay;
     String username;
     String password;
     
     //constructor, set default values
     public Preferences() {
-        nDaysWithoutFine = 2;
-        finePerDay = 500000;
         username = "tuan";
         setPassword("root");//store after being hashed
-    }
-
-    public int getnDaysWithoutFine() {
-        return nDaysWithoutFine;
-    }
-
-    public void setnDaysWithoutFine(int nDaysWithoutFine) {
-        this.nDaysWithoutFine = nDaysWithoutFine;
-    }
-
-    public float getFinePerDay() {
-        return finePerDay;
-    }
-
-    public void setFinePerDay(float finePerDay) {
-        this.finePerDay = finePerDay;
     }
 
     public String getUsername() {
@@ -66,8 +46,8 @@ public class Preferences {
         Writer writer = null;
         try {
             Preferences preference = new Preferences();
-            Gson gson = new Gson();//converting an object into gson 'string'
-            writer = new FileWriter(CONFIG_FILE);
+            Gson gson = new Gson();
+            writer = new FileWriter(CONFIG_FILE);//write new config file
             gson.toJson(preference, writer); //write to preference CONFIG_FILE throught Gson
         } catch (IOException ex) {//can not convert
             Logger.getLogger(Preferences.class.getName()).log(Level.SEVERE, null, ex);
@@ -80,10 +60,11 @@ public class Preferences {
         }
     }
     
+    //read from file
     public static Preferences getPreferences() {
         Gson gson = new Gson();
         Preferences preferences = new Preferences();
-        try {//read from file
+        try {//reading
             preferences = gson.fromJson(new FileReader(CONFIG_FILE), Preferences.class);
         } catch (FileNotFoundException ex) {//not found an existing file
             initConfig();//than create one with defalt value
@@ -92,14 +73,15 @@ public class Preferences {
         return preferences;
     }
     
+    //save changes
     public static void writePreferencesToFile(Preferences preference) {//write the current preference
         Writer writer = null;
         try {
-            Gson gson = new Gson();//converting an object into gson 'string'
+            Gson gson = new Gson();
             writer = new FileWriter(CONFIG_FILE);
             gson.toJson(preference, writer);
             
-            AlertMaker.showSimpleInforAlert("Success", "Settings updated ");
+            AlertMaker.showSimpleInforAlert("Success", "Settings updated!");
         } catch (IOException ex) {
             Logger.getLogger(Preferences.class.getName()).log(Level.SEVERE, null, ex);
             AlertMaker.showErrorMessage(ex, "Failed", "Cant save the configuration file");
