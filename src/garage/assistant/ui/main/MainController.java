@@ -486,9 +486,6 @@ public class MainController implements Initializable {
         GarageAssistantUtil.loadWindow(getClass().getResource("/garage/assistant/ui/about/about.fxml"), "About", null);
     }
     
-    @FXML
-    private void handleMenuAnalyseVehicleOfMonth(ActionEvent event) {
-    }
 
 //    private void initDrawer() {
 //        try {
@@ -699,6 +696,17 @@ public class MainController implements Initializable {
     @FXML
     private void enableIssueBtn(ActionEvent event) {
         btnIssue.setDisable(false);
+    }
+
+
+    @FXML
+    private void handleMenuAnalyseMembers(ActionEvent event) {
+        GarageAssistantUtil.loadWindow(getClass().getResource("/garage/assistant/ui/main/analyse/member/analysemember.fxml"), "Analyse Members", null);
+
+    }
+
+    @FXML
+    private void handleMenuAnalyseVehicles(ActionEvent event) {
     }
     
     

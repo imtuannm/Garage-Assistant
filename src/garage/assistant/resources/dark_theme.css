@@ -67,6 +67,14 @@
     -fx-border-color: -fx-secondary;
 }
 
+.combo-box:focus {
+    -jfx-focus-color: -fx-secondary;
+}
+
+.combo-box > .cell {
+     -fx-text-fill: -fx-primarytext;
+}
+
 /*
 change defalt color of rippler-fill from yellow
 https://github.com/jfoenixadmin/JFoenix/blob/cf28a9ff3a36ffeb36897e69e5ef907a7a10e43d/jfoenix/src/main/resources/css/controls/jfx-tab-pane.css

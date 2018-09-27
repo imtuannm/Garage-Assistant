@@ -8,9 +8,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="359.0" prefWidth="400.0" stylesheets="@../../resources/dark_theme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.ui.addmotorbike.MotorbikeAddController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="373.0" prefWidth="400.0" stylesheets="@../../resources/dark_theme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.ui.addmotorbike.MotorbikeAddController">
    <children>
-      <VBox prefHeight="300.0" prefWidth="400.0" stylesheets="@../../resources/dark_theme.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox prefHeight="387.0" prefWidth="400.0" stylesheets="@../../resources/dark_theme.css" AnchorPane.bottomAnchor="-28.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <JFXTextField fx:id="txtId" labelFloat="true" promptText="Motorbike ID" stylesheets="@../../resources/dark_theme.css">
                <VBox.margin>
@@ -27,14 +27,11 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXTextField fx:id="txtType" labelFloat="true" layoutX="20.0" layoutY="75.0" promptText="Type [1-3]" stylesheets="@../../resources/dark_theme.css">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
+            <JFXComboBox fx:id="cbbType" focusColor="#0bf9fe" labelFloat="true" promptText="Type" stylesheets="@../../resources/dark_theme.css">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
-            </JFXTextField>
+            </JFXComboBox>
             <JFXTextField fx:id="txtColor" labelFloat="true" layoutX="20.0" layoutY="30.0" promptText="Color" stylesheets="@../../resources/dark_theme.css">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

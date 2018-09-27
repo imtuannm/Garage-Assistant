@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="478.0" prefWidth="759.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.ui.main.analyse.member.AnalyseMemberController">
+   <children>
+      <VBox prefHeight="484.0" prefWidth="759.0">
+         <children>
+            <HBox prefHeight="36.0" prefWidth="759.0">
+               <VBox.margin>
+                  <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+               </VBox.margin>
+               <children>
+                  <JFXTextField fx:id="txtNoTop" labelFloat="true" promptText="N/o TOP">
+                     <HBox.margin>
+                        <Insets bottom="2.0" left="15.0" right="15.0" top="12.0" />
+                     </HBox.margin>
+                  </JFXTextField>
+                  <JFXComboBox fx:id="cbbMemberAnalyze" prefWidth="150.0">
+                     <HBox.margin>
+                        <Insets bottom="2.0" left="15.0" right="15.0" top="12.0" />
+                     </HBox.margin>
+                  </JFXComboBox>
+                  <JFXButton fx:id="btnAnalyse" onAction="#handleAnalyseMembers" text="Analyse NOW">
+                     <HBox.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="12.0" />
+                     </HBox.margin>
+                  </JFXButton>
+               </children>
+            </HBox>
+            <ListView prefHeight="459.0" prefWidth="757.0" />
+         </children>
+         <padding>
+            <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>

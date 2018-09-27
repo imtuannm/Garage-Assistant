@@ -38,7 +38,8 @@
                   </Menu>
                   <Menu mnemonicParsing="false" text="Analyse">
                     <items>
-                      <MenuItem mnemonicParsing="false" onAction="#handleMenuAnalyseVehicleOfMonth" text="Top Vehicle of Month" />
+                      <MenuItem mnemonicParsing="false" onMenuValidation="#handleMenuAnalyseVehicles" text="Vehicle" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleMenuAnalyseMembers" text="Member" />
                     </items>
                   </Menu>
                 <Menu mnemonicParsing="false" text="Help">
