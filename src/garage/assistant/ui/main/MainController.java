@@ -701,11 +701,11 @@ public class MainController implements Initializable {
     @FXML
     private void handleMenuAnalyseMembers(ActionEvent event) {
         GarageAssistantUtil.loadWindow(getClass().getResource("/garage/assistant/ui/main/analyse/member/analysemember.fxml"), "Analyse Members", null);
-
     }
 
     @FXML
     private void handleMenuAnalyseVehicles(ActionEvent event) {
+        GarageAssistantUtil.loadWindow(getClass().getResource("/garage/assistant/ui/main/analyse/vehicle/analysevehicle.fxml"), "Analyse Vehicles", null);
     }
     
     

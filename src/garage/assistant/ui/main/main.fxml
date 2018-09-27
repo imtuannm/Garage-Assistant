@@ -38,7 +38,7 @@
                   </Menu>
                   <Menu mnemonicParsing="false" text="Analyse">
                     <items>
-                      <MenuItem mnemonicParsing="false" onMenuValidation="#handleMenuAnalyseVehicles" text="Vehicle" />
+                      <MenuItem mnemonicParsing="false" onAction="#handleMenuAnalyseVehicles" text="Vehicle" />
                         <MenuItem mnemonicParsing="false" onAction="#handleMenuAnalyseMembers" text="Member" />
                     </items>
                   </Menu>

@@ -31,7 +31,6 @@ public class AnalyseMemberController implements Initializable {
 
     @FXML
     private JFXComboBox<String> cbbMemberAnalyze;
-    ObservableList<String> choices = FXCollections.observableArrayList("Top issued time");
     @FXML
     private JFXButton btnAnalyse;
     @FXML
@@ -39,6 +38,7 @@ public class AnalyseMemberController implements Initializable {
     @FXML
     private ListView<String> lsvMembersAnalyze;
     
+    ObservableList<String> choices = FXCollections.observableArrayList("Top issued time");
     ObservableList<String> list = FXCollections.observableArrayList();
     DatabaseHandler databaseHandler = null;
     int noTop = 0;
@@ -48,8 +48,8 @@ public class AnalyseMemberController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        cbbMemberAnalyze.getItems().addAll(choices);
         databaseHandler = DatabaseHandler.getInstance();
+        cbbMemberAnalyze.getItems().addAll(choices);
     }    
 
     @FXML
