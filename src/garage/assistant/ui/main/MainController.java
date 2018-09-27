@@ -673,7 +673,6 @@ public class MainController implements Initializable {
                         overdues.add("Member:");
                         overdues.add("\t" + mbrName + " | ID: " + mbrId);
                         overdues.add("\tMobile: " + mbrMobile + " | Email: " + mbrEmail);
-                        
                     }
                 }
             }

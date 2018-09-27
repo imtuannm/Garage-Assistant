@@ -22,7 +22,7 @@
                         <Insets bottom="2.0" left="15.0" right="15.0" top="12.0" />
                      </HBox.margin>
                   </JFXTextField>
-                  <JFXComboBox fx:id="cbbMemberAnalyze" prefWidth="150.0">
+                  <JFXComboBox fx:id="cbbMemberAnalyze" labelFloat="true" prefWidth="150.0" promptText="Function">
                      <HBox.margin>
                         <Insets bottom="2.0" left="15.0" right="15.0" top="12.0" />
                      </HBox.margin>
@@ -34,7 +34,7 @@
                   </JFXButton>
                </children>
             </HBox>
-            <ListView prefHeight="459.0" prefWidth="757.0" />
+            <ListView fx:id="lsvMembersAnalyze" prefHeight="459.0" prefWidth="757.0" />
          </children>
          <padding>
             <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />

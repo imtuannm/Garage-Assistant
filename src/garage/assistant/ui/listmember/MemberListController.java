@@ -33,9 +33,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class MemberListController implements Initializable {
-
-    ObservableList<Member> list = FXCollections.observableArrayList();
-
     @FXML
     private TableView<Member> tblView;
     @FXML
@@ -51,6 +48,7 @@ public class MemberListController implements Initializable {
     @FXML
     private JFXTextField keyword;
     
+    ObservableList<Member> list = FXCollections.observableArrayList();
     DatabaseHandler handler = null;
 
     @Override
