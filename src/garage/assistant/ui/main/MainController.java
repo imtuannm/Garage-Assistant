@@ -682,7 +682,7 @@ public class MainController implements Initializable {
             }
             lstOverdue.getItems().setAll(overdues);
             if (noOverdueVehicles > 0)
-                overdueTab.setText("Overdue(" + noOverdueVehicles + ")");
+                overdueTab.setText("Overdue(" + noOverdueVehicles + ")");//show the number of overdue vehicle in tabpane
             else
                 overdueTab.setText("Overdue");
         } catch (SQLException ex) {

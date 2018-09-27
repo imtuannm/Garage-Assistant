@@ -298,25 +298,29 @@ public final class DatabaseHandler {
             ResultSet rs = excQuery(strMan);
             if(rs.next()) {
                 int uM = rs.getInt(1);
-                data.add(new PieChart.Data(STATUS_M1 + " (" + uM + ")", uM));
+                if (uM > 0)//exists
+                    data.add(new PieChart.Data(STATUS_M1 + " (" + uM + ")", uM));
             }
             
             rs = excQuery(strNotAvail);
             if(rs.next()) {
                 int notAvail = rs.getInt(1);
-                data.add(new PieChart.Data(STATUS_0 + " (" + notAvail + ")", notAvail));
+                if (notAvail>0)//exists
+                    data.add(new PieChart.Data(STATUS_0 + " (" + notAvail + ")", notAvail));
             }
             
             rs = excQuery(strBooked);
             if(rs.next()) {
                 int booked = rs.getInt(1);
-                data.add(new PieChart.Data(STATUS_2 + " (" + booked + ")", booked));
+                if (booked > 0)//exists
+                    data.add(new PieChart.Data(STATUS_2 + " (" + booked + ")", booked));
             }
             
             rs = excQuery(strAvail);
             if(rs.next()) {
                 int avail = rs.getInt(1);
-                data.add(new PieChart.Data(STATUS_1 + " (" + avail + ")", avail));
+                if(avail>0)//exists
+                    data.add(new PieChart.Data(STATUS_1 + " (" + avail + ")", avail));
             }
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -337,19 +341,22 @@ public final class DatabaseHandler {
             ResultSet rs = excQuery(strMtb);
             if(rs.next()) {
                 int count = rs.getInt(1);
-                data.add(new PieChart.Data(VEHICLE_1 + " (" + count + ")", count));
+                if(count>0)//exists
+                    data.add(new PieChart.Data(VEHICLE_1 + " (" + count + ")", count));
             }
             
             rs = excQuery(strCar);
             if (rs.next()) {
                 int count = rs.getInt(1);
-                data.add(new PieChart.Data(VEHICLE_2 + " (" + count + ")", count));
+                if(count>0)//exists
+                    data.add(new PieChart.Data(VEHICLE_2 + " (" + count + ")", count));
             }
             
             rs = excQuery(strSD);
             if (rs.next()) {
                 int count = rs.getInt(1);
-                data.add(new PieChart.Data(VEHICLE_3 + " (" + count + ")", count));
+                if(count>0)//exists
+                    data.add(new PieChart.Data(VEHICLE_3 + " (" + count + ")", count));
             }
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
