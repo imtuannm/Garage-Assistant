@@ -11,5 +11,5 @@ If you need any further information, feel free to contact me at: https://www.fac
 
 ## Libraries Used
 - [JFoenix](https://github.com/jfoenixadmin/JFoenix) - JavaFX Material Design Library
-- [JBBC](https://www.oracle.com/technetwork/java/javase/jdbc/index.html) - An API for the programming language Java, which defines how a client may access a database
+- [JDBC](https://www.oracle.com/technetwork/java/javase/jdbc/index.html) - An API for the programming language Java, which defines how a client may access a database
 - [Gson](https://github.com/google/gson) - A Java serialization/deserialization library to convert Java Objects into JSON and back
