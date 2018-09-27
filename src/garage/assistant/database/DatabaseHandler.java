@@ -326,7 +326,7 @@ public final class DatabaseHandler {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }     
         
-        return data;
+        return data; //return ObservableList with added data
     }
     
     public ObservableList<PieChart.Data> getMotorbikeTypes() {
@@ -362,6 +362,6 @@ public final class DatabaseHandler {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return data;
+        return data;//return ObservableList with added data
     }
 }

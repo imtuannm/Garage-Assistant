@@ -9,16 +9,16 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.ui.listmember.MemberListController">
+<AnchorPane id="AnchorPane" prefHeight="481.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.ui.listmember.MemberListController">
    <children>
-      <VBox prefHeight="472.0" prefWidth="769.0">
+      <VBox prefHeight="495.0" prefWidth="793.0">
          <children>
-            <JFXTextField fx:id="keyword" labelFloat="true" onAction="#handleSearchOperation" promptText="Search">
+            <JFXTextField fx:id="keyword" labelFloat="true" maxWidth="250.0" onAction="#handleSearchOperation" prefWidth="200.0" promptText="Search">
                <VBox.margin>
                   <Insets bottom="5.0" left="250.0" right="250.0" top="10.0" />
                </VBox.margin>
             </JFXTextField>
-            <TableView fx:id="tblView" prefHeight="446.0" prefWidth="769.0">
+            <TableView fx:id="tblView" prefHeight="521.0" prefWidth="897.0" tableMenuButtonVisible="true">
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
