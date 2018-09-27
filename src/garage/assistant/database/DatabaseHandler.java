@@ -170,10 +170,16 @@ public final class DatabaseHandler {
     
     public boolean deleteMotorbike(Motorbike motorbike) {
         try {
-            String delStmt = "DELETE FROM MOTORBIKE WHERE idMotorbike = ?";
+            String delStmt = "DELETE FROM ISSUE WHERE id_motorbike = ?";
             PreparedStatement stmt = conn.prepareStatement(delStmt);
             stmt.setString(1, motorbike.getId());
             int res = stmt.executeUpdate();//insert, update, delete
+            
+            delStmt = "DELETE FROM MOTORBIKE WHERE idMotorbike = ?";
+            stmt = conn.prepareStatement(delStmt);
+            stmt.setString(1, motorbike.getId());
+            res = stmt.executeUpdate();//insert, update, delete
+            
             if (res == 1) {//no exception if res == 0
                 return true;
             }
@@ -201,7 +207,7 @@ public final class DatabaseHandler {
     
     public boolean isMotorbikeAlreadyIssued(Motorbike motorbike) {
         try {
-            String chkStmt = "SELECT COUNT(*) FROM ISSUE WHERE id_motorbike = ?";
+            String chkStmt = "SELECT COUNT(*) FROM ISSUE WHERE id_motorbike = ? AND isSubmitted = 0";
             PreparedStatement stmt = conn.prepareStatement(chkStmt);
             stmt.setString(1, motorbike.getId());//first one -> 1
             ResultSet rs = stmt.executeQuery();
@@ -217,7 +223,7 @@ public final class DatabaseHandler {
     
     public boolean isMemberHasAnyMotorbikes(MemberListController.Member member) {
         try {
-            String checkstmt = "SELECT COUNT(*) FROM ISSUE WHERE id_member = ?";
+            String checkstmt = "SELECT COUNT(*) FROM ISSUE WHERE id_member = ? AND isSubmitted = 0";
             PreparedStatement stmt = conn.prepareStatement(checkstmt);
             
             stmt.setString(1, member.getId());
@@ -269,12 +275,16 @@ public final class DatabaseHandler {
 
     public Boolean deleteMember(MemberListController.Member member) {
         try {
-            String delStmt = "DELETE FROM MEMBER WHERE idMember = ?";
+            String delStmt = "DELETE FROM ISSUE WHERE id_member = ?";
             PreparedStatement stmt = conn.prepareStatement(delStmt);
+            stmt.setString(1, member.getId());
+            int res = stmt.executeUpdate();//insert, update, delete
             
+            delStmt = "DELETE FROM MEMBER WHERE idMember = ?";
+            stmt = conn.prepareStatement(delStmt);
             stmt.setString(1, member.getId());
             
-            int res = stmt.executeUpdate();//insert, update, delete
+            res = stmt.executeUpdate();//insert, update, delete
             if (res == 1) {//no exception if res == 0
                 return true;
             }
