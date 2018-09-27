@@ -172,9 +172,11 @@ public class AnalyseVehicleController implements Initializable {
                     String email =rs.getString("email");
                     String mobile = rs.getString("mobile");
                     
+                    int dayss = rs.getInt("expectedReturnDay");
+                    
                     //add to list
                     list.add("");
-                    list.add("TOP " + count);
+                    list.add("TOP " + count + " [" +dayss+" days]");
                     list.add("\t" + mtbProducer + ", " + mtbName + " (" + mtbType + ")");
                     list.add("\t" + mtbId);
                     list.add("\tFee: " + mtbFee);
