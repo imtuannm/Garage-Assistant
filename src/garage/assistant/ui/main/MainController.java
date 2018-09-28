@@ -237,8 +237,12 @@ public class MainController implements Initializable {
         }
 
         if ( mtbStatus != 1) {//not avaiable
-            JFXButton btt = new JFXButton("OK, Lemme check");
-            AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btt), "Failed", "This motorbike is NOT available to issue!");
+            JFXButton btt = new JFXButton("OK, Let me check");
+            AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btt), "Failed", "This Vehicle is NOT available to issue!");
+            return;
+        } else if (databaseHandler.isMemberHasAnyMotorbikes(memID)) {
+            JFXButton btt = new JFXButton("OK, Let me check");
+            AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btt), "Failed", "Member is already issed a vehicle!");
             return;
         }
         
@@ -255,7 +259,7 @@ public class MainController implements Initializable {
                     + "'0')";
             
             if (returnDate <=0) {
-                JFXButton btt = new JFXButton("OK, Lemme check");
+                JFXButton btt = new JFXButton("OK, Let me check");
                 AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btt), "Failed", "Invalid Expected Return Day: " + returnDate);
                 return;
             }
@@ -268,7 +272,7 @@ public class MainController implements Initializable {
                 AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(button), "Issuing completed!", null);
                 refreshGraphs();
             } else {//can not issue or update status
-                JFXButton button = new JFXButton("Ok, Lemme check!");
+                JFXButton button = new JFXButton("Ok, Let me check!");
                 AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(button), "Issue Operation FAILED", null);
             }
             clearIssueEntries();
@@ -347,7 +351,7 @@ public class MainController implements Initializable {
                 toggleControls(true); //enable controls
                 submissionDataContainer.setOpacity(1); //unhide
             } else { //does not exist
-                JFXButton button = new JFXButton("Lemme try again!");
+                JFXButton button = new JFXButton("Let me try again!");
                 AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(button), "No such Motor exists in Issue database", null);
             }
         } catch(SQLException ex) {
@@ -377,7 +381,7 @@ public class MainController implements Initializable {
                 motorID.clear();//refresh
                 loadIssueInfo(null); 
             } else {//error
-                JFXButton btn = new JFXButton("Lemme check again");
+                JFXButton btn = new JFXButton("Let me check again");
                 AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn),"Failed!", "Submission has been failed.");
             }
         });
@@ -432,7 +436,7 @@ public class MainController implements Initializable {
                 System.out.println(actUpd);
                 daysAdded.clear();
             } else {//error
-                JFXButton btn = new JFXButton("Lemme check again");
+                JFXButton btn = new JFXButton("Let me check again");
                 AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn),"Failed!", "Renewal has been failed.");
             }
         });

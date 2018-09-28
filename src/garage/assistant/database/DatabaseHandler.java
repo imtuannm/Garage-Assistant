@@ -241,6 +241,26 @@ public final class DatabaseHandler {
         return false;
     }
     
+    public boolean isMemberHasAnyMotorbikes(String id) {
+        try {
+            String checkstmt = "SELECT COUNT(*) FROM ISSUE WHERE id_member = ? AND isSubmitted = 0";
+            PreparedStatement stmt = conn.prepareStatement(checkstmt);
+            
+            stmt.setString(1, id);
+            
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                System.out.println(count);
+                return (count > 0);
+            }
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
     public boolean updateMotorbike(Motorbike motorbike) {
         try {
             String strUpd = "UPDATE MOTORBIKE SET producer = ?, name = ?, type = ?, color = ? WHERE idMotorbike = ?";
@@ -252,6 +272,8 @@ public final class DatabaseHandler {
         }
         return false;
     }
+    
+    
     
     public boolean updateMember(MemberListController.Member member) {
         try {

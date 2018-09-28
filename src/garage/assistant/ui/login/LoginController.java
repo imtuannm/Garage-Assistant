@@ -2,6 +2,7 @@ package garage.assistant.ui.login;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import garage.assistant.database.DatabaseHandler;
 import garage.assistant.settings.Preferences;
 import garage.assistant.ui.main.MainController;
 import garage.assistant.util.GarageAssistantUtil;
@@ -32,11 +33,13 @@ public class LoginController implements Initializable {
     private Text warnHolder;
     
     Preferences preference; //to get the stored the username & pass
+    DatabaseHandler databaseHander = null;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         new Thread(()-> {
             preference = Preferences.getPreferences();
+            databaseHander = DatabaseHandler.getInstance();
         }).start();
     }    
 

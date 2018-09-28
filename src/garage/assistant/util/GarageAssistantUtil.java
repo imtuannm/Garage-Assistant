@@ -25,7 +25,7 @@ public class GarageAssistantUtil {
     
     //status
     public static final String STATUS_M1 = "Under Maintenance";
-    public static final String STATUS_0 = "Issuing";
+    public static final String STATUS_0 = "Issued";
     public static final String STATUS_1 = "Available";
     public static final String STATUS_2 = "Booked";
     

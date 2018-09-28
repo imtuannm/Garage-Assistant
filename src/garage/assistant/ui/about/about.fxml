@@ -20,7 +20,12 @@
             <Image url="@../../resources/about.jpg" />
          </image>
       </ImageView>
-      <Text fill="#d3cfcf" fontSmoothingType="LCD" layoutX="27.0" layoutY="228.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Nguyen Minh Tuan" textAlignment="CENTER">
+      <Text fill="#d3cfcf" fontSmoothingType="LCD" layoutX="31.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Nguyen Minh Tuan" textAlignment="CENTER">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Text>
+      <Text fill="#d3cfcf" fontSmoothingType="LCD" layoutX="31.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="1451010206" textAlignment="CENTER">
          <font>
             <Font size="19.0" />
          </font>
