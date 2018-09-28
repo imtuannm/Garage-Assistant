@@ -393,6 +393,7 @@ public class MainController implements Initializable {
             AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn), "Cancelled", "Submission Operation cancelled!");
         });
         
+        //confirmation
         AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(yesButton, noButton), "Confirm", "Are you sure want to return the motorbike?");
     }
     
@@ -599,7 +600,7 @@ public class MainController implements Initializable {
     }
     
     private void toggleGraphs(Boolean status) {
-        if (status) { //visible
+        if (status) { //show
             motorbikeChart.setOpacity(1);
             motorbikeTypeChart.setOpacity(1);
         } else { //hide

@@ -63,7 +63,7 @@ public class Preferences {
     //read from file
     public static Preferences getPreferences() {
         Gson gson = new Gson();
-        Preferences preferences = new Preferences();
+        Preferences preferences = new Preferences();//default values
         try {//reading
             preferences = gson.fromJson(new FileReader(CONFIG_FILE), Preferences.class);
         } catch (FileNotFoundException ex) {//not found an existing file
@@ -73,7 +73,7 @@ public class Preferences {
         return preferences;
     }
     
-    //save changes
+    //save changes, then write to file to store
     public static void writePreferencesToFile(Preferences preference) {//write the current preference
         Writer writer = null;
         try {
