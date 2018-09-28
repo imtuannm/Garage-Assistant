@@ -40,11 +40,11 @@ public class AnalyseVehicleController implements Initializable {
     @FXML
     private ListView<String> lsvVehiclesAnalyze;
 
-    private final String F1 = "Top booked";
-    private final String F2 = "Top Gained";
-    private final String F3 = "Longest Days";
+    private final String F_BOOKED = "Top booked";
+    private final String F_INCOME = "Top Income";
+    private final String F_LONGSET = "Longest Days";
     
-    ObservableList<String> choices = FXCollections.observableArrayList(F1, F2, F3);
+    ObservableList<String> choices = FXCollections.observableArrayList(F_BOOKED, F_INCOME, F_LONGSET);
     ObservableList<String> list = FXCollections.observableArrayList();
     DatabaseHandler databaseHandler = null;
     int noTop = 0;
@@ -67,7 +67,7 @@ public class AnalyseVehicleController implements Initializable {
         if (noTop < 1 || cbbVehicleAnalyzeFunctions.getSelectionModel().getSelectedItem().isEmpty() ) {
             System.out.println(noTop);
             return;
-        } else if (sw.equals(F1)) {
+        } else if (sw.equals(F_BOOKED)) {
             String qr = "SELECT count(ISSUE.id_motorbike) as noOrders, MOTORBIKE.idMotorbike, MOTORBIKE.name, MOTORBIKE.type, MOTORBIKE.finePercent, MOTORBIKE.baseFee, MOTORBIKE.producer, MOTORBIKE.color\n"
                         + "FROM ISSUE\n"
                         + "JOIN MOTORBIKE\n"
@@ -104,7 +104,7 @@ public class AnalyseVehicleController implements Initializable {
                 Logger.getLogger(AnalyseMemberController.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-        } else if (sw.equals(F2)) {//function 2
+        } else if (sw.equals(F_INCOME)) {//function 2
             String qr = "SELECT SUM(ISSUE.expectedReturnDay*MOTORBIKE.baseFee) As total, MOTORBIKE.finePercent, MOTORBIKE.baseFee, MOTORBIKE.idMotorbike, MOTORBIKE.name, MOTORBIKE.type, MOTORBIKE.finePercent, MOTORBIKE.baseFee, MOTORBIKE.producer, MOTORBIKE.color\n" +
                         "FROM ISSUE\n" +
                         "JOIN MOTORBIKE\n" +
@@ -136,13 +136,13 @@ public class AnalyseVehicleController implements Initializable {
                     list.add("\tFee: " + mtbFee);
                     list.add("\tFine / day: " + mtbFinePer);
                 }
-                list.add("Total FEE: $" + totalFee);
+                list.add("Total INCOME: $" + totalFee);
                 lsvVehiclesAnalyze.setItems(list);//set all above to list view
             } catch (SQLException ex) {
                 Logger.getLogger(AnalyseMemberController.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-        } else if (sw.equals(F3)) {//function 3
+        } else if (sw.equals(F_LONGSET)) {//function 3
             String qr = "SELECT ISSUE.expectedReturnDay, MOTORBIKE.finePercent, MOTORBIKE.baseFee, MOTORBIKE.idMotorbike, MOTORBIKE.name, MOTORBIKE.type, MOTORBIKE.finePercent, MOTORBIKE.baseFee, MOTORBIKE.producer, MOTORBIKE.color,\n" +
                         "MEMBER.name AS mbName, MEMBER.email, MEMBER.mobile\n" +
                         "FROM ISSUE\n" +
