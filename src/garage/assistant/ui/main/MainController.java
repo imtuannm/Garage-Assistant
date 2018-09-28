@@ -358,7 +358,7 @@ public class MainController implements Initializable {
     @FXML
     private void loadSubmissionOperation(ActionEvent event) {
         if (!isReadyForSubmission) { //not ready 
-            JFXButton btn = new JFXButton("Lemme check again!");
+            JFXButton btn = new JFXButton("Let me check again!");
             AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn), "Failed!", "Invalid Motorbike to submit.");
             return;
         }
@@ -367,9 +367,9 @@ public class MainController implements Initializable {
         JFXButton yesButton = new JFXButton("YES");
         yesButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1)->{
             String id = motorID.getText().replaceAll("[^\\w\\s]","");
-            //1. remove the entry from the Issue table
+            //1. update the entry from the Issue table
             String actDel = "UPDATE ISSUE SET isSubmitted = 1 WHERE id_motorbike = '" + id + "' AND isSubmitted = 0";
-            //2. make the motor available in the database
+            //2. make the vehicle available in the database
             String actUpd = "UPDATE MOTORBIKE SET status = 1 WHERE idMotorbike = '" + id + "'";
             if (databaseHandler.excAction(actDel) && databaseHandler.excAction(actUpd)) {//success
                 JFXButton btn = new JFXButton("OK");
@@ -443,11 +443,18 @@ public class MainController implements Initializable {
             JFXButton btn = new JFXButton("SURE");
             AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn),"Cancelled", "Renew Operation cancelled!");
         });
-        
+
+        String strChanges = null;
         int changedDep = changes * fee;
         
+        //return money if Member want to return earlier than expacted
+        if(changedDep < 0) {
+            strChanges = " [NEED TO RETURN]";
+            changedDep*=-1;
+        }
+        
         //show alert
-        AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(yesButton, noButton), "Confirm", "Are you sure want to renew the Vehecle?\nFee: $" + changedDep);
+        AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(yesButton, noButton), "Confirm", "Are you sure want to renew the Vehecle?\nFee: $" + changedDep + strChanges);
     }
 
     @FXML
