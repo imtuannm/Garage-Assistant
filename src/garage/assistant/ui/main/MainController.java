@@ -123,8 +123,10 @@ public class MainController implements Initializable {
     int fee = 0;
     int deposit = 0;
     int returnDate = 0;
+    int type;
     double finePerDay = 0;
     boolean isReadyForRenew = false;
+    String strDep = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -231,6 +233,7 @@ public class MainController implements Initializable {
                 mtbStatus = rs.getInt("status");
                 fee = rs.getInt("baseFee");
                 finePerDay = rs.getInt("finePercent");
+                type = rs.getInt("type");
             }
         } catch (SQLException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
@@ -260,7 +263,7 @@ public class MainController implements Initializable {
             
             if (returnDate <=0) {
                 JFXButton btt = new JFXButton("OK, Let me check");
-                AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btt), "Failed", "Invalid Expected Return Day: " + returnDate);
+                AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btt), "Failed", "Invalid Expected return day: " + returnDate);
                 return;
             }
             System.out.println(strIssue);
@@ -289,10 +292,13 @@ public class MainController implements Initializable {
         
         deposit = fee * returnDate;
         finePerDay = fee * finePerDay / 100;
+        if ( type > 1) {
+            strDep = "\nA MOTORBIKE";
+        }
         
         //confirm
         AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(yesButton, noButton), "Confirm" , "Vehicle: " + motorbikeName.getText()
-                + "\nMember: " + memberName.getText() + "\nDeposit: $" + deposit + "\nFine/day: $" + finePerDay);
+                + "\nMember: " + memberName.getText() + "\n\nDEPOSIT\nFee: $" + deposit + "\nFine/day: $" + finePerDay + strDep);
     }
 
     @FXML
@@ -394,7 +400,7 @@ public class MainController implements Initializable {
         });
         
         //confirmation
-        AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(yesButton, noButton), "Confirm", "Are you sure want to return the motorbike?");
+        AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(yesButton, noButton), "Confirm", "Are you sure want to return the Vehicle?");
     }
     
     //renew Expected Return Day
@@ -449,17 +455,16 @@ public class MainController implements Initializable {
             AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn),"Cancelled", "Renew Operation cancelled!");
         });
 
-        String strChanges = null;
         int changedDep = changes * fee;
         
         //return money if Member want to return earlier than expacted
         if(changedDep < 0) {
-            strChanges = " [NEED TO RETURN]";
+            strDep = " [CHARGE BACK]";
             changedDep*=-1;
         }
         
         //show alert
-        AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(yesButton, noButton), "Confirm", "Are you sure want to renew the Vehecle?\nFee: $" + changedDep + strChanges);
+        AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(yesButton, noButton), "Confirm", "Are you sure want to renew the Vehecle?\nFee: $" + changedDep + strDep);
     }
 
     @FXML
