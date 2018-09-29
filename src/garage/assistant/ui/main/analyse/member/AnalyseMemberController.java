@@ -85,13 +85,13 @@ public class AnalyseMemberController implements Initializable {
                     String number = rs.getString("noOrders");
 
                     //add to list
-                    list.add("");
                     list.add("TOP " + count);
                     list.add("\t" + mbrName + " | " + mbrId);
                     list.add("Contact:");
                     list.add("\tMobile: "+ mbrMobile);
                     list.add("\tEmail: " + mbrEmail);
                     list.add("Total: " + number + " of issued times.");
+                    list.add("");
                 }
                 lsvMembersAnalyze.setItems(list);//set all above to list view
             } catch (SQLException ex) {

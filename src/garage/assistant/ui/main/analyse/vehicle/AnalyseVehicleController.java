@@ -40,11 +40,10 @@ public class AnalyseVehicleController implements Initializable {
     @FXML
     private ListView<String> lsvVehiclesAnalyze;
 
-    private final String F_BOOKED = "Top booked";
-    private final String F_INCOME = "Top Income";
-    private final String F_LONGSET = "Longest Days";
+    private final String F_LIFETIME_REVIEW = "Lifetime review";
+    private final String F_LONGEST = "TOP Longest days";
     
-    ObservableList<String> choices = FXCollections.observableArrayList(F_BOOKED, F_INCOME, F_LONGSET);
+    ObservableList<String> choices = FXCollections.observableArrayList(F_LIFETIME_REVIEW, F_LONGEST);
     ObservableList<String> list = FXCollections.observableArrayList();
     DatabaseHandler databaseHandler = null;
     int noTop = 0;
@@ -60,89 +59,54 @@ public class AnalyseVehicleController implements Initializable {
     private void handleAnalyseVehicles(ActionEvent event) {
         list.clear();//empty the list if exsited
         String sw = cbbVehicleAnalyzeFunctions.getSelectionModel().getSelectedItem().toString(); 
-        noTop = Integer.parseInt(txtNoTop.getText());
         int count = 0;
         String number = null;
         
-        if (noTop < 1 || cbbVehicleAnalyzeFunctions.getSelectionModel().getSelectedItem().isEmpty() ) {
+        if ( cbbVehicleAnalyzeFunctions.getSelectionModel().getSelectedItem().isEmpty() ) {
             System.out.println(noTop);
             return;
-        } else if (sw.equals(F_BOOKED)) {
-            String qr = "SELECT count(ISSUE.id_motorbike) as noOrders, MOTORBIKE.idMotorbike, MOTORBIKE.name, MOTORBIKE.type, MOTORBIKE.finePercent, MOTORBIKE.baseFee, MOTORBIKE.producer, MOTORBIKE.color\n"
-                        + "FROM ISSUE\n"
-                        + "JOIN MOTORBIKE\n"
-                        + "ON ISSUE.id_motorbike = MOTORBIKE.idMotorbike\n"
-                        + "ORDER BY noOrders DESC\n"
-                        + "LIMIT 0, " + noTop;
+        } else if (sw.equals(F_LIFETIME_REVIEW)) {
+            String qr = "SELECT count(ISSUE.id_motorbike) as noOrders\n"
+                        + "FROM ISSUE\n";
 
             System.out.println(qr);
             ResultSet rs = databaseHandler.excQuery(qr);
-
+            
+            list.add("\tLIFETIME REVIEW");
+            
             try {
                 while(rs.next()) {
-                    count++;
-                    //fetch vehicle inf
-                    String mtbId = rs.getString("idMotorbike");
-                    String mtbProducer = rs.getString("producer");
-                    String mtbName = rs.getString("name");
-                    String mtbType = GarageAssistantUtil.categorizeVehicle(rs.getInt("type"));
-                    int mtbFee = rs.getInt("baseFee");
-                    int mtbFinePer = rs.getInt("finePercent");
                     number = rs.getString("noOrders");
-
-                    //add to list
-                    list.add("");
-                    list.add("TOP " + count);
-                    list.add("\t" + mtbProducer + ", " + mtbName + " (" + mtbType + ")");
-                    list.add("\t" + mtbId);
-                    list.add("\tFee: " + mtbFee);
-                    list.add("\tFine / day: " + mtbFinePer);
+                    list.add("Total BOOKED: " + number);
                 }
-                list.add("Total: " + number + " of be issued times.");
                 lsvVehiclesAnalyze.setItems(list);//set all above to list view
             } catch (SQLException ex) {
                 Logger.getLogger(AnalyseMemberController.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-        } else if (sw.equals(F_INCOME)) {//function 2
-            String qr = "SELECT SUM(ISSUE.expectedReturnDay*MOTORBIKE.baseFee) As total, MOTORBIKE.finePercent, MOTORBIKE.baseFee, MOTORBIKE.idMotorbike, MOTORBIKE.name, MOTORBIKE.type, MOTORBIKE.finePercent, MOTORBIKE.baseFee, MOTORBIKE.producer, MOTORBIKE.color\n" +
+            qr = "SELECT SUM(ISSUE.expectedReturnDay*MOTORBIKE.baseFee) AS total, MOTORBIKE.finePercent, MOTORBIKE.baseFee, MOTORBIKE.idMotorbike, MOTORBIKE.name, MOTORBIKE.type, MOTORBIKE.finePercent, MOTORBIKE.baseFee, MOTORBIKE.producer, MOTORBIKE.color\n" +
                         "FROM ISSUE\n" +
                         "JOIN MOTORBIKE\n" +
-                        "ON ISSUE.id_motorbike = MOTORBIKE.idMotorbike\n" +
-                        "ORDER BY total DESC\n" +
-                        "LIMIT 0," + noTop;
+                        "ON ISSUE.id_motorbike = MOTORBIKE.idMotorbike\n";
 
-            String totalFee = null;
             System.out.println(qr);
-            ResultSet rs = databaseHandler.excQuery(qr);
+            rs = databaseHandler.excQuery(qr);
 
             try {
                 while(rs.next()) {
-                    count++;
-                    //fetch vehicle inf
-                    String mtbId = rs.getString("idMotorbike");
-                    String mtbProducer = rs.getString("producer");
-                    String mtbName = rs.getString("name");
-                    String mtbType = GarageAssistantUtil.categorizeVehicle(rs.getInt("type"));
-                    int mtbFee = rs.getInt("baseFee");
-                    int mtbFinePer = rs.getInt("finePercent");
-                    totalFee = rs.getString("total");
+                    String totalFee = rs.getString("total");
                     
                     //add to list
-                    list.add("");
-                    list.add("TOP " + count);
-                    list.add("\t" + mtbProducer + ", " + mtbName + " (" + mtbType + ")");
-                    list.add("\t" + mtbId);
-                    list.add("\tFee: " + mtbFee);
-                    list.add("\tFine / day: " + mtbFinePer);
+                    list.add("Total INCOME: $" + totalFee);
                 }
-                list.add("Total INCOME: $" + totalFee);
                 lsvVehiclesAnalyze.setItems(list);//set all above to list view
             } catch (SQLException ex) {
                 Logger.getLogger(AnalyseMemberController.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-        } else if (sw.equals(F_LONGSET)) {//function 3
+        } else if (sw.equals(F_LONGEST)) {//function 3
+            noTop = Integer.parseInt(txtNoTop.getText());
+
             String qr = "SELECT ISSUE.expectedReturnDay, MOTORBIKE.finePercent, MOTORBIKE.baseFee, MOTORBIKE.idMotorbike, MOTORBIKE.name, MOTORBIKE.type, MOTORBIKE.finePercent, MOTORBIKE.baseFee, MOTORBIKE.producer, MOTORBIKE.color,\n" +
                         "MEMBER.name AS mbName, MEMBER.email, MEMBER.mobile\n" +
                         "FROM ISSUE\n" +
@@ -151,7 +115,7 @@ public class AnalyseVehicleController implements Initializable {
                         "JOIN MEMBER\n" +
                         "ON ISSUE.id_member = MEMBER.idMember\n" +
                         "ORDER BY expectedReturnDay DESC\n" +
-                        "LIMIT 0, "+ noTop;
+                        "LIMIT "+ noTop;
 
             System.out.println(qr);
             ResultSet rs = databaseHandler.excQuery(qr);
@@ -173,18 +137,18 @@ public class AnalyseVehicleController implements Initializable {
                     String mobile = rs.getString("mobile");
                     
                     int dayss = rs.getInt("expectedReturnDay");
-                    
-                    //add to list
-                    list.add("");
-                    list.add("TOP " + count + " [" +dayss+" days]");
-                    list.add("\t" + mtbProducer + ", " + mtbName + " (" + mtbType + ")");
-                    list.add("\t" + mtbId);
-                    list.add("\tFee: " + mtbFee);
-                    list.add("\tFine / day: " + mtbFinePer);
-                    list.add("Member:");
-                    list.add("\t" + mbrName);
-                    list.add("\t" + email);
-                    list.add("\t" + mobile);
+                    if (dayss > 0) {
+                        //add to list
+                        list.add("TOP " + count + " [" +dayss+" days]");
+                        list.add("\t" + mtbId + " | " + mtbProducer + ", " + mtbName + " [" + mtbType + "]");
+                        list.add("\tFee: $" + mtbFee);
+                        list.add("\tFine / day: " + mtbFinePer + "%");
+                        list.add("Member:");
+                        list.add("\t" + mbrName);
+                        list.add("\t" + email);
+                        list.add("\t" + mobile);
+                        list.add("");
+                    }
                 }
                 lsvVehiclesAnalyze.setItems(list);//set all above to list view
             } catch (SQLException ex) {

@@ -8,12 +8,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="garage.assistant.ui.main.analyse.vehicle.AnalyseVehicleController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.ui.main.analyse.vehicle.AnalyseVehicleController">
    <children>
-      <VBox layoutX="10.0" layoutY="10.0" prefHeight="484.0" prefWidth="759.0">
+      <VBox prefHeight="494.0" prefWidth="769.0">
          <children>
-            <HBox prefHeight="36.0" prefWidth="759.0">
+            <HBox prefHeight="50.0" prefWidth="765.0">
                <children>
                   <JFXTextField fx:id="txtNoTop" labelFloat="true" promptText="N/o TOP">
                      <HBox.margin>

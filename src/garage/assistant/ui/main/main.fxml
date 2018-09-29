@@ -63,7 +63,7 @@
                                        <children>
                                           <HBox fx:id="motorbike_info" alignment="CENTER" prefHeight="200.0" prefWidth="600.0" spacing="10.0" stylesheets="@main.css">
                                              <children>
-                                                <JFXTextField fx:id="motorbikeIdInput" labelFloat="true" onAction="#loadMotorbikeInfo" prefHeight="25.0" prefWidth="185.0" promptText="Motorbike's ID">
+                                                <JFXTextField fx:id="motorbikeIdInput" labelFloat="true" onAction="#loadMotorbikeInfo" prefHeight="25.0" prefWidth="185.0" promptText="Vehicle's ID">
                                                    <font>
                                                       <Font size="13.0" />
                                                    </font>

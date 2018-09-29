@@ -126,7 +126,7 @@ public class MainController implements Initializable {
     int type;
     double finePerDay = 0;
     boolean isReadyForRenew = false;
-    String strDep = null;
+    String strDep = "";
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -464,7 +464,7 @@ public class MainController implements Initializable {
         }
         
         //show alert
-        AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(yesButton, noButton), "Confirm", "Are you sure want to renew the Vehecle?\nFee: $" + changedDep + strDep);
+        AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(yesButton, noButton), "Confirm", "Are you sure want to renew the Vehicle?\nFee: $" + changedDep + strDep);
     }
 
     @FXML
@@ -661,13 +661,12 @@ public class MainController implements Initializable {
                         String mbrEmail = rs.getString("email");
                         DecimalFormat currencyFormatter = new DecimalFormat("####,###,###.#"); //formatting
 
-                        overdues.add("");
-                        overdues.add("[" + noOverdueVehicles + "] "+ mtbId + " | " + mtbProc + ", " + mtbName + " (" + mtbColor + ")");
+                        overdues.add("[" + noOverdueVehicles + "]   "+ mtbId + " | " + mtbProc + ", " + mtbName + " (" + mtbColor + ")");
                         overdues.add("\tFINE: $" + currencyFormatter.format(fine) + " | " + days + " day(s) issued in total:" + " | " + fineDays + " fine day(s)");
-
                         overdues.add("Member:");
                         overdues.add("\t" + mbrName + " | ID: " + mbrId);
                         overdues.add("\tMobile: " + mbrMobile + " | Email: " + mbrEmail);
+                        overdues.add("");
                     }
                 }
             }
