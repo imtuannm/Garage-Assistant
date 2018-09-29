@@ -127,6 +127,10 @@ public class MainController implements Initializable {
     double finePerDay = 0;
     boolean isReadyForRenew = false;
     String strDep = "";
+    @FXML
+    private Tab issuingTab;
+    @FXML
+    private ListView<String> lstIssuing;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -136,6 +140,7 @@ public class MainController implements Initializable {
         
         try {
             initOverdues();
+            initIssuing();
         } catch (SQLException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -590,8 +595,9 @@ public class MainController implements Initializable {
                 clearEntries();
                 daysAdded.clear();
                 
-                try {//overdue tab
+                try {
                     initOverdues();
+                    initIssuing();
                 } catch (SQLException ex) {
                     Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -662,7 +668,7 @@ public class MainController implements Initializable {
                         DecimalFormat currencyFormatter = new DecimalFormat("####,###,###.#"); //formatting
 
                         overdues.add("[" + noOverdueVehicles + "]   "+ mtbId + " | " + mtbProc + ", " + mtbName + " (" + mtbColor + ")");
-                        overdues.add("\tFINE: $" + currencyFormatter.format(fine) + " | " + days + " day(s) issued in total:" + " | " + fineDays + " fine day(s)");
+                        overdues.add("\tFINE: $" + currencyFormatter.format(fine) + " | " + days + " day(s) issued in total" + " [" + fineDays + " fine day(s)]");
                         overdues.add("Member:");
                         overdues.add("\t" + mbrName + " | ID: " + mbrId);
                         overdues.add("\tMobile: " + mbrMobile + " | Email: " + mbrEmail);
@@ -672,13 +678,12 @@ public class MainController implements Initializable {
             }
             lstOverdue.getItems().setAll(overdues);
             if (noOverdueVehicles > 0)
-                overdueTab.setText("Overdue(" + noOverdueVehicles + ")");//show the number of overdue vehicle in tabpane
+                overdueTab.setText("Overdue[" + noOverdueVehicles + "]");//show the number of overdue vehicle in tabpane
             else
                 overdueTab.setText("Overdue");
         } catch (SQLException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     @FXML
@@ -701,7 +706,59 @@ public class MainController implements Initializable {
     private void handleMenuAnalyseVehicles(ActionEvent event) {
         GarageAssistantUtil.loadWindow(getClass().getResource("/garage/assistant/ui/main/analyse/vehicle/analysevehicle.fxml"), "Analyse Vehicles", null);
     }
-    
+
+    //load ALL in issuing vehicle
+    private void initIssuing() throws SQLException {
+        ObservableList<String> totalIssue = FXCollections.observableArrayList();
+        int total = 0;
+        
+        String qr = "SELECT ISSUE.id_motorbike, ISSUE.id_member, ISSUE.issueTime, ISSUE.expectedReturnDay, \n" +
+                    "MEMBER.name AS mbName, MEMBER.mobile, MEMBER.email,\n" +
+                    "MOTORBIKE.producer, MOTORBIKE.name AS mtName, MOTORBIKE.type, MOTORBIKE.color, MOTORBIKE.status, MOTORBIKE.baseFee, MOTORBIKE.finePercent\n" +
+                    "FROM ISSUE\n" +
+                    "LEFT JOIN MEMBER\n" +
+                    "ON ISSUE.id_member = MEMBER.idMember\n" +
+                    "LEFT JOIN MOTORBIKE\n" +
+                    "ON ISSUE.id_motorbike = MOTORBIKE.idMotorbike\n"+
+                    "WHERE ISSUE.isSubmitted = '0'";
+        
+        ResultSet rs = databaseHandler.excQuery(qr);
+        
+        try {
+            while(rs.next()) {
+                
+                if (rs.getInt("status") == 0) {
+                    total++; //inscree the number of total Vehicles
+                    //Vehicle inf
+                    String mtbId = rs.getString("id_motorbike");
+                    String mtbProc = rs.getString("producer");
+                    String mtbName = rs.getString("mtName");
+                    String mtbColor = rs.getString("color");
+
+                    //member inf
+                    String mbrId = rs.getString("id_member");
+                    String mbrName = rs.getString("mbName");
+                    String mbrMobile = rs.getString("mobile");
+                    String mbrEmail = rs.getString("email");
+                    
+                    //add to list
+                    totalIssue.add("[" + total + "]   "+ mtbId + " | " + mtbProc + ", " + mtbName + " (" + mtbColor + ")");
+                    totalIssue.add("Member:");
+                    totalIssue.add("\t" + mbrName + " | ID: " + mbrId);
+                    totalIssue.add("\tMobile: " + mbrMobile + " | Email: " + mbrEmail);
+                    totalIssue.add("");
+                }
+            }
+            
+            lstIssuing.getItems().setAll(totalIssue);
+            if (total > 0)
+                issuingTab.setText("Issuing[" + total + "]");//show the number of overdue vehicle in tabpane
+            else
+                issuingTab.setText("Issuing");
+        } catch (SQLException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
 
 }

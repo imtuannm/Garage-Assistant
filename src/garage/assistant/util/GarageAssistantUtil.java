@@ -1,7 +1,5 @@
 package garage.assistant.util;
 
-import garage.assistant.settings.Preferences;
-import garage.assistant.ui.listmotorbike.MotorbikeListController;
 import garage.assistant.ui.main.MainController;
 import java.io.IOException;
 import java.net.URL;
@@ -25,7 +23,7 @@ public class GarageAssistantUtil {
     
     //status
     public static final String STATUS_M1 = "Under Maintenance";
-    public static final String STATUS_0 = "Issued";
+    public static final String STATUS_0 = "Issuing";
     public static final String STATUS_1 = "Available";
     public static final String STATUS_2 = "Booked";
     
