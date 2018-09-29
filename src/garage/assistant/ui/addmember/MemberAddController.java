@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXTextField;
 import garage.assistant.alert.AlertMaker;
 import garage.assistant.database.DatabaseHandler;
 import garage.assistant.ui.listmember.MemberListController;
+import garage.assistant.util.GarageAssistantUtil;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -43,23 +44,24 @@ public class MemberAddController implements Initializable {
 
     @FXML
     private void actSave(ActionEvent event) {
-        String id = txtId.getText().replaceAll("[^\\w\\s]","");
-        String name = txtName.getText().replaceAll("[^\\w\\s]","");
-        String mobile = txtMobile.getText().replaceAll("[^\\w\\s]","");
+        String id = txtId.getText();
+        String name = txtName.getText();
+        String mobile = txtMobile.getText();
         String email = txtEmail.getText();
         String password = txtPassword.getText();
         
         Boolean flag = id.isEmpty() || name.isEmpty() || mobile.isEmpty() || email.isEmpty() || password.isEmpty();
         
         if ( flag ) {
-            AlertMaker.showSimpleErrorMessage("Something is missed", "Pls fill in all fields");
+            AlertMaker.showSimpleErrorMessage("Something is missed", "Please fill in all fields");
             return;
-        }
-        
-        if(isInEditMode) {
+        } else if ( !GarageAssistantUtil.validateEmailAddress(email) ) {
+            AlertMaker.showSimpleErrorMessage("Invalid Email address", "Check your typing and try again");
+            return;
+        } else if(isInEditMode) {
             handleUpdateMember();
             return;
-        }
+        } 
         
         String qu = "INSERT INTO MEMBER VALUES ("
                 + "'" + id + "',"
