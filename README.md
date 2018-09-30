@@ -1,3 +1,5 @@
+[![HitCount](http://hits.dwyl.io/itsTrada/https://github.com/itsTrada/Garage-Assistant.svg)](http://hits.dwyl.io/itsTrada/https://github.com/itsTrada/Garage-Assistant)
+
 # Garage Assistant Project
 
 This is a Garage management software developed using JavaFX programming language.
