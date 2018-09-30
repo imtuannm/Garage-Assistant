@@ -6,7 +6,7 @@
 This is a Garage management software developed using JavaFX programming language.
 If you need any further information, feel free to contact me at: https://www.facebook.com/itsTrada
 
-## About the project
+## Built with
 - MVC Architecture
 - UI design tool: JavaFX Scence Builder 2.0
 - IDE: NetBeans 8.2
