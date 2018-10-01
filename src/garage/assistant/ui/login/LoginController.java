@@ -45,7 +45,7 @@ public class LoginController implements Initializable {
 
     @FXML
     private void handleLoginButtonAction(ActionEvent event) {
-        String usrName = username.getText().replaceAll("[^\\w\\s]","");
+        String usrName = username.getText();
         String pass = DigestUtils.shaHex(password.getText());//compare with the stored password in config file
     
         if(usrName.equals(preference.getUsername()) && pass.equals(preference.getPassword())) {//success
