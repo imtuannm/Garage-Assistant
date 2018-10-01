@@ -127,6 +127,7 @@ public class MainController implements Initializable {
     double finePerDay = 0;
     boolean isReadyForRenew = false;
     String strDep = "";
+    String giveBack = "";
     @FXML
     private Tab issuingTab;
     @FXML
@@ -266,7 +267,7 @@ public class MainController implements Initializable {
                     + "'" + returnDate + "',"
                     + "'0')";
             
-            if (returnDate <=0) {
+            if (returnDate <= 0) {
                 JFXButton btt = new JFXButton("OK, Let me check");
                 AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btt), "Failed", "Invalid Expected return day: " + returnDate);
                 return;
@@ -371,7 +372,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void loadSubmissionOperation(ActionEvent event) {
+    private void loadSubmissionOperation(ActionEvent event) {  
         if (!isReadyForSubmission) { //not ready 
             JFXButton btn = new JFXButton("Let me check again!");
             AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn), "Failed!", "Invalid Motorbike to submit.");
@@ -388,7 +389,7 @@ public class MainController implements Initializable {
             String actUpd = "UPDATE MOTORBIKE SET status = 1 WHERE idMotorbike = '" + id + "'";
             if (databaseHandler.excAction(actDel) && databaseHandler.excAction(actUpd)) {//success
                 JFXButton btn = new JFXButton("OK");
-                AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn),"Success!", "Motorbike has been submitted.");
+                AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn),"Success!", "Vehicle has been submitted.");
                 motorID.clear();//refresh
                 loadIssueInfo(null); 
             } else {//error
@@ -404,8 +405,20 @@ public class MainController implements Initializable {
             AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn), "Cancelled", "Submission Operation cancelled!");
         });
         
+        String chkStt = "SELECT * FROM MOTORBIKE WHERE idMotorbike = '" + motorID.getText().replaceAll("[^\\w\\s]","") + "'";
+        ResultSet rs = databaseHandler.excQuery(chkStt);
+        try {
+            while (rs.next()) {
+                type = rs.getInt("type");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (type > 1)    
+            giveBack = "\nGive back: THE MOTORBIKE";
+        
         //confirmation
-        AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(yesButton, noButton), "Confirm", "Are you sure want to return the Vehicle?");
+        AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(yesButton, noButton), "Confirm", "Are you sure want to return the Vehicle?" + giveBack);
     }
     
     //renew Expected Return Day
@@ -588,19 +601,18 @@ public class MainController implements Initializable {
                 
         motorbikeIssueTab.setOnSelectionChanged((Event event) -> {//refresh whenever change the selection
             clearIssueEntries();
+            try {
+                initOverdues();
+                initIssuing();
+            } catch (SQLException ex) {
+                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
             if (motorbikeIssueTab.isSelected()) {
                 refreshGraphs();
             } else {
                 motorID.clear();
                 clearEntries();
                 daysAdded.clear();
-                
-                try {
-                    initOverdues();
-                    initIssuing();
-                } catch (SQLException ex) {
-                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-                }
             }
         });
     }
