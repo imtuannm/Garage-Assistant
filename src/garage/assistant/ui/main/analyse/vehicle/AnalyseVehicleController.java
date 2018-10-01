@@ -8,12 +8,14 @@ package garage.assistant.ui.main.analyse.vehicle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import garage.assistant.alert.AlertMaker;
 import garage.assistant.database.DatabaseHandler;
 import garage.assistant.ui.main.analyse.member.AnalyseMemberController;
 import garage.assistant.util.GarageAssistantUtil;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -105,7 +107,12 @@ public class AnalyseVehicleController implements Initializable {
             }
             
         } else if (sw.equals(F_LONGEST)) {//function 3
-            noTop = Integer.parseInt(txtNoTop.getText());
+            try {
+                noTop = Integer.parseInt(txtNoTop.getText().replaceAll("[^\\w\\s]",""));
+            } catch (NumberFormatException ex) {
+                AlertMaker.showSimpleErrorMessage("Invalid Input", "Check your typing again!");
+                return;
+            }
 
             String qr = "SELECT ISSUE.expectedReturnDay, MOTORBIKE.finePercent, MOTORBIKE.baseFee, MOTORBIKE.idMotorbike, MOTORBIKE.name, MOTORBIKE.type, MOTORBIKE.finePercent, MOTORBIKE.baseFee, MOTORBIKE.producer, MOTORBIKE.color,\n" +
                         "MEMBER.name AS mbName, MEMBER.email, MEMBER.mobile\n" +
