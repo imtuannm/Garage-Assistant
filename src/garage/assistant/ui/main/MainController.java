@@ -138,7 +138,6 @@ public class MainController implements Initializable {
         databaseHandler = DatabaseHandler.getInstance();
         initDrawer();
         initGraphs();
-        
         try {
             initOverdues();
             initIssuing();
@@ -256,7 +255,14 @@ public class MainController implements Initializable {
         }
         
         //get days member want to rent the vehicle
-        returnDate = Integer.parseInt(noDays.getText());
+        int returnDate;
+        try {
+            returnDate = Integer.parseInt(noDays.getText().replaceAll("[^\\w\\s]",""));
+        } catch (NumberFormatException ex) {
+            JFXButton btn = new JFXButton("Let me check again");
+            AlertMaker.showMaterialDialog(rootPane, rootBorderPane,Arrays.asList(btn), "Invalid Input", "Check your typing again!");
+            return;
+        }
         
         //YES
         JFXButton yesButton = new JFXButton("YES");
@@ -430,8 +436,15 @@ public class MainController implements Initializable {
             return;
         }
 
+        int changes;
         String id = motorID.getText().replaceAll("[^\\w\\s]","");
-        int changes = Integer.parseInt(daysAdded.getText());
+        try {
+            changes = Integer.parseInt(daysAdded.getText().replaceAll("[^\\w\\s]",""));
+        } catch (NumberFormatException ex) {
+            JFXButton btn = new JFXButton("Let me check again");
+            AlertMaker.showMaterialDialog(rootPane, rootBorderPane,Arrays.asList(btn), "Invalid Input", "Check your typing again!");
+            return;
+        }
         
         String chkStt = "SELECT * FROM MOTORBIKE WHERE idMotorbike = '" + id + "'";;
         ResultSet rs = databaseHandler.excQuery(chkStt);
