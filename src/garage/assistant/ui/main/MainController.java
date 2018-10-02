@@ -437,9 +437,9 @@ public class MainController implements Initializable {
         }
 
         int changes;
-        String id = motorID.getText().replaceAll("[^\\w\\s]","");
+        String id = motorID.getText();
         try {
-            changes = Integer.parseInt(daysAdded.getText().replaceAll("[^\\w\\s]",""));
+            changes = Integer.parseInt(daysAdded.getText());
         } catch (NumberFormatException ex) {
             JFXButton btn = new JFXButton("Let me check again");
             AlertMaker.showMaterialDialog(rootPane, rootBorderPane,Arrays.asList(btn), "Invalid Input", "Check your typing again!");
