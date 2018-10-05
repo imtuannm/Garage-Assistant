@@ -465,8 +465,7 @@ public class MainController implements Initializable {
         //confirm
         JFXButton yesButton = new JFXButton("YES");
         yesButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1)->{
-            String actUpd = "UPDATE ISSUE SET expectedReturnDay = expectedReturnDay + " + changes + " WHERE id_motorbike = '" + id + "'";
-            
+        String actUpd = "UPDATE ISSUE SET expectedReturnDay = expectedReturnDay + " + changes + " WHERE id_motorbike = '" + id + "'";
             if (databaseHandler.excAction(actUpd)) {//success
                 JFXButton btn = new JFXButton("OK");
                 AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(btn), "Success!", "Vehicle has been renewed.\n" + changes + " day(s) changed!");
@@ -729,7 +728,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void handleMenuAnalyseVehicles(ActionEvent event) {
-        GarageAssistantUtil.loadWindow(getClass().getResource("/garage/assistant/ui/main/analyse/vehicle/analysevehicle.fxml"), "Analyse Vehicles", null);
+        GarageAssistantUtil.loadWindow(getClass().getResource("/garage/assistant/ui/main/analyse/vehicle/analysevehicle.fxml"), "Overall Analyse", null);
     }
 
     //load ALL in issuing vehicle

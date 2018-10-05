@@ -136,7 +136,7 @@ public class MemberListController implements Initializable {
         
         //confirmation
         Alert altCfm = new Alert(Alert.AlertType.CONFIRMATION);
-        altCfm.setTitle("Deleting Motorbike");
+        altCfm.setTitle("Deleting Member");
         altCfm.setHeaderText(null);
         altCfm.setContentText("Are you sure want to delete " + selectedForDeletion.getName() + "?");
         Optional<ButtonType> answer = altCfm.showAndWait();
