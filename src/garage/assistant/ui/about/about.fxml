@@ -15,17 +15,17 @@
 
 <AnchorPane id="AnchorPane" prefHeight="247.0" prefWidth="525.0" stylesheets="@../../resources/dark_theme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="garage.assistant.ui.about.AboutController">
    <children>
-      <ImageView fitHeight="154.0" fitWidth="247.0" layoutX="30.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="132.0" fitWidth="170.0" layoutX="30.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../resources/about.jpg" />
+            <Image url="@../../resources/ou-logo.png" />
          </image>
       </ImageView>
-      <Text fill="#d3cfcf" fontSmoothingType="LCD" layoutX="31.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Nguyen Minh Tuan" textAlignment="CENTER">
+      <Text fill="#d3cfcf" fontSmoothingType="LCD" layoutX="56.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Nguyen Minh Tuan" textAlignment="CENTER">
          <font>
             <Font size="19.0" />
          </font>
       </Text>
-      <Text fill="#d3cfcf" fontSmoothingType="LCD" layoutX="31.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="1451010206" textAlignment="CENTER">
+      <Text fill="#d3cfcf" fontSmoothingType="LCD" layoutX="56.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="1451010206" textAlignment="CENTER">
          <font>
             <Font size="19.0" />
          </font>
