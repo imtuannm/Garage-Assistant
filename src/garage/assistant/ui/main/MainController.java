@@ -750,7 +750,6 @@ public class MainController implements Initializable {
         
         try {
             while(rs.next()) {
-                
                 if (rs.getInt("status") == 0) {
                     total++; //inscree the number of total Vehicles
                     //Vehicle inf

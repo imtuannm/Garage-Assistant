@@ -96,7 +96,10 @@ public class AnalyseVehicleController implements Initializable {
 
             try {
                 while(rs.next()) {
-                    String totalFee = rs.getString("total");
+                    int totalFee = rs.getInt("total");
+                    
+                    if (totalFee < 0)
+                        totalFee *= -1;
                     
                     //add to list
                     list.add("Total INCOME: $" + totalFee);
