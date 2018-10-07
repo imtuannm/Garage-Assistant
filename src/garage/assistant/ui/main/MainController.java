@@ -495,6 +495,7 @@ public class MainController implements Initializable {
         
         //show alert
         AlertMaker.showMaterialDialog(rootPane, rootBorderPane, Arrays.asList(yesButton, noButton), "Confirm", "Are you sure want to renew the Vehicle?\nFee: $" + changedDep + strDep);
+        strDep = "";
     }
 
     @FXML
