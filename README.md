@@ -1,7 +1,7 @@
 [![HitCount](http://hits.dwyl.io/itsTrada/https://github.com/itsTrada/Garage-Assistant.svg)](http://hits.dwyl.io/itsTrada/https://github.com/itsTrada/Garage-Assistant) [![Ask Me Anything!](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://www.facebook.com/itsTrada)
 
 
-# Garage Assistant Project
+# Garage Assistant
 
 This is a Garage management software developed using JavaFX programming language.
 If you need any further information, feel free to contact me at: https://www.facebook.com/itsTrada
