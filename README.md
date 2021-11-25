@@ -1,4 +1,4 @@
-[![HitCount](http://hits.dwyl.io/itsTrada/https://github.com/itsTrada/Garage-Assistant.svg)](http://hits.dwyl.io/itsTrada/https://github.com/itsTrada/Garage-Assistant) [![Ask Me Anything!](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://www.facebook.com/imtuannm)
+[![Ask Me Anything!](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://www.facebook.com/imtuannm)
 
 
 # Garage Assistant
